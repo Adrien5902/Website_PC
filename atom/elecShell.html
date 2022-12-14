@@ -1,22 +1,25 @@
 <head>
     <title>Couches électroniques</title>
-    <script src="../main.js"></script>
 </head>
 
-<body style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    Z=<input type="number" id="Z">
-    <button type="submit" id="submit">✅</button>
-    <br>
-    <span id="result"></span>
+<body>
+    <script src="../main.js"></script>
 
-    <script>
-        const input = document.getElementById('Z')
-        const submit = document.getElementById('submit')
-        const result = document.getElementById('result')
+    <div class="content">
+        Z=<input type="number" id="Z">
+        <button type="submit" id="submit">✅</button>
+        <br>
+        <span id="result"></span>
 
-        submit.addEventListener('click', () => {
-            let el = new atom(input.value)
-            result.innerHTML = el.couchesString()
-        })
-    </script>
+        <script>
+            const input = document.getElementById('Z')
+            const submit = document.getElementById('submit')
+            const result = document.getElementById('result')
+
+            submit.addEventListener('click', () => {
+                let el = new atom(input.value)
+                result.innerHTML = el.couchesString()
+            })
+        </script>
+    </div>
 </body>
