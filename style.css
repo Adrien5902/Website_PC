@@ -5,5 +5,15 @@ body
 
 header
 {
-    
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    font-size: 2.5em;
+}
+
+.unlink
+{
+    text-decoration: none;
+    color: unset;
 }
