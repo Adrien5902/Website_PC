@@ -1,0 +1,74 @@
+<head>
+    <title>Couches électroniques</title>
+</head>
+
+<body style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    Z=<input type="number" id="Z">
+    <button type="submit" id="submit">✅</button>
+    <br>
+    <span id="result"></span>
+
+    <script>
+        const input = document.getElementById('Z')
+        const submit = document.getElementById('submit')
+        const result = document.getElementById('result')
+
+        class élement {
+            constructor (Z) {
+                const limit = {
+                    s : 2,
+                    p : 6,
+                    d : 10
+                }
+
+                const couchesList = {
+                    1 : "s",
+                    2 : "sp",
+                    3 : "spd"
+                }
+
+                this.Z = Z
+                let remaining = Z
+                this.couches = {}
+
+                for(let couche in couchesList){
+                    this.couches[couche] = {}
+
+                    let sousCouches = couchesList[couche] //liste des sous couches dans la couche
+
+                    for(let j = 0; j < sousCouches.length; j++){                        
+                        let sousCouche = sousCouches[j] //lettre sous couche  ex : s, p, d...
+                        let limiteSousCouche = limit[sousCouche] //limite sous couche  ex : 2 (pour s), 6 (pour d)...
+
+                        this.couches[couche][sousCouche] = limiteSousCouche
+                        remaining -= limiteSousCouche
+                        
+                        if(remaining < 1){
+                            this.couches[couche][sousCouche] += remaining
+                            break
+                        }
+                    }
+                        
+                    if(remaining < 1){
+                        break
+                    }
+                }
+            }
+
+            couchesToString() {
+                let str = ""
+                for(let couche in this.couches){
+                    for(let sousCouche in this.couches[couche]){
+                        str += "(" + couche+sousCouche+ "<sup>" + this.couches[couche][sousCouche] + "</sup>)"
+                    }
+                }
+                return str
+            }
+        }
+
+        submit.addEventListener('click', () => {
+            let el = new élement(input.value)
+            result.innerHTML = el.couchesToString()
+        })
+    </script>
+</body>
