@@ -8,14 +8,10 @@ class atom {
             s : 2,
             p : 6,
             d : 10
+            f : 14
+            g : 18
         }
-
-        const couchesList = {
-            1 : "s",
-            2 : "sp",
-            3 : "spd"
-        }
-
+        
         let remaining = this.Z
         let couches = {}
 
@@ -46,7 +42,8 @@ class atom {
 
     couchesString() {
         let str = ""
-        for(let couche in this.getCouches()){
+        let couches = this.getCouches()
+        for(let couche in couche){
             for(let sousCouche in couches[couche]){
                 str += "(" + couche+sousCouche+ "<sup>" + couches[couche][sousCouche] + "</sup>)"
             }
