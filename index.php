@@ -5,7 +5,7 @@
 </head>
 
 <body>
-    <script src="header.js"></script>
+    <?php include 'header.html'?>
     <div class="content">
         <p>
             Bonjour et bienvenue sur le site web de Adrien.
