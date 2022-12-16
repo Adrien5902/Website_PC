@@ -195,6 +195,7 @@ class atom {
         let lastGazNoble = {} //Initialize la variable pour éviter les erreurs undifinded
         if(shortened){
             if(this.lastGazNoble){
+                lastGazNoble.couches = {}
                 lastGazNoble = new atom (this.lastGazNoble) //Récupère le dernier gaz noble avant l'élement choisi
                 str += "[" + lastGazNoble.symbol + "] "  //L'ajoute au texte
             }
@@ -202,7 +203,7 @@ class atom {
 
         for(let couche of couchesList){ //Pour chaque couche
             if(this.couches[couche] >= 1){ //Si un électron ou + est présent dans la couche 
-                if(!shortened || (lastGazNoble.couches && this.couches[couche] != lastGazNoble.couches[couche])){ 
+                if(!shortened || !lastGazNoble.couches || this.couches[couche] != lastGazNoble.couches[couche]){ 
                     str += "(" + couche + "<sup>" + this.couches[couche] + "</sup>)" //Si on ne doit pas raccourcir le texte ou que le la couche est présente dans le dernier gaz noble ajouter la couhe au texte
                 }
             }else{ //Si il n'y pas d'électrons dans la couche

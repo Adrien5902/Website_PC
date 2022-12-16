@@ -6,7 +6,7 @@
 
 <body>
     <div class="content">
-        <div id="search">
+        <div id="search" style="font-size: 24px;">
             <label for="">Rechercher un atome : </label>
             <input id="search-input" type="text" placeholder="par nom, par symbole ou par numéro atomique...">
             <div id="search-result" style="display: grid;"></div>
@@ -29,6 +29,12 @@
                 
                 for(let el of elements){
                     if(el.symbol.toSearch() == searchStr || el.Z == searchStr){
+                        searchResults.push(el.Z)
+                    }
+                }
+
+                for(let el of elements){
+                    if(el.name.toSearch().startsWith(searchStr) && !searchResults.includes(el.Z)){
                         searchResults.push(el.Z)
                     }
                 }
