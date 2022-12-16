@@ -1,6 +1,12 @@
 body  /*Sur toute la page*/
 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /*Change la police d'écriture*/
+    font-size: 20px;
+}
+
+input
+{
+    font-size: inherit;
 }
 
 .atom-cell

@@ -128,6 +128,8 @@ String.prototype.toSearch = function(){  //Retire les majuscules et accents d'un
     return this.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase()
 }
 
+let gazNobles = [2, 10, 18, 36, 54, 86, 118]
+
 //Class Atome
 class atom {
     //Couches électroniques
@@ -140,25 +142,26 @@ class atom {
             g : 18,
         }
         
-        let remaining = this.Z
-        let couches = {}
+        let remaining = this.Z //Nombre d'e- à répartir
+        let couches = {} //Initialize la variable couches
 
-        let i = 0;
+        let i = 0 //Initialize la variable couches
         while (remaining > 0){ //tant qu'il y a des e- a répartir
-            let couche = couchesList[i]
+            let couche = couchesList[i] //Définit la couche sur laqulle on va répartir les e-
 
             const limiteSousCouche = limit[couche[1]] //limite sous couche  ex : 2 (pour s), 6 (pour d)...
 
-            couches[couche] = limiteSousCouche
-            remaining -= limiteSousCouche
+            couches[couche] = limiteSousCouche //Sature la couche
+            remaining -= limiteSousCouche //soustrait le nombre d'e- à répartis au nombre d'e- à répartir
             
-            if(remaining < 1){
-                couches[couche] += remaining
-                break
+            if(remaining < 1){ //Si il n'y a plus d'e- à répartir
+                couches[couche] += remaining //Retire des e- dans la couche si la couche a été saturée alors qu'elle n'aurait pas du l'être
+                break //Stopper le script
             }
-            i++
+
+            i++ //Passe a la prochaine couche
         }
-        return couches
+        return couches //Renvoie les couches électroniques
     }
 
     //Constructeur Atom
@@ -171,22 +174,46 @@ class atom {
             this.name = elements[Z-1].name //Set nom de l'atome
 
             this.couches = this.getCouches() //Récupère les couches électroniques de l'atome
-        }
-    }
 
-    couchesString() { //Renvoie les couches électroniques sous forme de texte
-        let str = ""
-        for(let couche of couchesList){
-            if(this.couches[couche] >= 1){
-                str += "(" + couche + "<sup>" + this.couches[couche] + "</sup>)"
-            }else{
-                break
+            for (let i in gazNobles){ //Récupère le dernier gaz noble avant l'atome
+                let Zgaz = gazNobles[i]
+                if (this.Z > Zgaz){
+                    if(i > 0){
+                        let lastGazNoble = new atom(gazNobles[i])
+                        this.lastGazNoble = lastGazNoble.Z
+                    }
+                }else{
+                    break
+                }
             }
         }
-        return str
     }
 
-    cell(){
+    couchesString(shortened = true /*Raccourcir ou non les couches avec les symboles de gaz nobles*/) { //Renvoie les couches électroniques sous forme de texte
+        let str = "" //Initialize le texte
+
+        let lastGazNoble = {} //Initialize la variable pour éviter les erreurs undifinded
+        if(shortened){
+            if(this.lastGazNoble){
+                lastGazNoble = new atom (this.lastGazNoble) //Récupère le dernier gaz noble avant l'élement choisi
+                str += "[" + lastGazNoble.symbol + "] "  //L'ajoute au texte
+            }
+        }
+
+        for(let couche of couchesList){ //Pour chaque couche
+            if(this.couches[couche] >= 1){ //Si un électron ou + est présent dans la couche 
+                if(!shortened || (lastGazNoble.couches && this.couches[couche] != lastGazNoble.couches[couche])){ 
+                    str += "(" + couche + "<sup>" + this.couches[couche] + "</sup>)" //Si on ne doit pas raccourcir le texte ou que le la couche est présente dans le dernier gaz noble ajouter la couhe au texte
+                }
+            }else{ //Si il n'y pas d'électrons dans la couche
+                break //Stopper le script
+            }
+        }
+
+        return str //Renvoie le texte
+    }
+
+    cell(){ //Renvoie une cellule de tableau contenant le symbole et le numéro atomique de l'atome
         return '<div class="atom-cell">' + this.Z + '<br><span style="font-size: 1.4em; font-weight: bold;">' + this.symbol + "</span></div>"
     }
 }

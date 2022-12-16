@@ -8,7 +8,7 @@
     <div class="content">
         <div id="search">
             <label for="">Rechercher un atome : </label>
-            <input id="search-input" style="width: 300px;" type="text" placeholder="par nom, par symbole ou par numéro atomique...">
+            <input id="search-input" type="text" placeholder="par nom, par symbole ou par numéro atomique...">
             <div id="search-result" style="display: grid;"></div>
         </div>
     </div>
@@ -17,6 +17,8 @@
         const search = document.getElementById('search-input');
         const searchRes = document.getElementById('search-result');
         const searchResLimit = 8
+
+        search.setAttribute('size', search.getAttribute('placeholder').length);
 
         search.addEventListener('input', () => {
             searchStr = search.value.toSearch();
@@ -37,28 +39,32 @@
                     }
                 }
 
-                for (let i in searchResults){
-                    if(i < searchResLimit){
-                        let Z = searchResults[i]
-                        let el = new atom (Z)
-                        let res = '<div style="display : flex; margin : 24px auto; border: 2px solid black; padding: 12px;">'
+                if(searchResults[0]){
+                    for (let i in searchResults){
+                        if(i < searchResLimit){
+                            let Z = searchResults[i]
+                            let el = new atom (Z)
+                            let res = '<div style="display : flex; margin : 24px auto; border: 2px solid black; padding: 12px;">'
 
-                            res += el.cell()
+                                res += el.cell()
 
-                            res += '<div style="display : grid; margin: auto 20px;">'
-                            res += '<span class="el-name">Nom : ' + el.name + '</span>'
-                            res += '<span class="el-symbol">Symbole : ' + el.symbol + '</span>'
-                            res += '<span class="el-z">Numéro atomique : ' + el.Z + '</span>'
-                            res += '<span class="el-couches">Couches électroniques : ' + el.couchesString() + '</span>'
+                                res += '<div style="display : grid; margin: auto 20px;">'
+                                res += '<span class="el-name">Nom : ' + el.name + '</span>'
+                                res += '<span class="el-symbol">Symbole : ' + el.symbol + '</span>'
+                                res += '<span class="el-z">Numéro atomique : ' + el.Z + '</span>'
+                                res += '<span class="el-couches">Couches électroniques : ' + el.couchesString() + '</span>'
+                                res += '</div>'
+
                             res += '</div>'
 
-                        res += '</div>'
-
-                        searchRes.innerHTML += res
-                    }else{
-                        break
+                            searchRes.innerHTML += res
+                        }else{
+                            break
+                        }
                     }
-                }
+                }else{
+                    searchRes.innerHTML += "Aucun résultat"
+                }                
             }else{
                 searchRes.innerHTML = ""
             }
