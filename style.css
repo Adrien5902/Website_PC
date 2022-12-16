@@ -18,6 +18,14 @@ header
     top: 0;
 }
 
+div.content
+{
+    text-align: center;
+    margin: auto;
+    top: 254px;
+    position: relative;
+}
+
 header a
 {
     margin: 0 12px;
