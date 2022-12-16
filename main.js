@@ -185,4 +185,8 @@ class atom {
         }
         return str
     }
+
+    cell(){
+        return '<div class="atom-cell">' + this.Z + '<br><span style="font-size: 1.4em; font-weight: bold;">' + this.symbol + "</span></div>"
+    }
 }

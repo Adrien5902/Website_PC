@@ -3,6 +3,15 @@ body  /*Sur toute la page*/
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /*Change la police d'écriture*/
 }
 
+.atom-cell
+{
+    border : solid 2px black;
+    padding: 6px;
+    width: 3em;
+    height: 3em;
+    margin: auto;
+}
+
 /* En-tête qui s'affiche sur toute les pages*/
 header
 {

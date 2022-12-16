@@ -41,11 +41,16 @@
                     if(i < searchResLimit){
                         let Z = searchResults[i]
                         let el = new atom (Z)
-                        let res = '<div style="display : inline-grid; margin : 12px;" class="">'
-                        res += '<span class="el-name">Nom : ' + el.name + '</span>'
-                        res += '<span class="el-symbol">Symbole : ' + el.symbol + '</span>'
-                        res += '<span class="el-z">Numéro atomique : ' + el.Z + '</span>'
-                        res += '<span class="el-couches">Couches électroniques : ' + el.couchesString() + '</span>'
+                        let res = '<div style="display : flex; margin : 24px auto; border: 2px solid black; padding: 12px;">'
+
+                            res += el.cell()
+
+                            res += '<div style="display : grid; margin: auto 20px;">'
+                            res += '<span class="el-name">Nom : ' + el.name + '</span>'
+                            res += '<span class="el-symbol">Symbole : ' + el.symbol + '</span>'
+                            res += '<span class="el-z">Numéro atomique : ' + el.Z + '</span>'
+                            res += '<span class="el-couches">Couches électroniques : ' + el.couchesString() + '</span>'
+                            res += '</div>'
 
                         res += '</div>'
 
