@@ -176,9 +176,7 @@ class atom {
 
     couchesString() { //Renvoie les couches électroniques sous forme de texte
         let str = ""
-        let couches = couchesList
-        for(let i in couches){
-            let couche = couches[i]
+        for(let couche of couchesList){
             if(this.couches[couche] >= 1){
                 str += "(" + couche + "<sup>" + this.couches[couche] + "</sup>)"
             }else{
