@@ -7,7 +7,8 @@
 <body>
     <div class="content">
         <div id="search">
-            <input id="search-input" type="text" placeholder="par nom ou par numéro atomique">
+            <label for="">Rechercher un atome : </label>
+            <input id="search-input" style="width: 300px;" type="text" placeholder="par nom ou par numéro atomique...">
             <div id="search-result"></div>
         </div>
     </div>
@@ -22,12 +23,13 @@
                 searchRes.innerHTML = ""
                 for(i in elements){
                     el = elements[i]
-                    if(el.name.toLowerCase().includes(searchStr) || el.symbol === searchStr || el.Z == searchStr){
+                    if(el.name.toLowerCase().includes(searchStr) || el.symbol.toLowerCase() == searchStr || el.Z == searchStr){
                         let element = new atom (el.Z)
                         let res = '<div style="display : inline-grid;" class="">'
-                        res += 'Nom : <span class="el-name">' + el.name + '</span>'
-                        res += 'Symbole : <span class="el-symbol">' + el.symbol + '</span>'
-                        res += 'Couches électroniques : <span class="el-couches">' + element.couchesString() + '</span>'
+                        res += '<span class="el-name">Nom : ' + el.name + '</span>'
+                        res += '<span class="el-symbol">Symbole : ' + el.symbol + '</span>'
+                        res += '<span class="el-z">Numéro atomique : ' + el.Z + '</span>'
+                        res += '<span class="el-couches">Couches électroniques : ' + element.couchesString() + '</span>'
 
                         res += '</div>'
 

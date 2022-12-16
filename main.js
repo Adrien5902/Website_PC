@@ -160,7 +160,7 @@ class atom {
             console.error("Atome inexistant")
         }else{
             this.Z = Z
-            
+            this.symbol = elements
             this.couchesList = [ //Liste des couches électroniques dans l'odre de remplissage
                 "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
             ]
