@@ -14,21 +14,28 @@
 
     <script>
         const search = document.getElementById('search-input');
+        const searchRes = document.getElementById('search-result');
 
-        search.addEventListener('input', (e) => {
-            if (search.value) {
+        search.addEventListener('input', () => {
+            searchStr = search.value.toLowerCase();
+            if (searchStr && searchStr.length) {
+                searchRes.innerHTML = ""
                 for(i in elements){
                     el = elements[i]
-                    if(el.name.includes(search.value) || el.symbol === search.value || el.Z == search.value){
-                        let atom = new atom (el.Z)
-                        let res = '<div style="inline-grid" class="">'
-                        res += 'Nom : <span class="el-name">' + el.symbol + '</span>'
-                        res += '<span class="el-symbol">' + el.symbol + '</span>'
-                        res += '<span class="el-couches">' + atom.couhes + '</span>'
+                    if(el.name.toLowerCase().includes(searchStr) || el.symbol === searchStr || el.Z == searchStr){
+                        let element = new atom (el.Z)
+                        let res = '<div style="display : inline-grid;" class="">'
+                        res += 'Nom : <span class="el-name">' + el.name + '</span>'
+                        res += 'Symbole : <span class="el-symbol">' + el.symbol + '</span>'
+                        res += 'Couches électroniques : <span class="el-couches">' + element.couchesString() + '</span>'
 
                         res += '</div>'
+
+                        searchRes.innerHTML += res;
                     }
                 }
+            }else{
+                searchRes.innerHTML = ""
             }
         })
     </script>
