@@ -124,9 +124,12 @@ const couchesList = [ //Liste des couches électroniques dans l'odre de rempliss
     "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
 ]
 
+String.prototype.toSearch = function(){  //Retire les majuscules et accents d'un string
+    return this.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase()
+}
+
 //Class Atome
 class atom {
-
     //Couches électroniques
     getCouches() {
         const limit = {
@@ -160,23 +163,23 @@ class atom {
 
     //Constructeur Atom
     constructor (Z) { //Z = Numéro atomique
-        if(Z < 1 && Z > 118){
-            console.error("Atome inexistant")
+        if(Z < 1 && Z > 118){ //Si le numéro atomique n'est aucun de ceux des éléments
+            console.error("Atome inexistant") //Renvoie une erreur dans la console
         }else{
-            this.Z = Z
-            this.symbol = elements
+            this.Z = Z //Set numéro atomique
+            this.symbol = elements[Z-1].symbol //Set symbole
+            this.name = elements[Z-1].name //Set nom de l'atome
 
-            this.couches = this.getCouches()
+            this.couches = this.getCouches() //Récupère les couches électroniques de l'atome
         }
     }
 
-    //Renvoie les couches électroniques sous forme de texte
-    couchesString() {
+    couchesString() { //Renvoie les couches électroniques sous forme de texte
         let str = ""
         let couches = couchesList
         for(let i in couches){
             let couche = couches[i]
-            if(this.couches[couche] > 1){
+            if(this.couches[couche] >= 1){
                 str += "(" + couche + "<sup>" + this.couches[couche] + "</sup>)"
             }else{
                 break
