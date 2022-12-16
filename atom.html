@@ -5,5 +5,31 @@
 </head>
 
 <body>
-    
+    <div class="content">
+        <div id="search">
+            <input id="search-input" type="text" placeholder="par nom ou par numéro atomique">
+            <div id="search-result"></div>
+        </div>
+    </div>
+
+    <script>
+        const search = document.getElementById('search-input');
+
+        search.addEventListener('input', (e) => {
+            if (search.value) {
+                for(i in elements){
+                    el = elements[i]
+                    if(el.name.includes(search.value) || el.symbol === search.value || el.Z == search.value){
+                        let atom = new atom (el.Z)
+                        let res = '<div style="inline-grid" class="">'
+                        res += 'Nom : <span class="el-name">' + el.symbol + '</span>'
+                        res += '<span class="el-symbol">' + el.symbol + '</span>'
+                        res += '<span class="el-couches">' + atom.couhes + '</span>'
+
+                        res += '</div>'
+                    }
+                }
+            }
+        })
+    </script>
 </body>

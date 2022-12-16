@@ -115,12 +115,9 @@ const elements = [
     {Z :113, name: "Nihonium", symbol : "Nh"},
     {Z :114, name: "Flérovium", symbol : "Fl"},
     {Z :115, name: "Moscovium", symbol : "Mc"},
-    {Z :et, name: "Institut", symbol : "unifié"},
     {Z :116, name: "Livermorium", symbol : "Lv"},
     {Z :117, name: "Tennesse", symbol : "Ts"},
-    {Z :de, name: "l", symbol : "Institut"},
     {Z :118, name: "Oganesson", symbol : "Og"},
-    {Z :et, name: "Institut", symbol : "unifié"}
 ]
 
 //Class Atome
@@ -135,17 +132,13 @@ class atom {
             f : 14,
             g : 18,
         }
-
-        const couchesList = [
-            "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
-        ] 
         
         let remaining = this.Z
         let couches = {}
 
         let i = 0;
         while (remaining >= 1){ //tant qu'il y a des e- a répartir
-            let couche = couchesList[i]
+            let couche = this.couchesList[i]
 
             const limiteSousCouche = limit[couche[1]] //limite sous couche  ex : 2 (pour s), 6 (pour d)...
 
@@ -167,6 +160,11 @@ class atom {
             console.error("Atome inexistant")
         }else{
             this.Z = Z
+            
+            this.couchesList = [ //Liste des couches électroniques dans l'odre de remplissage
+                "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
+            ]
+
             this.couches = this.getCouches()
         }
     }
@@ -174,9 +172,14 @@ class atom {
     //Renvoie les couches électroniques sous forme de texte
     couchesString() {
         let str = ""
-        let couches = this.couches
-        for(let couche in couches){
-            str += "(" + couche + "<sup>" + couches[couche] + "</sup>)"
+        let couches = this.couchesList
+        for(let i in couches){
+            let couche = couches[i]
+            if(this.couches[couche] > 1){
+                str += "(" + couche + "<sup>" + this.couches[couche] + "</sup>)"
+            }else{
+                break
+            }
         }
         return str
     }
