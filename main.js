@@ -120,6 +120,10 @@ const elements = [
     {Z :118, name: "Oganesson", symbol : "Og"},
 ]
 
+const couchesList = [ //Liste des couches électroniques dans l'odre de remplissage
+    "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
+]
+
 //Class Atome
 class atom {
 
@@ -137,8 +141,8 @@ class atom {
         let couches = {}
 
         let i = 0;
-        while (remaining >= 1){ //tant qu'il y a des e- a répartir
-            let couche = this.couchesList[i]
+        while (remaining > 0){ //tant qu'il y a des e- a répartir
+            let couche = couchesList[i]
 
             const limiteSousCouche = limit[couche[1]] //limite sous couche  ex : 2 (pour s), 6 (pour d)...
 
@@ -161,9 +165,6 @@ class atom {
         }else{
             this.Z = Z
             this.symbol = elements
-            this.couchesList = [ //Liste des couches électroniques dans l'odre de remplissage
-                "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
-            ]
 
             this.couches = this.getCouches()
         }
@@ -172,7 +173,7 @@ class atom {
     //Renvoie les couches électroniques sous forme de texte
     couchesString() {
         let str = ""
-        let couches = this.couchesList
+        let couches = couchesList
         for(let i in couches){
             let couche = couches[i]
             if(this.couches[couche] > 1){
