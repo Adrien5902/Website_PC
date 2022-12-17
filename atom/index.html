@@ -34,8 +34,8 @@
 
         search.setAttribute('size', search.getAttribute('placeholder').length);
 
-        search.addEventListener('input', () => {
-            searchStr = search.value.toSearch();
+        function searchFunc(input) {
+            searchStr = input.toSearch();
             if (searchStr && searchStr.length) {
                 searchRes.innerHTML = ""
                 let searchResults = []
@@ -87,6 +87,8 @@
             }else{
                 searchRes.innerHTML = ""
             }
-        })
+        }
+
+        search.addEventListener('input', (e) => searchFunc(search.value))
     </script>
 </body>
