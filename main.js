@@ -197,7 +197,7 @@ class atom {
             if(this.lastGazNoble){
                 lastGazNoble.couches = {}
                 lastGazNoble = new atom (this.lastGazNoble) //Récupère le dernier gaz noble avant l'élement choisi
-                str += "[" + lastGazNoble.symbol + "] "  //L'ajoute au texte
+                str += '[<a class="cyan unlink tooltip">' + lastGazNoble.symbol + '<span class="tooltip-text">'+ lastGazNoble.couchesString(false) +'</span></a>] '  //L'ajoute au texte
             }
         }
 
@@ -215,6 +215,11 @@ class atom {
     }
 
     cell(){ //Renvoie une cellule de tableau contenant le symbole et le numéro atomique de l'atome
-        return '<div class="atom-cell">' + this.Z + '<br><span style="font-size: 1.4em; font-weight: bold;">' + this.symbol + "</span></div>"
+        let str = '<a href="atom.html?Z=' + this.Z + '" class="atom-cell unlink">' 
+        str += this.Z 
+        str += '<br>'
+        str += '<span style="font-size: 1.4em; font-weight: bold;">' + this.symbol + "</span>"
+        str += "</a>"
+        return str
     }
 }

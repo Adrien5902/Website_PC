@@ -4,9 +4,45 @@ body  /*Sur toute la page*/
     font-size: 20px;
 }
 
+.unlink /*Retire l'effet bleu ou violet et sousligné par défaut des liens avec la classe unlink*/
+{
+    text-decoration: none;
+    color: unset;
+}
+
 input
 {
     font-size: inherit;
+}
+
+/*Contenu de la page sans l'en-tête et le footer*/
+div.content
+{
+    text-align: center;
+    margin: auto;
+    top: 254px;
+    position: relative;
+}
+
+.tooltip-text
+{
+    display: inline-block;
+    position: absolute;
+    background : #BBB;
+    color: #fff;
+    padding: 0.3em;
+    border-radius: 1em;
+    visibility: hidden;
+}
+
+.tooltip
+{
+    cursor: pointer;
+}
+
+.tooltip:hover .tooltip-text
+{
+    visibility: visible;
 }
 
 .atom-cell
@@ -16,6 +52,18 @@ input
     width: 3em;
     height: 3em;
     margin: auto;
+    background : white;
+}
+
+.atom-cell:hover
+{
+    transform: scale(1.7);
+    text-decoration: none;
+}
+
+.cyan
+{
+    color: rgb(0, 195, 255);
 }
 
 /* En-tête qui s'affiche sur toute les pages*/
@@ -34,15 +82,6 @@ header
     top: 0;
 }
 
-/*Contenu de la page sans l'en-tête et le footer*/
-div.content
-{
-    text-align: center;
-    margin: auto;
-    top: 254px;
-    position: relative;
-}
-
 header a
 {
     margin: 0 12px;
@@ -51,10 +90,4 @@ header a
 a:hover
 {
     text-decoration: underline; /*Sous ligne les liens quand on passe la souris dessus*/
-}
-
-.unlink /*Retire l'effet bleu ou violet et sousligné par défaut des liens avec la classe unlink*/
-{
-    text-decoration: none;
-    color: unset;
 }
