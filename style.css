@@ -53,6 +53,8 @@ div.content
     height: 3em;
     margin: auto;
     background : white;
+    display: inline-block;
+    text-align: center;
 }
 
 .atom-cell:hover
