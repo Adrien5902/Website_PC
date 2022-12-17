@@ -217,7 +217,7 @@ class atom {
             if(this.lastGazNoble){
                 lastGazNoble.couches = {}
                 lastGazNoble = new atom (this.lastGazNoble) //Récupère le dernier gaz noble avant l'élement choisi
-                str += '[<a class="cyan unlink tooltip">' + lastGazNoble.symbol + '<span class="tooltip-text">'+ lastGazNoble.couchesString(false) +'</span></a>] '  //L'ajoute au texte
+                str += '[<a href="view.html?Z=' + lastGazNoble.Z + '" class="cyan unlink tooltip">' + lastGazNoble.symbol + '<span class="tooltip-text">'+ lastGazNoble.couchesString(false) +'</span></a>] '  //L'ajoute au texte
             }
         }
 
