@@ -2,11 +2,18 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <link rel="stylesheet" href="../style.css">
     <script src="../main.js"></script>
+    <script src="funct.js"></script>
 </head>
 
 <body>
     <script src="../header.js"></script>
     <div class="content">
-        
+        <img class="back" onclick="history.go(-1)" src="../back-arrow.png" alt="←">
+        <script>
+            const params = new Proxy(new URLSearchParams(window.location.search), {
+                get: (searchParams, prop) => searchParams.get(prop),
+            });
+            let atome = new atom(params.Z);
+        </script>
     </div>
 </body>

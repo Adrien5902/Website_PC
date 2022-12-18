@@ -24,6 +24,7 @@ div.content
     position: relative;
 }
 
+/*Message quand on passse la souris dessus*/
 .tooltip-text
 {
     display: inline-block;
@@ -45,6 +46,7 @@ div.content
     visibility: visible;
 }
 
+/*Cases du tableau périodique*/
 .atom-cell
 {
     border : solid 2px black;
@@ -63,9 +65,10 @@ div.content
     text-decoration: none;
 }
 
+/*Couleurs*/
 .cyan
 {
-    color: rgb(0, 195, 255);
+    color: #00C3FF;
 }
 
 /* En-tête qui s'affiche sur toute les pages*/
@@ -92,4 +95,18 @@ header a
 a:hover
 {
     text-decoration: underline; /*Sous ligne les liens quand on passe la souris dessus*/
+}
+
+.back
+{
+    position: absolute;
+    left: 0;
+    height: 2em;
+    width: auto;
+    cursor: pointer;
+}
+
+img.back:hover
+{
+    filter: invert(52%) sepia(93%) saturate(1622%) hue-rotate(159deg) brightness(102%) contrast(108%);
 }
