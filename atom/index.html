@@ -4,9 +4,12 @@
     <script src="funct.js"></script>
 
     <style>
-        table td 
-        {
+        table td{
             text-align: center;
+        }
+        #legende{
+            top: 10px;
+            position: relative;
         }
     </style>
 </head>
@@ -21,9 +24,9 @@
         </div>
 
         <table style="margin: 24px auto;">
-            <tbody id="tableauEl">
-                <script src="tableauEl.js"></script>
-            </tbody>
+            <tbody id="tableauEl"></tbody>
+            <tfoot id="legende"></tfoot>
+            <script src="tableauEl.js"></script>
         </table>
     </div>
 
