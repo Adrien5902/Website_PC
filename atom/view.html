@@ -3,17 +3,57 @@
     <link rel="stylesheet" href="../style.css">
     <script src="../main.js"></script>
     <script src="funct.js"></script>
+
+    <style>
+        .atom#name{
+            font-size: 3em;
+        }
+
+        .atom#properties{
+            display: inline-grid;
+            margin: 4px;
+            padding: 4px;
+            font-size: 1.3em;
+        }
+    </style>
 </head>
 
 <body>
     <script src="../header.js"></script>
     <div class="content">
         <img class="back" onclick="history.go(-1)" src="../back-arrow.png" alt="←">
+
+        <h1 class="atom" id="name"></h1>
+        <div class="atom" id="cell"></div>
+        <div class="atom" id="properties">
+            <span id="Z">Numéro atomique : </span>
+            <span id="symbol">Symbole : </span>
+            <span id="période">Période : </span>
+            <span id="groupe">Groupe : </span>
+            <span id="couches">Couches éléctroniques : </span>
+            <span id="bloc">Bloc : </span>
+        </div>
+
         <script>
             const params = new Proxy(new URLSearchParams(window.location.search), {
                 get: (searchParams, prop) => searchParams.get(prop),
             });
             let atome = new atom(params.Z);
+
+            let name = document.querySelector(".atom#name")
+            name.innerHTML = atome.name
+
+            let cellParent = document.querySelector(".atom#cell")
+            cellParent.innerHTML = atome.cell()
+
+            let properties = document.querySelector(".atom#properties")
+            properties.childNodes.forEach((child) => {
+                if(child.id == "couches"){
+                    child.innerHTML += atome.couchesString()
+                }else{
+                    child.innerHTML += atome[child.id]
+                }
+            })
         </script>
     </div>
 </body>
