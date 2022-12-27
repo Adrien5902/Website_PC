@@ -133,7 +133,14 @@ const couchesList = [ //Liste des couches électroniques dans l'odre de rempliss
 ]
 
 //Liste des gaz nobles
-let gazNobles = [2, 10, 18, 36, 54, 86, 118]
+const gazNobles = [2, 10, 18, 36, 54, 86, 118]
+
+const couchesLimit = { //Limites des sous couches
+    s : 2,
+    p : 6,
+    d : 10,
+    f : 14,
+}
 
 
 
@@ -149,14 +156,6 @@ String.prototype.toSearch = function(){  //Retire les majuscules et accents d'un
 class atom {
     //Couches électroniques
     getCouches() {
-        const limit = {
-            s : 2,
-            p : 6,
-            d : 10,
-            f : 14,
-            g : 18,
-        }
-        
         let remaining = this.Z //Nombre d'e- à répartir
         let couches = {} //Initialize la variable couches
 
@@ -164,7 +163,7 @@ class atom {
         while (remaining > 0){ //tant qu'il y a des e- a répartir
             let couche = couchesList[i] //Définit la couche sur laqulle on va répartir les e-
 
-            const limiteSousCouche = limit[couche[1]] //limite sous couche  ex : 2 (pour s), 6 (pour d)...
+            const limiteSousCouche = couchesLimit[couche[1]] //limite sous couche  ex : 2 (pour s), 6 (pour d)...
 
             couches[couche] = limiteSousCouche //Sature la couche
             remaining -= limiteSousCouche //soustrait le nombre d'e- à répartis au nombre d'e- à répartir
@@ -192,6 +191,8 @@ class atom {
             this.couches = this.getCouches() //Récupère les couches électroniques de l'atome
 
             this.période = Object.keys(this.couches).sort()[Object.keys(this.couches).length - 1][0]
+            this.groupe = this.couches[Object.keys(this.couches)[Object.keys(this.couches).length - 1]]
+            this.bloc = Object.keys(this.couches)[Object.keys(this.couches).length - 1][1]
 
             for (let i in gazNobles){ //Récupère le dernier gaz noble avant l'atome
                 let Zgaz = gazNobles[i]
