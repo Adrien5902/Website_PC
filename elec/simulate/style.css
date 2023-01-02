@@ -1,0 +1,38 @@
+#app{
+    text-align: left;
+    display: inline-block;
+}
+
+#components{
+    border: solid 4px gray;
+    display: inline-table;
+    text-align: center;
+    vertical-align: top;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+#components .componentBox{
+    margin: 12px;
+    border-bottom: solid gray;
+    display: grid;
+}
+
+#components img{
+    margin: auto;
+    width: 64px;
+}
+
+canvas#result{
+    height: 800px;
+    width: 1300px;
+    border: solid 4px gray;
+    margin: 0 12px;
+}
+
+#properties{
+    border: solid 4px gray;
+    min-height: 15%;
+}

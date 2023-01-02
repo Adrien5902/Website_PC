@@ -1,0 +1,40 @@
+<head>
+    <title>Physique Chimie - Électricité</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--Récupérer l'en-tête de la page-->
+    <script src="../../header.js"></script>
+
+    <!--Contenu de la page-->
+    <div class="content">
+        <!--Flèche de retour en arrière-->
+        <img class="back" onclick="history.go(-1)" src="../../back-arrow.png" alt="←">
+        
+        <h1>Simulation de circuit électriques</h1>
+        
+        <div id="app">
+            <div>
+                <!--L'endroit où on peut récupérer les composants électroniques-->
+                <div id="components"></div>
+    
+                <!--L'élément contenant le schéma de la simulation-->
+                <canvas id="result" width="800" height="500"></canvas>
+            </div>
+
+            <div>
+                <label for="range">Taille</label>
+                <input type="range" min="30" max="120" value="64" id="componentsSize">
+
+                <div id="properties">
+                    Sélectionnez d'abord un composant
+                </div>
+            </div>
+    
+            <!--Récupérer le script de l'app-->
+            <script src="app.js"></script>
+        </div>
+    </div>
+</body>
