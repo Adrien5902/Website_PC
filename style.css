@@ -82,7 +82,7 @@ header
     font-weight: bold;
     vertical-align: middle;
     width: 100%;
-    position: fixed;
+    position: absolute;
     right: 0;
     top: 0;
 }
