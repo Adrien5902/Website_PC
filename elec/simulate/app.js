@@ -128,18 +128,20 @@ function updateProperties(id){
             let valueEl
             if(property.id == "pos"){
                 valueEl = document.createElement("div")
-                for(let axe of Object.keys(component.pos)){
+                for(let axe of ['x', 'y']){
                     valueEl.innerHTML += axe + " : "
                     
                     let input = document.createElement("input")
-                    input.setAttribute("type", "number")
+                    input.type = "number"
                     input.classList.add(axe)
                     input.value = component.pos[axe]
-                    input.addEventListener('change', ()=>{
-                        component.pos[axe] = input.value
+                    valueEl.appendChild(input)
+
+                    console.log(axe, component.pos[axe], input.value)
+                    input.addEventListener('input', (event) => {
+                        component.pos[axe] = parseInt(input.value)
                         drawCanvas()
                     })
-                    valueEl.appendChild(input)
                 }
             }else if(false){
     
@@ -150,26 +152,26 @@ function updateProperties(id){
                 }else{
                     valueEl = document.createElement('input')
                     if(typeof component[property.id] == "number"){
-                        valueEl.setAttribute('type', 'number')
+                        valueEl.type = 'number'
                         valueEl.value = component[property.id]
                     }else if(typeof component[property.id] == "string"){
-                        valueEl.setAttribute('type', 'text')
+                        valueEl.type = 'text'
                         valueEl.value = component[property.id]
                     }else if(typeof component[property.id] == "boolean"){
-                        valueEl.setAttribute('type', 'checkbox')
+                        valueEl.type = 'checkbox'
                         valueEl.checked = component[property.id]
                     }
                 }
+                valueEl.addEventListener('input', (event) => {
+                    if(valueEl.getAttribute("type") == "checkbox"){
+                        component[property.id] = valueEl.checked
+                    }else{
+                        component[property.id] = valueEl.value
+                    }
+                    drawCanvas()
+                })
             }
             valueEl.id = property.id
-            valueEl.addEventListener('input', (event) => {
-                if(valueEl.getAttribute("type") == "checkbox"){
-                    component[property.id] = valueEl.checked
-                }else{
-                    component[property.id] = valueEl.value
-                }
-                drawCanvas()
-            })
     
             let propertyDiv = document.createElement('div')
             propertyDiv.id = property.id
@@ -197,7 +199,10 @@ canvas.addEventListener('drop', (event) => {
     let component = {}
 
     component.type = event.dataTransfer.getData("text/plain") //Récupère le type du composant
-    component.pos = getMousePos(canvas, event)
+    component.pos = {}
+    let mousePos = getMousePos(canvas, event)
+    component.pos.x = Math.round(mousePos.x)
+    component.pos.y = Math.round(mousePos.y)
     component.name = component.type
     
     for(let property of Object.keys(componentsList[component.type].defaultProperties)){
@@ -234,7 +239,8 @@ canvas.addEventListener('mouseup', (event) => {
 
 canvas.addEventListener('mousemove', (event) => {
     if(moving !== false){
-        components[moving].pos = getMousePos(canvas, event)
+        components[moving].pos.x = Math.round(getMousePos(canvas, event).x)
+        components[moving].pos.y = Math.round(getMousePos(canvas, event).y)
         updateProperties(moving)
         drawCanvas()
     }
