@@ -35,7 +35,7 @@ for(let type of Object.keys(componentsList)){
 
     let img = document.createElement('img')
     img.src = 'img/' + type + '.png'
-    img.id = type + "Img"
+    img.classList.add(type)
     
     el.appendChild(dragEL)
     dragEL.appendChild(img)
@@ -52,6 +52,19 @@ for(let type of Object.keys(componentsList)){
     dragEL.addEventListener('dragstart', (event) => {
         event.dataTransfer.setData("text/plain", type);
     })
+}
+
+//Image bank (charge les images en avance)
+const propImgs = [
+    "Interupteur_open",
+    "Générateur_on",
+]
+let imageBank = document.querySelector("#imageBank")
+for(let img of propImgs){
+    let image = new Image()
+    image.src = "img/"+img+".png"
+    image.classList.add(img)
+    imageBank.appendChild(image)
 }
 
 componentsSizeInput.addEventListener('input', (event) => {
@@ -84,13 +97,11 @@ function drawCanvas() {
 
         let image
         if((typeof component.on !== undefined && component.on) || (typeof component.activated !== undefined && component.activated)){
-            image = new Image()
-            image.src = "img/"+component.name+"_on.png"
+            image = document.querySelector('img.'+ component.type + "_on")
         }else if(typeof component.open !== undefined && component.open){
-            image = new Image()
-            image.src = "img/"+component.name+"_open.png"
+            image = document.querySelector('img.'+ component.type + "_open")
         }else{
-            image = document.querySelector('img#'+ component.type + "Img")
+            image = document.querySelector('img.'+ component.type)
         }
 
         ctx.drawImage(image, component.pos.x - componentSize/2, component.pos.y - componentSize/2, componentSize, componentSize);
