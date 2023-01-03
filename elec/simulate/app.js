@@ -128,7 +128,19 @@ function updateProperties(id){
             let valueEl
             if(property.id == "pos"){
                 valueEl = document.createElement("div")
-    
+                for(let axe of Object.keys(component.pos)){
+                    valueEl.innerHTML += axe + " : "
+                    
+                    let input = document.createElement("input")
+                    input.setAttribute("type", "number")
+                    input.classList.add(axe)
+                    input.value = component.pos[axe]
+                    input.addEventListener('change', ()=>{
+                        component.pos[axe] = input.value
+                        drawCanvas()
+                    })
+                    valueEl.appendChild(input)
+                }
             }else if(false){
     
             }else{
