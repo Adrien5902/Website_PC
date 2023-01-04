@@ -18,19 +18,23 @@
         <div id="app">
             <div>
                 <!--L'endroit où on peut récupérer les composants électroniques-->
-                <div id="components"></div>
+                <div id="components">
+                    <div class="componentBox">
+                        <img src="img/cable.png" draggable="false" id="toggleCable">
+                        <span>Câble</span>
+                    </div>
+                </div>
     
                 <!--L'élément contenant le schéma de la simulation-->
-                <canvas id="result" width="800" height="500"></canvas>
+                <canvas id="result" width="800" height="400"></canvas>
             </div>
 
             <div>
+                <img src="img/bin.png" alt="🗑" id="bin">
                 <label for="range">Taille</label>
                 <input type="range" min="30" max="120" value="64" id="componentsSize">
 
-                <div id="properties">
-                    Sélectionnez d'abord un composant
-                </div>
+                <div id="properties"></div>
             </div>
     
             <div id="imageBank" style="display: none;"></div> <!--Charge les images en avance-->
