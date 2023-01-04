@@ -362,7 +362,7 @@ canvas.addEventListener('mousemove', (event) => {
 //Toggle Cable
 let toggleCableButton = document.getElementById('toggleCable')
 toggleCableButton.addEventListener("click", ()=>{toggleCable()})
-function toggleCable(set = -1){
+function toggleCable(){
     cable = !cable
     
     document.body.classList.toggle("cable", cable)
