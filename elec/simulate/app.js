@@ -61,6 +61,7 @@ for(let type of Object.keys(componentsList)){
 const propImgs = [
     "Interupteur_open",
     "Générateur_on",
+    "Lampe_on"
 ]
 let imageBank = document.querySelector("#imageBank")
 for(let img of propImgs){
@@ -145,6 +146,27 @@ function drawLine(from, to){
     ctx.stroke();
 }
 
+function callNext(connection, on, firstConn){
+    if(connection.second.id == firstConn.first.id){
+
+    }else{
+        for(let id in components){
+            let component = components[id]
+            if(connection.second.id == id){
+                if(component.type == "Lampe"){
+                    component.on = on
+                }
+
+                for(let conn of connections){
+                    if(conn.first.id == id && conn.first.side != connection.second.side){
+                        callNext(conn, on, firstConn)
+                    }
+                }
+            }
+        }
+    }
+}
+
 function drawCanvas() {
     ctx.font = componentSize/3 +'px sans-serif';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -160,6 +182,11 @@ function drawCanvas() {
                 image = document.querySelector('img.'+ component.type + "_open")
             }else{
                 image = document.querySelector('img.'+ component.type)
+            }
+
+            if(component.type == "Pile" || component.type == "Générateur"){
+                ctx.fillText("+", component.pos.x + componentSize/2, component.pos.y - componentSize/2);
+                ctx.fillText("-", component.pos.x - componentSize/2, component.pos.y - componentSize/2);
             }
     
             ctx.drawImage(image, component.pos.x - componentSize/2, component.pos.y - componentSize/2, componentSize, componentSize);
@@ -178,6 +205,23 @@ function drawCanvas() {
         }
 
         drawLine(positions.first, positions.second)
+    }
+
+    for(let i in components){
+        if(typeof components[i] != 'undefined'){
+            let component = components[i]
+
+            //Circuit
+            if((component.type == "Pile" || component.type == "Générateur")){
+                for(let connection of connections){
+                    for(let el of ['first', 'second']){
+                        if(connection[el].side == "right" && connection[el].id == i){
+                            callNext(connection, component.activated, connection)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -382,8 +426,5 @@ function destroy(id){
     drawCanvas()
     updateProperties(-1)
 }
-
-bin.addEventListener("mouseenter", (e)=>{bin.classList.add("black_to_red")})
-bin.addEventListener("mouseleave", (e)=>{bin.classList.remove("black_to_red")})
 
 updateProperties(-1)

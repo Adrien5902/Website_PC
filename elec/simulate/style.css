@@ -41,7 +41,7 @@ canvas#result{
     cursor: url(img/cable32.png) 0 0, pointer;
 }
 
-.black_to_red{
+#bin:hover{
     filter: invert(14%) sepia(76%) saturate(7397%) hue-rotate(359deg) brightness(110%) contrast(110%);
 }
 
