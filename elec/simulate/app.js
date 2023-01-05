@@ -151,15 +151,25 @@ function callNext(connection, on, firstConn){
 
     }else{
         for(let id in components){
-            let component = components[id]
-            if(connection.second.id == id){
-                if(component.type == "Lampe"){
-                    component.on = on
-                }
-
-                for(let conn of connections){
-                    if(conn.first.id == id && conn.first.side != connection.second.side){
-                        callNext(conn, on, firstConn)
+            if(typeof components[id] != 'undefined'){
+                let component = components[id]
+                if(connection.second.id == id){
+                    if(component.type == "Lampe"){
+                        component.on = on
+                    }
+    
+                    let newConn = false
+                    for(let conn of connections){
+                        if(typeof conn != "undefined" && conn.first.id == id && conn.first.side != connection.second.side){
+                            newConn = conn
+                            callNext(conn, on, firstConn)
+                        }
+                    }
+                    if(on && !newConn){
+                        console.error("Circuit non fermé")
+                        components[firstConn.first.id].activated = false
+                        updateProperties(firstConn.first.id)
+                        drawCanvas()
                     }
                 }
             }
@@ -168,6 +178,25 @@ function callNext(connection, on, firstConn){
 }
 
 function drawCanvas() {
+    for(let i in components){
+        if(typeof components[i] != 'undefined'){
+            let component = components[i]
+
+            //Circuit
+            if((component.type == "Pile" || component.type == "Générateur")){
+                for(let connection of connections){
+                    if(typeof connection != "undefined"){
+                        for(let el of ['first', 'second']){
+                            if(connection[el].side == "right" && connection[el].id == i){
+                                callNext(connection, component.activated, connection)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     ctx.font = componentSize/3 +'px sans-serif';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -196,31 +225,16 @@ function drawCanvas() {
     }
 
     for(let connection of connections){
-        let positions = {}
-        for(let el of ['first', 'second']){
-            let component = components[connection[el].id]
-            let posSide = sidePos(connection[el].side, {x: component.pos.x, y: component.pos.y})
-            drawDot(posSide)
-            positions[el] = posSide
-        }
-
-        drawLine(positions.first, positions.second)
-    }
-
-    for(let i in components){
-        if(typeof components[i] != 'undefined'){
-            let component = components[i]
-
-            //Circuit
-            if((component.type == "Pile" || component.type == "Générateur")){
-                for(let connection of connections){
-                    for(let el of ['first', 'second']){
-                        if(connection[el].side == "right" && connection[el].id == i){
-                            callNext(connection, component.activated, connection)
-                        }
-                    }
-                }
+        if(typeof connection != "undefined"){
+            let positions = {}
+            for(let el of ['first', 'second']){
+                let component = components[connection[el].id]
+                let posSide = sidePos(connection[el].side, {x: component.pos.x, y: component.pos.y})
+                drawDot(posSide)
+                positions[el] = posSide
             }
+
+            drawLine(positions.first, positions.second)
         }
     }
 }
@@ -417,10 +431,23 @@ function toggleCable(){
 
 //Bin
 function destroy(id){
+    let component = components[id]
+    if((component.type == "Pile" || component.type == "Générateur")){
+        for(let connection of connections){
+            if(typeof connection != "undefined"){
+                for(let el of ['first', 'second']){
+                    if(connection[el].side == "right" && connection[el].id == id){
+                        callNext(connection, false, connection)
+                    }
+                }
+            }
+        }
+    }
+
     components[id] = undefined
     for(let i in connections){
         if(typeof components[connections[i].first.id] != 'undefined' || typeof components[connections[i].second.id] != 'undefined'){
-            connections.splice(i, 1)
+            connections[i] = undefined
         }
     }
     drawCanvas()
