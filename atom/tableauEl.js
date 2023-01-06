@@ -5,6 +5,10 @@ for(let Z of gazNobles){
     let tr = document.createElement('tr');
     tr.setAttribute('ce', gaz.période[0]);
     tableauEl.appendChild(tr);
+
+    /*let periodEl = document.createElement("td")
+    tr.appendChild(periodEl)
+    periodEl.innerHTML = gaz.période[0]*/
 }
 
 tableauEl.innerHTML += '<tr><td colspan="2"></td><td>↓</td></tr>'
