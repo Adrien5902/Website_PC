@@ -7,10 +7,11 @@ let bin = document.getElementById('bin')
 
 //Constantes
 const componentsList = { //Liste des composants électroniques
-    Lampe : {defaultProperties: {}},
-    Interupteur : {defaultProperties: {open: true}},
     Pile : {defaultProperties: {activated: true}},
     Générateur : {defaultProperties: {activated: false}},
+    Interupteur : {defaultProperties: {open: true}},
+    Lampe : {defaultProperties: {on: false}},
+    Moteur : {defaultProperties: {on: false, frame: 0}},
 }
 
 //Variables utilisateur
@@ -61,7 +62,12 @@ for(let type of Object.keys(componentsList)){
 const propImgs = [
     "Interupteur_open",
     "Générateur_on",
-    "Lampe_on"
+    "Lampe_on",
+    "Pile_on",
+    "Moteur/0",
+    "Moteur/1",
+    "Moteur/2",
+    "Moteur/3",
 ]
 let imageBank = document.querySelector("#imageBank")
 for(let img of propImgs){
@@ -71,11 +77,19 @@ for(let img of propImgs){
     imageBank.appendChild(image)
 }
 
+function isset(obj){
+    if(typeof obj === "undefined"){
+        return false
+    }else{
+        return true
+    }
+}
+
 function selectComponent(mousePos){
     let selected = false
     let side = null
     for(let i in components){
-        if(typeof components[i] != 'undefined'){
+        if(isset(components[i])){
             let component = components[i]
             if((component.pos.x - componentSize/2) <= mousePos.x && mousePos.x <= (component.pos.x + componentSize/2) && (component.pos.y - componentSize/2) <= mousePos.y && mousePos.y <= (component.pos.y + componentSize/2)){
                 selected = i
@@ -117,7 +131,6 @@ function getMousePos(canvas, evt) {
     }
 }
 
-
 function sidePos(side, pos = {x: 0, y:0}){
     let sides = {
         left: {x: -componentSize/2, y:0},
@@ -147,51 +160,92 @@ function drawLine(from, to){
 }
 
 function callNext(connection, on, firstConn){
-    if(connection.second.id == firstConn.first.id){
-
-    }else{
-        for(let id in components){
-            if(typeof components[id] != 'undefined'){
-                let component = components[id]
-                if(connection.second.id == id){
-                    if(component.type == "Lampe"){
-                        component.on = on
-                    }
+    numberOfCalls++
+    if(numberOfCalls < limit){
+        if(connection.second.id != firstConn.first.id){
+            for(let id in components){
+                if(isset(components[id])){
+                    let component = components[id]
+                    if(connection.second.id == id){
+                        toTrunOn.push(id)
+                        let newConns = []
+                        for(let conn of connections){
+                            if(isset(conn) && conn.first.id == id && conn.first.side != connection.second.side){
+                                newConns.push(conn)
+                            }
+                        }
     
-                    let newConn = false
-                    for(let conn of connections){
-                        if(typeof conn != "undefined" && conn.first.id == id && conn.first.side != connection.second.side){
-                            newConn = conn
+                        if((on && !isset(newConns[0])) || (component.type == "Interupteur" && component.open == true)){
+                            broke = true
+                        }
+    
+                        for(let conn of newConns){
                             callNext(conn, on, firstConn)
                         }
-                    }
-                    if(on && !newConn){
-                        console.error("Circuit non fermé")
-                        components[firstConn.first.id].activated = false
-                        updateProperties(firstConn.first.id)
-                        drawCanvas()
                     }
                 }
             }
         }
+    }else{
+        console.error("Oops une erueur est survenue :(")
     }
 }
 
+
+let animDelay = 100
+let animated = []
+function anim(){
+    if(isset(animated[0])){
+        for(let id of animated){
+            if(components[id].frame >= 3){
+                components[id].frame = 0
+            }else{
+                components[id].frame++
+            }
+        }
+        drawCanvas()
+        setTimeout(anim(), animDelay)
+    }
+}
+
+let toTrunOn = []
+let broke = true
+let limit = 25
+let numberOfCalls = 0
 function drawCanvas() {
     for(let i in components){
-        if(typeof components[i] != 'undefined'){
+        if(isset(components[i])){
             let component = components[i]
 
             //Circuit
             if((component.type == "Pile" || component.type == "Générateur")){
                 for(let connection of connections){
-                    if(typeof connection != "undefined"){
+                    if(isset(connection)){
                         for(let el of ['first', 'second']){
                             if(connection[el].side == "right" && connection[el].id == i){
+                                toTrunOn = []
+                                numberOfCalls = 0
+                                broke = !component.activated
                                 callNext(connection, component.activated, connection)
+                                for(let id of toTrunOn){
+                                    component = components[id]
+                                    if(component.type == "Lampe" || component.type == "Moteur"){
+                                        component.on = !broke
+                                    }
+                                }
                             }
                         }
                     }
+                }
+            }
+
+            if(component.type == "Moteur"){
+                const index = animated.indexOf(i);
+                console.log(component.on, index, i, component.type)
+                if(component.on && index < 0){
+                    animated.push(i)
+                }else if(!component.on && index >= 0){
+                    animated.splice(index, 1); 
                 }
             }
         }
@@ -201,13 +255,15 @@ function drawCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for(let i in components){
-        if(typeof components[i] != 'undefined'){
+        if(isset(components[i])){
             let component = components[i]
 
             let image
-            if((typeof component.on !== 'undefined' && component.on) || (typeof component.activated !== 'undefined' && component.activated)){
+            if((isset(component.on) && component.on && component.type != "Moteur") || (isset(component.activated) && component.activated)){
                 image = document.querySelector('img.'+ component.type + "_on")
-            }else if(typeof component.open !== 'undefined' && component.open){
+            }else if(component.type == "Moteur" && isset(component.on) && component.on){
+                image = document.getElementsByClassName(component.type + "/" + component.frame)[0]
+            }else if(isset(component.open) && component.open){
                 image = document.querySelector('img.'+ component.type + "_open")
             }else{
                 image = document.querySelector('img.'+ component.type)
@@ -225,7 +281,7 @@ function drawCanvas() {
     }
 
     for(let connection of connections){
-        if(typeof connection != "undefined"){
+        if(isset(connection)){
             let positions = {}
             for(let el of ['first', 'second']){
                 let component = components[connection[el].id]
@@ -240,7 +296,7 @@ function drawCanvas() {
 }
 
 function updateProperties(id){
-    if(typeof components[id] != 'undefined'){
+    if(isset(components[id])){
         let component = components[id]
         properties.innerHTML = ''
         
@@ -254,7 +310,7 @@ function updateProperties(id){
         ]
     
         for(let property of propertiesList){
-            if(typeof component[property.id] != 'undefined'){
+            if(isset(component[property.id])){
                 let valueEl
                 if(property.id == "pos"){
                     /*valueEl = document.createElement("div")
@@ -403,7 +459,7 @@ canvas.addEventListener('mousemove', (event) => {
             drawDot(posSide)
         }
 
-        if(cable.first.id && typeof components[cable.first.id] !== 'undefined'){
+        if(cable.first.id && isset(components[cable.first.id])){
             let component = components[cable.first.id]
             let posSide = sidePos(cable.first.side, component.pos)
             drawDot(posSide)
@@ -431,25 +487,22 @@ function toggleCable(){
 
 //Bin
 function destroy(id){
-    let component = components[id]
-    if((component.type == "Pile" || component.type == "Générateur")){
-        for(let connection of connections){
-            if(typeof connection != "undefined"){
-                for(let el of ['first', 'second']){
-                    if(connection[el].side == "right" && connection[el].id == id){
-                        callNext(connection, false, connection)
-                    }
-                }
+    for(let component of components){
+        if(isset(component)){
+            if(component.type == "Lampe" || component.type == "Moteur"){
+                component.on = false
             }
         }
     }
 
-    components[id] = undefined
     for(let i in connections){
-        if(typeof components[connections[i].first.id] != 'undefined' || typeof components[connections[i].second.id] != 'undefined'){
+        if(isset(connections[i]) && (connections[i].first.id == id || connections[i].second.id == id)){
             connections[i] = undefined
         }
     }
+    
+    components[id] = undefined
+
     drawCanvas()
     updateProperties(-1)
 }
