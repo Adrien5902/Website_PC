@@ -34,4 +34,30 @@ input.addEventListener("change", (event) => {
         }
         i++
     }
+
+    for(let piece of mol){
+        let Z = 0
+        for(let element of elements){
+            if(Z <= 18){
+                if(element.symbol == piece.symbol){
+                    Z = element.Z
+                    break
+                }
+            }else{
+                displayError("Le site ne supporte pas encore les atomes avec un numéro atomique supérieur à 18")
+                return false //Exit function
+            }
+        }
+
+        if(Z){
+            let atome = new atom(Z)
+            if(isGazNoble(Z)){
+                displayError("Les gaz nobles ne forment pas de molécules!")
+                return false //Exit function
+            }
+        }else{
+            displayError("Oops! Une erreur est survenue :(  Vérifiez la molécule.")
+            return false //Exit function
+        }
+    }
 })
