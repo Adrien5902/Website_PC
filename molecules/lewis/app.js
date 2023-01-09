@@ -11,24 +11,27 @@ input.addEventListener("change", (event) => {
         if(letter != " " && letter == letter.toUpperCase()){
             let symbol = letter
             
-            let n = 1
+            let n = 0
             if(i + 1 < value.length){
-                const nextLetter = value[i + 1]
-                if(!isNaN(nextLetter)){
-                    n = parseInt(nextLetter)
-                    i++
-                }else if(nextLetter == nextLetter.toLowerCase()){
-                    symbol += nextLetter
-                    if(i + 2 < value.length && !isNaN(value[i + 2]) != NaN){
-                        n = value[i + 2]
-                    }
+                if(isNaN(value[i + 1]) && value[i + 1] == value[i + 1].toLowerCase()){
+                    symbol += value[i + 1]
                     i++
                 }
+                
+                while(i + 1 < value.length && !isNaN(value[i + 1])){
+                    n += value[i + 1]
+                    i++
+                }
+                if(typeof n == "string"){
+                    n = parseInt(n)
+                }
+
+                if(n == 0){
+                    n = 1
+                }
             }
-            i++
             mol.push({symbol: symbol, n: n})
         }
+        i++
     }
-    
-    console.log(mol)
 })
