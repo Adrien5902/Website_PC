@@ -142,6 +142,13 @@ const couchesLimit = { //Limites des sous couches
     f : 14,
 }
 
+function isGazNoble(Z){
+    if(gazNobles.indexOf(Z) == -1){
+        return false
+    }else{
+        return true
+    }
+}
 
 
 /*
