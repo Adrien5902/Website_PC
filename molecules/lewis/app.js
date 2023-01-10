@@ -1,8 +1,10 @@
 let input = document.getElementById("molInput")
+let molName = document.getElementById("molName")
+let title = document.getElementById("title")
 
 input.addEventListener("change", (event) => {
     let mol = []
-
+    title.classList.add("hide")
     const value = input.value
     
     let i = 0
@@ -35,10 +37,14 @@ input.addEventListener("change", (event) => {
         i++
     }
 
-    for(let piece of mol){
+    molName.innerHTML = ""
+    title.classList.remove("hide")
+    for(let i in mol){
+        let piece = mol[i]
         let Z = 0
-        for(let element of elements){
-            if(Z <= 18){
+        for(let i in elements){
+            let element = elements[i]
+            if(i < 18){
                 if(element.symbol == piece.symbol){
                     Z = element.Z
                     break
@@ -51,6 +57,18 @@ input.addEventListener("change", (event) => {
 
         if(Z){
             let atome = new atom(Z)
+
+            molName.innerHTML += atome.symbol
+            if(piece.n > 1){
+                molName.innerHTML += "<sub>" + piece.n + "</sub>"
+            }
+
+            let elecDeValence = atome.valence()
+            mol[i].duets = {liants: 0, nonLiants: 0}
+            if(atome.Z === 1){
+                
+            }
+
             if(isGazNoble(Z)){
                 displayError("Les gaz nobles ne forment pas de molécules!")
                 return false //Exit function
