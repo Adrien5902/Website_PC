@@ -63,21 +63,7 @@ input.addEventListener("change", (event) => {
                 molName.innerHTML += "<sub>" + piece.n + "</sub>"
             }
 
-            let elecDeValence = atome.valence()
-            mol[i].duets = {liants: 0, nonLiants: 0}
-            if(atome.Z === 1){
-                mol[i].duets.liants = 1
-            }else{
-                let remaining = elecDeValence
-                    console.log(remaining)
-                    while(remaining > 4){
-                    mol[i].duets.nonLiants += 1
-                    remaining -= 1
-                    console.log(remaining)
-                }
-                    console.log(remaining)
-                    mol[i].duets.liants = remaining
-            }
+            mol[i].duets = atome.duets()
 
             if(isGazNoble(Z)){
                 displayError("Les gaz nobles ne forment pas de molécules!")
