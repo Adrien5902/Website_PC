@@ -114,3 +114,7 @@ img.back:hover
 {
     filter: invert(52%) sepia(93%) saturate(1622%) hue-rotate(159deg) brightness(102%) contrast(108%);
 }
+
+.hide{
+    display: none !important;
+}
