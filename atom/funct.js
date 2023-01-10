@@ -142,7 +142,7 @@ const couchesLimit = { //Limites des sous couches
     f : 14,
 }
 
-function isGazNoble(Z){
+function isGazNoble(Z = 0){
     if(gazNobles.indexOf(Z) == -1){
         return false
     }else{
@@ -257,5 +257,32 @@ class atom {
             }
         }
         return n
+    }
+
+    duets(){
+        if(this.Z <= 18 && !isGazNoble(this.Z)){
+            let elecDeValence = this.valence()
+            let duets = {liants: 0, nonLiants: 0}
+            if(this.Z === 1){
+                duets.liants = 1
+            }else{
+                duets.nonLiants = elecDeValence - 4
+                if(duets.nonLiants > 0){
+                    duets.liants = 4 - duets.nonLiants
+                }else{
+                    duets.liants = elecDeValence
+                }
+            }
+    
+            for(let i in duets){
+                if(duets[i] < 0){
+                    duets[i] = 0
+                }
+            }
+    
+            return duets
+        }else{
+            return false
+        }
     }
 }
