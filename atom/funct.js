@@ -248,4 +248,14 @@ class atom {
         str += "</a>"
         return str
     }
+
+    valence(){
+        let n = 0
+        for(let couche of Object.keys(this.couches)){
+            if(couche[0] == this.période){
+                n += this.couches[couche]
+            }
+        }
+        return n
+    }
 }
