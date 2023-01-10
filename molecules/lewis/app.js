@@ -66,7 +66,17 @@ input.addEventListener("change", (event) => {
             let elecDeValence = atome.valence()
             mol[i].duets = {liants: 0, nonLiants: 0}
             if(atome.Z === 1){
-                
+                mol[i].duets.liants = 1
+            }else{
+                let remaining = elecDeValence
+                    console.log(remaining)
+                    while(remaining > 4){
+                    mol[i].duets.nonLiants += 1
+                    remaining -= 1
+                    console.log(remaining)
+                }
+                    console.log(remaining)
+                    mol[i].duets.liants = remaining
             }
 
             if(isGazNoble(Z)){
@@ -78,4 +88,6 @@ input.addEventListener("change", (event) => {
             return false //Exit function
         }
     }
+
+    console.log(mol)
 })
