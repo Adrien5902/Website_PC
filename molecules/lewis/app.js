@@ -65,6 +65,8 @@ input.addEventListener("change", (event) => {
 
             mol[i].doublets = atome.doublets()
 
+            mol[i].atom = atome
+
             if(isGazNoble(Z)){
                 displayError("Les gaz nobles ne forment pas de molécules!")
                 return false //Exit function
@@ -72,6 +74,23 @@ input.addEventListener("change", (event) => {
         }else{
             displayError("Oops! Une erreur est survenue :(  Vérifiez la molécule.")
             return false //Exit function
+        }
+    }
+
+    let schema = []
+    for(let conns = 4; conns > 0; conns--){
+        for(let i in mol){
+            let piece = mol[i]
+            if(piece.doublets.liants == conns){ //Commencer par les atomes avec le + de doublets liants
+                let obj = {}
+                obj.pos = {x: 0, y: 0}
+                obj.conns = {right: false, left: false, top: false, bottom: false}
+                for(let side of Object.keys(obj.conns)){
+                    
+                }
+                
+                schema.push(obj)
+            }
         }
     }
 
