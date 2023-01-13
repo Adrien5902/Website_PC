@@ -63,7 +63,7 @@ input.addEventListener("change", (event) => {
                 molName.innerHTML += "<sub>" + piece.n + "</sub>"
             }
 
-            mol[i].duets = atome.duets()
+            mol[i].doublets = atome.doublets()
 
             if(isGazNoble(Z)){
                 displayError("Les gaz nobles ne forment pas de molécules!")

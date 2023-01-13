@@ -259,28 +259,28 @@ class atom {
         return n
     }
 
-    duets(){
+    doublets(){
         if(this.Z <= 18 && !isGazNoble(this.Z)){
             let elecDeValence = this.valence()
-            let duets = {liants: 0, nonLiants: 0}
+            let doublets = {liants: 0, nonLiants: 0}
             if(this.Z === 1){
-                duets.liants = 1
+                doublets.liants = 1
             }else{
-                duets.nonLiants = elecDeValence - 4
-                if(duets.nonLiants > 0){
-                    duets.liants = 4 - duets.nonLiants
+                doublets.nonLiants = elecDeValence - 4
+                if(doublets.nonLiants > 0){
+                    doublets.liants = 4 - doublets.nonLiants
                 }else{
-                    duets.liants = elecDeValence
+                    doublets.liants = elecDeValence
                 }
             }
     
-            for(let i in duets){
-                if(duets[i] < 0){
-                    duets[i] = 0
+            for(let i in doublets){
+                if(doublets[i] < 0){
+                    doublets[i] = 0
                 }
             }
     
-            return duets
+            return doublets
         }else{
             return false
         }
