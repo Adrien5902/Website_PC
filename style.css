@@ -136,3 +136,7 @@ img.back:hover
 body.blur :not(#errorBox){
     opacity: .4;
 }
+
+.underlined{
+    text-decoration: underline;
+}

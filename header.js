@@ -18,5 +18,22 @@ document.head.innerHTML += style
 let header = document.createElement('header');
 body = document.querySelector('body');
 body.insertBefore(header, body.firstChild);
-//Je sais que c'est pas propre mais on peut pas fetch des fichiers html depuis JS sur un fichier local
-header.innerHTML = '<a class="unlink" href="' + scriptSrc + 'index.html"><img src="' + scriptSrc + 'logo.png" alt="[Nom du site]"></a> <br> <a class="unlink" href="' + scriptSrc + 'atom/index.html">Atomes</a> <a class="unlink" href="' + scriptSrc + 'molecules/index.html">Molécules</a> <a class="unlink" href="' + scriptSrc + 'elec/index.html">Électricité</a>';
+
+header.innerHTML += '<a class="unlink" href="' + scriptSrc + 'index.html"><img src="' + scriptSrc + 'logo.png" alt="[Nom du site]"></a>'
+
+let pages = [
+    {id: "atom", name: "Atomes"},
+    {id: "molecules", name: "Molécules"},
+    {id: "elec", name: "Électricité"},
+]
+
+for(let page of pages){
+    let a = document.createElement("a")
+    a.classList.add("unlink")
+    if(window.location.href.includes(page.id)){
+        a.classList.add("underlined")
+    }
+    a.innerHTML = page.name
+    a.href = scriptSrc + page.id + "/index.html"
+    header.appendChild(a)
+}
