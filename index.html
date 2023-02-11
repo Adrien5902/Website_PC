@@ -8,7 +8,31 @@
     <div class="content">
         <p>
             Bonjour et bienvenue sur le site web de Adrien.
-            Un site dédié sur la physique chimie pour M.Humbert.
+            <br>Un site dédié sur la physique chimie pour M.Humbert.
         </p>
+
+        <h3>Pages intéressantes : </h3>
+        <div id="pages">
+            <script>
+                let pDiv = document.getElementById("pages")
+                const pages = [
+                    {href: "atom/index.html", text: "Tableau périodique", img: "periodicTable.png"},
+                    {href: "elec/simulate.html", text: "Simulation de circuit électrique", img: "elecSchema.png"},
+                ]
+
+                for(let page of pages){
+                    let btn = document.createElement("a")
+                    pDiv.appendChild(btn)
+                    btn.classList.add("pageBtn")
+                    btn.style.background = "url(imgs/pages/" + page.img + ")"
+                    btn.href = page.href
+                    
+                    let txt = document.createElement("p")
+                    btn.appendChild(txt)
+                    txt.classList.add("unlink")
+                    txt.innerHTML = page.text
+                }
+            </script>
+        </div>
     </div>
 </body>

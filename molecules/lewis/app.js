@@ -104,26 +104,16 @@ input.addEventListener("change", (event) => {
                     for(let j in schema){
                         let piece = schema[j]
 
-                        let connectedSides = 0
-                        for(let side of Object.keys(piece.conns)){
-                            if(piece.conns[side] != false && piece.conns[side] != "non-liants"){
-                                connectedSides++
-                            }
-                        }
-
-                        for(let side of Object.keys(piece.conns)){
-                            if(piece.conns[side] == false && connectedSides < piece.doublets.liants){
-                                schema[j].conns[side] = schema.length
-                                obj.conns[sides[side].opposite] = parseInt(j)
-
-                                obj.pos.x = piece.pos.x + sides[side].x
-                                obj.pos.y = piece.pos.y + sides[side].y
-
-                                break
+                        if(piece.symbol != "H"){
+                            for(let side of Object.keys(piece.conns)){
+                                if(piece.conns[side] === false){
+                                    obj.conns[sides[side].opposite] = parseInt(j)
+                                    schema[j].conns[side] = schema.length
+                                    break
+                                }
                             }
                         }
                     }
-                
                     schema.push(obj)
                 }
             }

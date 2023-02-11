@@ -140,3 +140,20 @@ body.blur :not(#errorBox){
 .underlined{
     text-decoration: underline;
 }
+
+#pages{
+    display: flex;
+    justify-content: center;
+}
+
+.pageBtn{
+    height: 20%;
+    width: 20%;
+}
+
+.pageBtn p{
+    max-width: 70%;
+    position: relative;
+    left: 0;
+    bottom: 0;
+}

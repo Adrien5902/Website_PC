@@ -1,4 +1,4 @@
-//En-tête sur toutes les pages
+//En-tête sur toutes les links
 let scripts = document.querySelectorAll('script')
 let scriptSrc = ""
 scripts.forEach(function(script) {
@@ -21,13 +21,13 @@ body.insertBefore(header, body.firstChild);
 
 header.innerHTML += '<a class="unlink" href="' + scriptSrc + 'index.html"><img src="' + scriptSrc + 'logo.png" alt="[Nom du site]"></a>'
 
-let pages = [
+const links = [
     {id: "atom", name: "Atomes"},
     {id: "molecules", name: "Molécules"},
     {id: "elec", name: "Électricité"},
 ]
 
-for(let page of pages){
+for(let page of links){
     let a = document.createElement("a")
     a.classList.add("unlink")
     if(window.location.href.includes(page.id)){
