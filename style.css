@@ -30,7 +30,7 @@ div.content
     display: inline-block;
     position: absolute;
     background : #BBB;
-    color: #fff;
+    color: white;
     padding: 0.3em;
     border-radius: 1em;
     visibility: hidden;
@@ -94,6 +94,8 @@ header img{
 header a
 {
     margin: 0 12px;
+    color: white;
+    text-decoration: none;
 }
 
 a:hover
@@ -146,14 +148,31 @@ body.blur :not(#errorBox){
     justify-content: center;
 }
 
-.pageBtn{
-    height: 20%;
-    width: 20%;
+#pages a{
+    width: 15em;
+    height: 15em;
+    background-size: cover;
+    display: grid;
+    align-items: end;
+    text-decoration: none;
+    box-shadow: inset 0 0 2em #cbcbcb;
+    margin: 1em;
+    transition-duration: 300ms;
 }
 
-.pageBtn p{
-    max-width: 70%;
+#pages a:hover{
+    transform: scale(1.2);
+}
+
+#pages span{
     position: relative;
-    left: 0;
     bottom: 0;
+    left: 0;
+    color: white;
+    text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black, 1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
+    max-width: 70%;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 1em;
+    text-align: left;
 }
