@@ -17,19 +17,17 @@
                 let pDiv = document.getElementById("pages")
                 const pages = [
                     {href: "atom/index.html", text: "Tableau périodique", img: "periodicTable.png"},
-                    {href: "elec/simulate.html", text: "Simulation de circuit électrique", img: "elecSchema.png"},
+                    {href: "elec/simulate/index.html", text: "Simulation de circuit électrique", img: "elecSchema.png"},
                 ]
 
                 for(let page of pages){
                     let btn = document.createElement("a")
                     pDiv.appendChild(btn)
-                    btn.classList.add("pageBtn")
-                    btn.style.background = "url(imgs/pages/" + page.img + ")"
+                    btn.style.backgroundImage = "url(imgs/pages/" + page.img + ")"
                     btn.href = page.href
                     
-                    let txt = document.createElement("p")
+                    let txt = document.createElement("span")
                     btn.appendChild(txt)
-                    txt.classList.add("unlink")
                     txt.innerHTML = page.text
                 }
             </script>

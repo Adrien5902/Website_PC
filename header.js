@@ -29,7 +29,6 @@ const links = [
 
 for(let page of links){
     let a = document.createElement("a")
-    a.classList.add("unlink")
     if(window.location.href.includes(page.id)){
         a.classList.add("underlined")
     }
