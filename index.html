@@ -14,23 +14,12 @@
         <h3>Pages intéressantes : </h3>
         <div id="pages">
             <script>
-                let pDiv = document.getElementById("pages")
                 const pages = [
                     {href: "atom/index.html", text: "Tableau périodique", img: "periodicTable.png"},
                     {href: "elec/simulate/index.html", text: "Simulation de circuit électrique", img: "elecSchema.png"},
                 ]
-
-                for(let page of pages){
-                    let btn = document.createElement("a")
-                    pDiv.appendChild(btn)
-                    btn.style.backgroundImage = "url(imgs/pages/" + page.img + ")"
-                    btn.href = page.href
-                    
-                    let txt = document.createElement("span")
-                    btn.appendChild(txt)
-                    txt.innerHTML = page.text
-                }
             </script>
+            <script src="pages.js"></script>
         </div>
     </div>
 </body>
