@@ -4,7 +4,7 @@ body  /*Sur toute la page*/
     font-size: 20px;
 }
 
-.unlink /*Retire l'effet bleu ou violet et sousligné par défaut des liens avec la classe unlink*/
+.unlink /*Retire l'effet bleu ou violet et sous-ligné par défaut des liens avec la classe unlink*/
 {
     text-decoration: none;
     color: unset;

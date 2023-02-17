@@ -6,7 +6,7 @@
 TABLES
 */
 
-//Liste des élements du tableau périodique
+//Liste des élements du tableau périodique avec noms, symboles et numéro atomique
 const elements = [
     {Z :1, name: "Hydrogène", symbol : "H"},
     {Z :2, name: "Hélium", symbol : "He"},
@@ -132,7 +132,7 @@ const couchesList = [ //Liste des couches électroniques dans l'odre de rempliss
     "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
 ]
 
-//Liste des gaz nobles
+//Liste des gaz nobles (numéros atomiques)
 const gazNobles = [2, 10, 18, 36, 54, 86, 118]
 
 const couchesLimit = { //Limites des sous couches
@@ -142,18 +142,17 @@ const couchesLimit = { //Limites des sous couches
     f : 14,
 }
 
-function isGazNoble(Z = 0){
+/*
+SCRIPT
+*/
+
+function isGazNoble(Z = 0){ //Renvoie true si l'atome est un gaz noble et false sinon
     if(gazNobles.indexOf(Z) == -1){
         return false
     }else{
         return true
     }
 }
-
-
-/*
-SCRIPT
-*/
 
 String.prototype.toSearch = function(){  //Retire les majuscules et accents d'un string
     return this.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase()
@@ -249,7 +248,7 @@ class atom {
         return str
     }
 
-    valence(){
+    valence(){ //Calcule le nombre d'électron de valence
         let n = 0
         for(let couche of Object.keys(this.couches)){
             if(couche[0] == this.période){
@@ -259,7 +258,7 @@ class atom {
         return n
     }
 
-    doublets(){
+    doublets(){ //Pour les schémas de Lewis
         if(this.Z <= 18 && !isGazNoble(this.Z)){
             let elecDeValence = this.valence()
             let doublets = {liants: 0, nonLiants: 0}
