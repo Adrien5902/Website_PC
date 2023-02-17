@@ -1,4 +1,4 @@
-//En-tête sur toutes les links
+//En-tête sur toutes les pages
 let scripts = document.querySelectorAll('script')
 let scriptSrc = ""
 scripts.forEach(function(script) {
