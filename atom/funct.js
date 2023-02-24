@@ -257,31 +257,4 @@ class atom {
         }
         return n
     }
-
-    doublets(){ //Pour les schémas de Lewis
-        if(this.Z <= 18 && !isGazNoble(this.Z)){
-            let elecDeValence = this.valence()
-            let doublets = {liants: 0, nonLiants: 0}
-            if(this.Z === 1){
-                doublets.liants = 1
-            }else{
-                doublets.nonLiants = elecDeValence - 4
-                if(doublets.nonLiants > 0){
-                    doublets.liants = 4 - doublets.nonLiants
-                }else{
-                    doublets.liants = elecDeValence
-                }
-            }
-    
-            for(let i in doublets){
-                if(doublets[i] < 0){
-                    doublets[i] = 0
-                }
-            }
-    
-            return doublets
-        }else{
-            return false
-        }
-    }
 }
