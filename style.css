@@ -10,7 +10,7 @@ body  /*Sur toute la page*/
     color: unset;
 }
 
-input
+input, select
 {
     font-size: inherit;
 }
@@ -174,5 +174,29 @@ body.blur :not(#errorBox){
     font-size: 1.5em;
     font-weight: bold;
     margin: 1em;
+    text-align: left;
+}
+
+form{
+    display: inline-grid;
+}
+
+ul{
+    display: inline-grid;
+}
+
+.formulas{
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+}
+
+.formulas form, #formula-result{
+    padding: 1em;
+    border: #222 dashed;
+    margin: 12px 1em;
+}
+
+li{
     text-align: left;
 }

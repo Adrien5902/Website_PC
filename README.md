@@ -1,2 +1,2 @@
 # Website
-Un projet de site web en SNT sur la physique chimie pour impressioner monsieur Humbert
+Un site dédié sur la physique chimie pour M.Humbert.
