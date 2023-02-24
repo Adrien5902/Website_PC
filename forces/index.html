@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>Physique Chimie - Forces</title>
+    </head>
+
+    <body>
+        <script src="../header.js"></script>
+        <div class="content">
+            <div class="formulas">
+                <form>
+                    <h2>Calculer la force d'interaction gravitationelle entre 2 objets :</h2>
+    
+                    <label for="formula1-m-1st-obj">Masse du 1<sup>er</sup> objet (en kg) :</label>
+                    <div>
+                        <input type="number" id="formula1-m-1st-obj" placeholder="ex. 12kg..." style="width: 66.6%;">
+                        e
+                        <input type="number" id="formula1-m-1st-obj-e" value="0">
+                    </div>
+    
+                    <br>
+    
+                    <label for="formula1-m-2nd-obj">Masse du 2<sup>ème</sup> objet (en kg) :</label>
+                    <div>
+                        <input type="number" id="formula1-m-2nd-obj" placeholder="ex. 25kg..." style="width: 66.6%;">
+                        e
+                        <input type="number" id="formula1-m-2nd-obj-e" value="0">
+                    </div>
+
+                    <br>
+    
+                    <label for="formula1-d">Distance entre les deux objets (en m) :</label>
+                    <div>
+                        <input type="number" id="formula1-d" placeholder="ex. 5m..." style="width: 66.6%;">
+                        e
+                        <input type="number" id="formula1-d-e" value="0">
+                    </div>
+                </form>
+        
+                <form>
+                    <h2>Calculer le poids d'un objet sur un astre :</h2>
+    
+                    <label for="forula2-m-obj">Masse de l'objet (en kg) :</label>
+                    <input type="number" id="forula2-m-obj" placeholder="ex. 20kg...">
+    
+                    <br>
+    
+                    <label for="formula2-g-astre">Astre :</label>
+                    <select id="formula2-g-astre">
+                        <option value="9.807">Terre 🌍</option>
+                        <option value="1.62">Lune 🌕</option>
+                        <option value="274">Soleil ☀️</option>
+                        <option value="3.721">Mars ☄️</option>
+                        <option value="10.44">Saturne 🪐</option>
+                        <option value="other">Autre...</option>
+                    </select>
+                    <input class="hide" type="number" id="formula2-g-other" placeholder="Valeur de la gravité sur l'astre... ex: 9.8">
+                </form>
+            </div>
+             
+            <p id="formula-result" class="hide"></p>
+
+            <br>
+
+            <label for="ul">Listes des fromules utilisées sur cette page :</label>
+            <ul>
+                <li>F<sub>A/B</sub> = G x (m<sub>A</sub> x m<sub>B</sub>) / d²</li>
+                <li>P<sub>objet</sub> = m<sub>objet</sub> x g<sub>astre</sub></li>
+            </ul>
+
+            <br>
+
+            <label for="ul">Valeurs :</label>
+            <ul>
+                <li>G = 6.67 x 10<sup>-11</sup> N • m<sup>2</sup> • kg <sup>-2</sup></li>
+                <li>g<sub>Terre</sub> = 9.807 N/kg</li>
+                <li>g<sub>Lune</sub> = 1.62 N/kg</li>
+                <li>g<sub>Soleil</sub> = 274 N/kg</li>
+                <li>g<sub>Mars</sub> = 3.721 N/kg</li>
+                <li>g<sub>Saturne</sub> = 10.44 N/kg</li>
+            </ul>
+        </div>
+        <script src="calc.js"></script>
+    </body>
+</html>

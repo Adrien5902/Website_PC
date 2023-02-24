@@ -19,12 +19,12 @@ let header = document.createElement('header');
 body = document.querySelector('body');
 body.insertBefore(header, body.firstChild);
 
-header.innerHTML += '<a class="unlink" href="' + scriptSrc + 'index.html"><img src="' + scriptSrc + 'logo.png" alt="[Nom du site]"></a>'
+header.innerHTML += '<a class="unlink" href="' + scriptSrc + 'index.html"><img src="' + scriptSrc + 'logo.png" alt="[Nom du site]"></a><br>'
 
 const links = [
     {id: "atom", name: "Atomes"},
-    {id: "molecules", name: "Molécules"},
     {id: "elec", name: "Électricité"},
+    {id: "forces", name: "Forces"},
 ]
 
 for(let page of links){
