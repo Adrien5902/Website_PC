@@ -56,12 +56,9 @@ for(let el of elements) {
         td.childNodes[0].style.backgroundColor = color
     }
 
-    //Espace pour mettre les gaz nobles à droite
+    //Espace pour mettre les gaz nobles à droite période 2/3
     if(atome.couches["2p"] === 1 || atome.couches["3p"] === 1){
         tr.innerHTML += ('<td colspan="10"></td>')
-    }
-    if(atome.couches["1s"] === 1){
-        tr.innerHTML += ('<td colspan="17"></td>')
     }
 
     tr.appendChild(td);
@@ -73,6 +70,11 @@ for(let el of elements) {
         if(atome.période > 5){
             document.querySelector('td[p="' + atome.période + '"]').style.background = whiteSpaceRgb
         }
+    }
+    
+    //Espace pour mettre les gaz nobles à droite période 1
+    if(atome.couches["1s"] === 1){
+        tr.innerHTML += ('<td colspan="17"></td>')
     }
 }
 
