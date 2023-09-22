@@ -42,6 +42,7 @@ function searchFunc(input) {
                         res += '<span class="el-symbol">Symbole : ' + el.symbol + '</span>'
                         res += '<span class="el-z">Numéro atomique : ' + el.Z + '</span>'
                         res += '<span class="el-couches">Couches électroniques : ' + el.couchesString() + '</span>'
+                        res += '<span class="el-mol">Masse molaire : ' + el.M + ' g/mol</span>'
                         res += '</div>'
 
                     res += '</div>'
