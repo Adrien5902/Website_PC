@@ -1,0 +1,58 @@
+#app{
+    text-align: left;
+    display: inline-block;
+}
+
+#components{
+    border: solid 4px gray;
+    display: inline-table;
+    text-align: center;
+    vertical-align: top;
+
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+#components .componentBox{
+    margin: 12px;
+    display: flex;
+    flex-direction: column;
+
+    &:not(:last-child){
+        border-bottom: solid gray;
+    }
+}
+
+#components img{
+    margin: auto;
+    width: 64px;
+}
+
+canvas#result{
+    width: 83vw;
+    height: 70vh;
+    border: solid 4px gray;
+    margin: 0 12px;
+}
+
+#properties{
+    border: solid 4px gray;
+    min-height: 15%;
+}
+
+.cable{
+    cursor: url(img/cable32.png) 0 0, pointer !important;
+}
+
+#bin:hover{
+    filter: invert(14%) sepia(76%) saturate(7397%) hue-rotate(359deg) brightness(110%) contrast(110%);
+}
+
+#bin{
+    height: 48px;
+}
+
+#toggleCable{
+    cursor: pointer;
+}

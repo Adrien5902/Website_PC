@@ -1,0 +1,84 @@
+table td {
+    text-align: center;
+}
+
+tfoot tr{
+    cursor: pointer;
+}
+
+#legende {
+    top: 10px;
+    position: relative;
+}
+
+/*Cases du tableau périodique*/
+.atom-cell {
+    border: solid 2px black;
+    padding: 4px;
+    width: clamp(3em, 3.5vw, 9em);
+    height: clamp(3em, 3.5vw, 9em);
+    aspect-ratio: 1;
+    margin: auto;
+    background: white;
+    display: inline-block;
+    text-align: center;
+    font-size: clamp(0.5em, 1vw, 1.5em);
+    transition: all 200ms;
+    overflow: hidden;
+
+    & > .Z {
+        font-size: 1em;
+    }
+
+    & > .symbol {
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+}
+
+td .atom-cell:hover, .atom-cell.hover {
+    transform: scale(1.8);
+    font-size: calc(clamp(0.5em, 1vw, 1.5em)/1.8);
+
+    & > .symbol {
+        font-size: 2em;
+    }
+}
+
+.atom-cell.selected {
+    box-shadow: var(--cyan) 0 0 24px;
+}
+
+.atom-search-result {
+    display: flex;
+    margin: 24px auto;
+    border: 2px solid black;
+    padding: 12px;
+}
+
+#search-result{
+    display: flex;
+    flex-direction: column;
+}
+
+.atome-properties{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+#atome-name{
+    font-weight: bold;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > span {
+        font-size: 3em;
+        margin: 0 1em;
+    }
+
+    & .atom-cell {
+        font-weight: normal;
+    }
+}
