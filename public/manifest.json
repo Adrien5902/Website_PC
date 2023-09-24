@@ -15,5 +15,6 @@
     },
     "background": {
         "service_worker": "worker.js"
-    }
+    },
+    "update_url": "https://raw.githubusercontent.com/Adrien5902/Website_PC/main/update.xml"
 }
