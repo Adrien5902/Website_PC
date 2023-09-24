@@ -1,4 +1,4 @@
-import { Link, useFetcher } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { atom } from "../funct";
 import { useState, useEffect } from 'react';
 

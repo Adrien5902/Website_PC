@@ -1,4 +1,4 @@
-import {Component} from './components/index'
+import {Component} from './components/types'
 
 //Select HTML elements
 let canvas = document.querySelector('canvas#result')
@@ -101,21 +101,6 @@ function selectComponent(mousePos){
     }
 
     return {id: selected, component: components[selected], side: side}
-}
-
-function dropLeave(event){ //Retire la bordure
-    canvas.style.border = ''
-}
-
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect(), // abs. size of element
-      scaleX = canvas.width / rect.width,    // relationship bitmap vs. element for x
-      scaleY = canvas.height / rect.height;  // relationship bitmap vs. element for y
-  
-    return {
-      x: (evt.clientX - rect.left) * scaleX,   // scale mouse coordinates after they have
-      y: (evt.clientY - rect.top) * scaleY     // been adjusted to be relative to element
-    }
 }
 
 function sidePos(side, pos = {x: 0, y:0}){
@@ -368,14 +353,6 @@ componentsSizeInput.addEventListener('input', (event) => {
     ctx.lineWidth = componentSize/12;
     drawCanvas()
 })
-
-canvas.addEventListener('dragover', (event) => { //Quand un composant survole la zone de dépot
-    event.preventDefault() //Permet de le déposer
-    canvas.style.borderStyle = 'dashed' //Change la bordure en pointilés
-    canvas.style.borderColor = '#009eff' //Et change la couleur en bleu
-})
-
-canvas.addEventListener('dragleave', dropLeave) //Retire la bordure quand le composant sort de la zone
 
 canvas.addEventListener('drop', (event) => {
     dropLeave(event) //Retire la bordure

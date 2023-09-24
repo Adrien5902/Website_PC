@@ -27,10 +27,11 @@
 #components img{
     margin: auto;
     width: 64px;
+    cursor: pointer;
 }
 
 canvas#result{
-    width: 83vw;
+    width: 80vw;
     height: 70vh;
     border: solid 4px gray;
     margin: 0 12px;
@@ -51,8 +52,5 @@ canvas#result{
 
 #bin{
     height: 48px;
-}
-
-#toggleCable{
     cursor: pointer;
 }

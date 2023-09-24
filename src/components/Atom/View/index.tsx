@@ -19,42 +19,19 @@ function ViewAtom() {
             </div>
             
             <div className="atome-properties">
-                <span id="Z">Numéro atomique : {atome.Z}</span>
-                <span id="symbol">Symbole : {atome.symbol}</span>
-                <span id="période">Période : {atome.période}</span>
-                <span id="couches">Couches éléctroniques : <AtomeCouches atome={atome}/></span>
-                <span id="bloc">Bloc : {atome.bloc}</span>
-                <span id="M">Masse Molaire : {atome.M} g/mol</span>
+                <span>Numéro atomique : {atome.Z}</span>
+                <span>Symbole : {atome.symbol}</span>
+                <span>Période : {atome.période}</span>
+                <span>Couches éléctroniques : <AtomeCouches atome={atome}/></span>
+                <span>Bloc : {atome.bloc}</span>
+                <span>Masse Molaire : {atome.M} g/mol</span>
+                <span>Famille : {atome.family}</span>
             </div>
         
         </div>
         
         
-        : <Navigate to="./"/>}
-
-        {/* <script>
-            let atome = new atom(params.Z);
-
-            let name = document.querySelector(".atom#name")
-            name.innerHTML = atome.name
-
-            let cellParent = document.querySelector(".atom#cell")
-            cellParent.innerHTML = atome.cell()
-
-            let properties = document.querySelector(".atom#properties")
-            properties.childNodes.forEach((child) => {
-                if(child.id == "couches"){
-                    child.innerHTML += atome.couchesString()
-                }else{
-                    let text = atome[child.id]
-                    if(child.getAttribute && child.getAttribute("unit")){
-                        text += " " + child.getAttribute("unit")
-                    }
-                    child.innerHTML += text
-                }
-            })
-        </script> */}
-    
+        : <Navigate to="./"/>}   
     </>);
 }
 

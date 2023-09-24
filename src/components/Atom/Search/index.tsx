@@ -1,16 +1,19 @@
-import { useState } from 'react';
-import * as React from 'react';
+import { useEffect } from 'react';
 import { atomes } from '../funct';
 import AtomSearchResult from './result';
 
-function SearchAtom({setSelectedAtomZ}) {
-    const [search, setSearch] = useState("")
+function SearchAtom({setSelectedAtomZ, setSearch, search}) {
     const stringtoSearch = (s :string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase();
     
     function handleInput(e : React.FormEvent<HTMLInputElement>){
         const input = (e.target as HTMLInputElement).value;
         setSearch(stringtoSearch(input))
+        setSelectedAtomZ(null)
     }
+
+    useEffect(() => {
+        setSelectedAtomZ(null)
+    }, [])
 
     return ( 
         <div id="search">
@@ -21,6 +24,7 @@ function SearchAtom({setSelectedAtomZ}) {
                 type="text" 
                 placeholder="par nom, par symbole ou par numéro atomique..."
                 onInput={handleInput}
+                defaultValue={search}
             />
 
             <div id="search-result">

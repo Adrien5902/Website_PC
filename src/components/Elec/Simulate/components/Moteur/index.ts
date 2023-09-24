@@ -1,6 +1,12 @@
-import {Component} from '../../../../components/Elec/simulate/components/index'
+import { Component, Pos } from "../types";
 
 export class Moteur implements Component{
+    name: string;
+    pos: Pos;
+    id: number;
+
+    static nom = "Moteur"
+
     constructor(){
 
     }
@@ -8,4 +14,6 @@ export class Moteur implements Component{
     draw() {
         
     }
+    
+    isPowerSource = () => true
 }

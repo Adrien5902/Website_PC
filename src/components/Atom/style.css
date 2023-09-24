@@ -72,6 +72,7 @@ td .atom-cell:hover, .atom-cell.hover {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
+    margin: 1em;
 
     & > span {
         font-size: 3em;

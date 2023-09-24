@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AtomCell from "../Cell";
 import { Bloc, atom, atomes, couchesLimit, gazNobles } from "../funct";
 
 function TableauPeriodique({selectedAtomZ}) {
-    const [selectedBloc, setSelectedBloc] : [Bloc | null, React.Dispatch<Bloc>] = useState(null)
+    const [selectedBloc, setSelectedBloc] = useState<Bloc>(null)
 
     const spaces : [number, number, Bloc?][] = [
         [17, 1],

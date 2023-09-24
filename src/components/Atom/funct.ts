@@ -178,6 +178,7 @@ export class atom {
     groupe: string
     lastGazNoble?: atom
     couches: Couches
+    family: string
 
     //Couches électroniques
     getCouches() {
@@ -214,6 +215,7 @@ export class atom {
             this.symbol = elements[i].symbol //Set symbole
             this.name = elements[i].name //Set nom de l'atome
             this.M = elements[i].M //Set Masse molaire
+            this.family = elements[i].family
 
             this.couches = this.getCouches() //Récupère les couches électroniques de l'atome
 

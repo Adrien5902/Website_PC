@@ -1,6 +1,6 @@
-import { Component } from "./components"
+import { Component } from "./components/types"
 
-class Connection{
+export default class Connection{
     first: Component
     second: Component
     

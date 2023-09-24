@@ -2,25 +2,25 @@ import { Component, Pos } from "../types";
 import ImageBank from "../../img/bank";
 import { drawImage } from "../functions";
 
-export default class Pile implements Component{
+export default class Interrupteur implements Component{
     id: number;
     pos: Pos;
+    opened: boolean
     name: string;
 
-    static nom = "Pile"
+    static nom = "Interrupteur"
 
     constructor(id, pos){
         this.id = id
         this.pos = pos
+        this.opened = true
         this.name = this.constructor.name
     }
 
     draw = (ctx: CanvasRenderingContext2D, size: number) => {
-        const {x, y} = this.pos
+        const img = this.opened ? ImageBank.InterrupteurOpened : ImageBank.InterrupteurOpened
 
-        ctx.fillText("+", x + size/2, y - size/2);
-        ctx.fillText("-", x - size/2, y - size/2);
-        drawImage(ctx, ImageBank.PileOn, this.pos, size)
+        drawImage(ctx, img, this.pos, size)
     };
     
     isPowerSource = () => true

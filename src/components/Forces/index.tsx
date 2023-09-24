@@ -34,8 +34,6 @@ function Forces() {
         let dr = getInputNumber(d)
         dr *= 10 ** getInputNumber(de);
 
-        console.log(mAr, mBr, dr)
-
         setResult(calcForceGrav(mAr, mBr, dr))
     }
 
@@ -54,14 +52,14 @@ function Forces() {
 
     return (<>
         <div className="formulas">
-            <form>
+            <form id="forceGrav">
                 <h2>Calculer la force d'interaction gravitationelle entre 2 objets :</h2>
 
                 <label>Masse du 1<sup>er</sup> objet (en kg) :</label>
                 <div>
                     <input type="number" ref={mA} onInput={handleForceGrav} placeholder="ex. 12kg..."/>
-                    e
-                    <input type="number" ref={mAe} onInput={handleForceGrav} defaultValue="0"/>
+                    x10^
+                    <input type="number" className='e' ref={mAe} onInput={handleForceGrav} defaultValue="0"/>
                 </div>
 
                 <br/>
@@ -69,8 +67,8 @@ function Forces() {
                 <label>Masse du 2<sup>ème</sup> objet (en kg) :</label>
                 <div>
                     <input type="number" ref={mB} onInput={handleForceGrav} placeholder="ex. 25kg..."/>
-                    e
-                    <input type="number" ref={mBe} onInput={handleForceGrav} defaultValue="0"/>
+                    x10^
+                    <input type="number" className='e' ref={mBe} onInput={handleForceGrav} defaultValue="0"/>
                 </div>
 
                 <br/>
@@ -78,13 +76,13 @@ function Forces() {
                 <label>Distance entre les deux objets (en m) :</label>
                 <div>
                     <input type="number" ref={d} onInput={handleForceGrav} placeholder="ex. 5m..."/>
-                    e
-                    <input type="number" ref={de} onInput={handleForceGrav} defaultValue="0"/>
+                    x10^
+                    <input type="number" className='e' ref={de} onInput={handleForceGrav} defaultValue="0"/>
                 </div>
                 <p>Formule : F<sub>A/B</sub> = G x (m<sub>A</sub> x m<sub>B</sub>) / d²</p>
             </form>
 
-            <form>
+            <form >
                 <h2>Calculer le poids d'un objet sur un astre :</h2>
 
                 <label>Masse de l'objet (en kg) :</label>

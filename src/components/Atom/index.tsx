@@ -6,7 +6,8 @@ import ViewAtom from './View';
 import { useState } from 'react';
 
 function Atom() {
-    const [selectedAtomZ, setSelectedAtomZ] : [number | null, React.Dispatch<number>] = useState(null)
+    const [selectedAtomZ, setSelectedAtomZ] = useState<number>(null)
+    const [search, setSearch] = useState<string>("")
 
     return ( <>
         <Routes>
@@ -18,7 +19,7 @@ function Atom() {
             <Route
                 path='/'
                 element={<>
-                    <SearchAtom setSelectedAtomZ={setSelectedAtomZ}></SearchAtom>
+                    <SearchAtom search={search} setSearch={setSearch} setSelectedAtomZ={setSelectedAtomZ}></SearchAtom>
                     <TableauPeriodique selectedAtomZ={selectedAtomZ}></TableauPeriodique>
                 </>}
             ></Route>
