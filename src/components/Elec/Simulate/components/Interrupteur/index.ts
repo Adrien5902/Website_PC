@@ -21,6 +21,7 @@ export default class Interrupteur implements Component{
         const img = this.opened ? ImageBank.InterrupteurOpened : ImageBank.InterrupteurOpened
 
         drawImage(ctx, img, this.pos, size)
+        ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
     };
     
     isPowerSource = () => true

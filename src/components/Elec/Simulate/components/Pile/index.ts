@@ -21,6 +21,7 @@ export default class Pile implements Component{
         ctx.fillText("+", x + size/2, y - size/2);
         ctx.fillText("-", x - size/2, y - size/2);
         drawImage(ctx, ImageBank.PileOn, this.pos, size)
+        ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
     };
     
     isPowerSource = () => true

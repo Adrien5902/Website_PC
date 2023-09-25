@@ -19,6 +19,7 @@ export default class Lampe implements Component{
 
     draw = (ctx: CanvasRenderingContext2D, size: number) => {
         drawImage(ctx, ImageBank.LampeOff, this.pos, size)
+        ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
     };
 
     isPowerSource = () => true

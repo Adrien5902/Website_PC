@@ -28,8 +28,10 @@ function ElecSimulate() {
 
     const components = useRef<Component[]>([])
     const connections = useRef<Connection[]>([])
+
+    const componentSizeRef = useRef<number>(128)
+
     const [idMax, setIdMax] = useState<number>(0)
-    let componentSize = 128
     const frameRate = 60
 
     const mousePosRef = useRef<Pos>({ x: 0, y: 0 });
@@ -68,6 +70,7 @@ function ElecSimulate() {
     }
 
     function selectComponent(mousePos: Pos) : ComponentSide{
+        const componentSize = componentSizeRef.current
         let side = 0 as Side
         const component = components.current.find((component) => {
             let x = mousePos.x - component.pos.x
@@ -78,7 +81,7 @@ function ElecSimulate() {
             return Math.abs(x) < componentSize/2 && Math.abs(y) < componentSize/2
         })
 
-        return new ComponentSide(component, side)
+        return component ? new ComponentSide(component, side) : null
     }
 
 
@@ -87,7 +90,7 @@ function ElecSimulate() {
         const componentSide = selectComponent(mousePos)
 
         setSelectedComponent(componentSide)
-        movingComponent.current = componentSide.component
+        movingComponent.current = componentSide?.component
 
         if(movingComponent.current && !cableMouse){
             movingComponent.current.pos = mousePos
@@ -120,7 +123,7 @@ function ElecSimulate() {
         }
     }
 
-    function drawCanvas(ctx: CanvasRenderingContext2D, mousePos: Pos){
+    function drawCanvas(ctx: CanvasRenderingContext2D, mousePos: Pos, componentSize: number){
         if(canvasRef.current){
             ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
             ctx.font = componentSize/3 + "px sans-serif"
@@ -131,21 +134,20 @@ function ElecSimulate() {
                 const sidePosA = c.a.getPos(componentSize), sidePosB = c.b.getPos(componentSize)
                 drawDot(ctx, sidePosA)
                 drawDot(ctx, sidePosB)
-                drawLine(ctx, sidePosA, sidePosB)
+                c.draw(ctx, componentSize)
             })
 
             if(cableMouse){
                 const componentSide = selectComponent(mousePos)
                 if(componentSide){
-                    const ctx = getCtx(canvasRef)
-                    drawDot(ctx, componentSide.getPos(componentSize))
+                    const sidePos = componentSide.getPos(componentSize)
+                    drawDot(ctx, sidePos)
                 }
 
                 if(movingComponent.current && selectedComponent.side){
-                    const {x, y} = movingComponent.current.pos
-                    const sidePos = {x: x + selectedComponent.side * componentSize/2, y}
-                    drawLine(ctx, sidePos, mousePos)
+                    const sidePos = selectedComponent.getPos(componentSize)
                     drawDot(ctx, sidePos)
+                    drawLine(ctx, sidePos, mousePos)
                 }
             }
         }
@@ -155,11 +157,11 @@ function ElecSimulate() {
         const ctx = getCtx(canvasRef)
 
         const intervalId = setInterval(() => {
-            drawCanvas(ctx, mousePosRef.current)
+            drawCanvas(ctx, mousePosRef.current, componentSizeRef.current)
         }, 1000/frameRate)
     
         return () => clearInterval(intervalId);
-    }, [components, componentSize, mousePosRef.current])
+    }, [components, mousePosRef.current, componentSizeRef.current])
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -180,6 +182,10 @@ function ElecSimulate() {
         resizeCanvas()
         window.addEventListener("resize", resizeCanvas);
     }, [])
+    
+    const nameInput = useRef<HTMLInputElement>(null)
+    const handleNameChange = () => selectedComponent.component.name = nameInput.current.value
+    useEffect(() => {if(nameInput.current) {nameInput.current.value = selectedComponent?.component.name}}, [selectedComponent])
 
     return (<>
         <img className="back" onClick={() => history.go(-1)} src="/assets/back-arrow.png" alt="←"/>
@@ -217,8 +223,12 @@ function ElecSimulate() {
                 <img 
                     src={binImg} 
                     onClick={() => {
-                        components.current.splice(components.current.findIndex(c => c.id == selectedComponent.component.id), 1)
-                        setSelectedComponent(null)
+                        if(selectedComponent){
+                            const id = selectedComponent.component.id
+                            connections.current = connections.current.filter(c => !(c.a.component.id == id || c.b.component.id == id))
+                            components.current.splice(components.current.findIndex(c => c.id == id), 1)
+                            setSelectedComponent(null)
+                        }
                     }}
                     alt="🗑" 
                     id="bin"
@@ -227,8 +237,10 @@ function ElecSimulate() {
                     src={disconnectImg} 
                     id="disconnect" 
                     onClick={() => {
-                        const id = selectedComponent.component.id
-                        connections.current = connections.current.filter(c => !(c.a.component.id == id || c.b.component.id == id))
+                        if(selectedComponent){
+                            const id = selectedComponent.component.id
+                            connections.current = connections.current.filter(c => !(c.a.component.id == id || c.b.component.id == id))
+                        }
                     }} 
                     alt=""
                 />
@@ -237,12 +249,22 @@ function ElecSimulate() {
                     type="range" 
                     min="64" 
                     max="256" 
-                    defaultValue={componentSize}
-                    onInput={(e) => componentSize = (Number((e.target as HTMLInputElement).value))}
+                    defaultValue={128}
+                    onInput={(e) => {componentSizeRef.current = Number((e.target as HTMLInputElement).value)}}
                 />
 
                 <div id="properties">
-                    <span>{selectedComponent?.component?.name}</span>
+                    {
+                    selectedComponent ? 
+
+                    <input 
+                        type="text" 
+                        ref={nameInput}
+                        onInput={handleNameChange}
+                    />
+
+                    : ""
+                    }
                 </div>
             </div>
         </div>
