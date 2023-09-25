@@ -1,14 +1,15 @@
 import './style.css'
 import { useEffect, useRef, useState } from "react";
-import { Component, Pos, Side } from "./components/types";
+import { Component, ComponentSide, Connection, Pos, Side } from "./components/types";
 import ComponentDrag from './components/drag';
 
 import cableImg from './img/cable.png'
 import binImg from './img/bin.png'
+import disconnectImg from './img/disconnect.png';
 import Générateur from './components/Générateur';
 import ImageBank from './img/bank';
 import Lampe from './components/Lampe';
-import { drawDot, getCtx } from './components/functions';
+import { drawDot, drawLine, getCtx } from './components/functions';
 import Interupteur from './components/Interrupteur';
 import Pile from './components/Pile';
 
@@ -22,9 +23,11 @@ const componentTypes = [
 
 function ElecSimulate() {
     const [cableMouse, setCableMouse] = useState(false)
-    const [selectedComponent, setSelectedComponent] = useState<Component>(null)
+    const [selectedComponent, setSelectedComponent] = useState<ComponentSide>(null)
+    const movingComponent = useRef<Component>(null)
 
     const components = useRef<Component[]>([])
+    const connections = useRef<Connection[]>([])
     const [idMax, setIdMax] = useState<number>(0)
     let componentSize = 128
     const frameRate = 60
@@ -33,19 +36,20 @@ function ElecSimulate() {
 
     const canvasRef = useRef<HTMLCanvasElement>()
 
+    const getConnections = (c: Component) =>  connections.current.filter(con => con.a.component == c || con.b.component == c).map(con => con.a.component.id != c.id ? con.a : con.b)
+
     function handleDrop(e){
         const pos = getMousePos(e)
         const type = e.dataTransfer.getData("text/plain")
 
         const componentType = componentTypes.find(t => type == t.nom)
-        console.log(type, componentType)
         
         if(componentType){
             const component = new componentType(idMax, pos)
         
             components.current.push(component)
             setIdMax((prevId) => prevId + 1);
-            setSelectedComponent(component)
+            setSelectedComponent(new ComponentSide(component, 0))
         }
         
         canvasRef.current.style.border = ''
@@ -63,7 +67,7 @@ function ElecSimulate() {
         }
     }
 
-    function selectComponent(mousePos){
+    function selectComponent(mousePos: Pos) : ComponentSide{
         let side = 0 as Side
         const component = components.current.find((component) => {
             let x = mousePos.x - component.pos.x
@@ -74,35 +78,45 @@ function ElecSimulate() {
             return Math.abs(x) < componentSize/2 && Math.abs(y) < componentSize/2
         })
 
-        return {side, component}
+        return new ComponentSide(component, side)
     }
 
-
-    let movingComponent : Component = null
 
     function handleMouseDown(e){
         const mousePos = getMousePos(e)
-        const {component} = selectComponent(mousePos)
+        const componentSide = selectComponent(mousePos)
 
-        setSelectedComponent(selectedComponent)
+        setSelectedComponent(componentSide)
+        movingComponent.current = componentSide.component
 
-        movingComponent = component
-
-        if(movingComponent && !cableMouse){
-            movingComponent.pos = mousePos
+        if(movingComponent.current && !cableMouse){
+            movingComponent.current.pos = mousePos
         }
     }
 
-    function handleMouseUp(){
-        movingComponent = null
+    function handleMouseUp(e){
+        const componentBSide = selectComponent(getMousePos(e))
+
+        const isMovingCable = cableMouse && movingComponent.current && selectedComponent.side
+
+        if(isMovingCable){
+            if(componentBSide && componentBSide.component.id != movingComponent.current.id){
+                const a = new ComponentSide(movingComponent.current, selectedComponent.side)
+                const b = componentBSide
+
+                connections.current.push(new Connection(a, b))
+            }
+        }
+
+        movingComponent.current = null
     }
 
     function handleMouseMove(e){
         const mousePos = getMousePos(e)
         mousePosRef.current = mousePos
 
-        if(movingComponent && !cableMouse){
-            movingComponent.pos = mousePos
+        if(movingComponent.current && !cableMouse){
+            movingComponent.current.pos = mousePos
         }
     }
 
@@ -113,11 +127,26 @@ function ElecSimulate() {
             ctx.lineWidth = componentSize/12;
             components.current.forEach(component => component.draw(ctx, componentSize))
 
-            const {component, side} = selectComponent(mousePos)
-            if(cableMouse && component && side){
-                const ctx = getCtx(canvasRef)
-                const {x, y} = component.pos
-                drawDot(ctx, {x: x + side * componentSize/2, y})
+            connections.current.forEach(c => {
+                const sidePosA = c.a.getPos(componentSize), sidePosB = c.b.getPos(componentSize)
+                drawDot(ctx, sidePosA)
+                drawDot(ctx, sidePosB)
+                drawLine(ctx, sidePosA, sidePosB)
+            })
+
+            if(cableMouse){
+                const componentSide = selectComponent(mousePos)
+                if(componentSide){
+                    const ctx = getCtx(canvasRef)
+                    drawDot(ctx, componentSide.getPos(componentSize))
+                }
+
+                if(movingComponent.current && selectedComponent.side){
+                    const {x, y} = movingComponent.current.pos
+                    const sidePos = {x: x + selectedComponent.side * componentSize/2, y}
+                    drawLine(ctx, sidePos, mousePos)
+                    drawDot(ctx, sidePos)
+                }
             }
         }
     }
@@ -180,6 +209,7 @@ function ElecSimulate() {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseUp}
                 ></canvas>
             </div>
 
@@ -187,11 +217,20 @@ function ElecSimulate() {
                 <img 
                     src={binImg} 
                     onClick={() => {
-                        components.current.splice(components.current.findIndex(c => c.id == selectedComponent.id), 1)
+                        components.current.splice(components.current.findIndex(c => c.id == selectedComponent.component.id), 1)
                         setSelectedComponent(null)
                     }}
                     alt="🗑" 
                     id="bin"
+                />
+                <img 
+                    src={disconnectImg} 
+                    id="disconnect" 
+                    onClick={() => {
+                        const id = selectedComponent.component.id
+                        connections.current = connections.current.filter(c => !(c.a.component.id == id || c.b.component.id == id))
+                    }} 
+                    alt=""
                 />
                 <label htmlFor="range">Taille</label>
                 <input 
@@ -203,7 +242,7 @@ function ElecSimulate() {
                 />
 
                 <div id="properties">
-                    <span>{selectedComponent?.name}</span>
+                    <span>{selectedComponent?.component?.name}</span>
                 </div>
             </div>
         </div>

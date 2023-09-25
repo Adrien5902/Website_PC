@@ -1,6 +1,7 @@
 #app{
     text-align: left;
     display: inline-block;
+    user-select: none;
 }
 
 #components{
@@ -40,17 +41,18 @@ canvas#result{
 #properties{
     border: solid 4px gray;
     min-height: 15%;
+    user-select: text;
 }
 
 .cable{
     cursor: url(img/cable32.png) 0 0, pointer !important;
 }
 
-#bin:hover{
-    filter: invert(14%) sepia(76%) saturate(7397%) hue-rotate(359deg) brightness(110%) contrast(110%);
-}
-
-#bin{
-    height: 48px;
+#disconnect, #bin{
+    height: 3em;
     cursor: pointer;
+
+    &:hover{
+        filter: invert(14%) sepia(76%) saturate(7397%) hue-rotate(359deg) brightness(110%) contrast(110%);
+    }
 }

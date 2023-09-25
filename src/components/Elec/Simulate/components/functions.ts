@@ -1,4 +1,4 @@
-import { Pos } from "./types";
+import { ComponentSide, Pos } from "./types";
 
 export function drawDot(ctx: CanvasRenderingContext2D, {x, y}: Pos){
     ctx.beginPath();
@@ -12,6 +12,13 @@ export function drawImage(ctx: CanvasRenderingContext2D, src: string, pos: Pos, 
     const img = new Image()
     img.src = src
     ctx.drawImage(img, x - size/2, y - size/2, size, size)
+}
+
+export function drawLine(ctx: CanvasRenderingContext2D, from: Pos, to: Pos){
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
+    ctx.stroke();
 }
 
 export const getCtx = (canvas: React.MutableRefObject<HTMLCanvasElement>) => canvas.current.getContext("2d")
