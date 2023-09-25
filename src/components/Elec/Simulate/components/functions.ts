@@ -1,4 +1,4 @@
-import { Component, ComponentSide, Pos } from "./types";
+import { Pos } from "./types";
 
 export function drawDot(ctx: CanvasRenderingContext2D, {x, y}: Pos){
     ctx.beginPath();
