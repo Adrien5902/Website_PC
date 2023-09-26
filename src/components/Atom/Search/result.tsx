@@ -1,8 +1,8 @@
 import AtomeCouches from "../Couches";
 import AtomCell from "../Cell";
-import { atom } from "../funct";
+import { Atome } from "../funct";
 
-function AtomSearchResult({atome, setSelectedAtomZ}: {atome: atom, setSelectedAtomZ: any}) {
+function AtomSearchResult({atome, setSelectedAtomZ}: {atome: Atome, setSelectedAtomZ: any}) {
     return ( 
         <div className="atom-search-result">
             <AtomCell setSelectedAtomZ={setSelectedAtomZ} atome={atome} canBeHovered={false}></AtomCell>

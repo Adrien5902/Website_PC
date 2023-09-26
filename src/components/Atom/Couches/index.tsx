@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { atom, couchesList } from "../funct"
+import { Atome, couchesList } from "../funct"
 
-function AtomeCouches({atome = new atom(1), shortened = true}) {
+function AtomeCouches({atome = new Atome(1), shortened = true}) {
     return (
         <span>
             {(shortened && atome.lastGazNoble) ? 

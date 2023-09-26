@@ -1,11 +1,11 @@
 import { Navigate, useLocation } from "react-router-dom"
-import { atom } from "../funct";
+import { Atome } from "../funct";
 import AtomeCouches from "../Couches";
 import AtomCell from "../Cell";
 
 function ViewAtom() {
     const Z = Number(new URLSearchParams(useLocation().search).get("Z"))
-    const atome = new atom(Z)
+    const atome = new Atome(Z)
 
     return (<>
         {atome ? 

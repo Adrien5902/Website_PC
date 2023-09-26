@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AtomCell from "../Cell";
-import { Bloc, atom, atomes, couchesLimit, gazNobles } from "../funct";
+import { Bloc, Atome, atomes, couchesLimit, gazNobles } from "../funct";
 
 function TableauPeriodique({selectedAtomZ}) {
     const [selectedBloc, setSelectedBloc] = useState<Bloc>(null)
@@ -70,7 +70,7 @@ function TableauPeriodique({selectedAtomZ}) {
     return ( 
         <table style={{margin: "24px auto"}}>
             <tbody>
-                {gazNobles.map((Z) => new atom(Z)).map((gaz, i) => (
+                {gazNobles.map((Z) => new Atome(Z)).map((gaz, i) => (
                     <tr key={i}>
                         {atomCells(gaz.période)}
                     </tr>

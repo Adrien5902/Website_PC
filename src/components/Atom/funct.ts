@@ -168,7 +168,7 @@ export function isGazNoble(Z = 0){ //Renvoie true si l'atome est un gaz noble et
 }
 
 //Classe Atome
-export class atom {
+export class Atome {
     Z: number
     symbol: string
     name: string
@@ -176,7 +176,7 @@ export class atom {
     période: number
     bloc: Bloc
     groupe: string
-    lastGazNoble?: atom
+    lastGazNoble?: Atome
     couches: Couches
     family: string
 
@@ -224,7 +224,7 @@ export class atom {
             this.bloc = Object.keys(this.couches)[Object.keys(this.couches).length - 1][1] as Bloc
 
             const lastGazNobleIndex = [...gazNobles].sort((a, b) => b - a).find(gazNobleZ => gazNobleZ < this.Z)
-            this.lastGazNoble = lastGazNobleIndex ? new atom(lastGazNobleIndex) : null
+            this.lastGazNoble = lastGazNobleIndex ? new Atome(lastGazNobleIndex) : null
         }
     }
 
@@ -239,4 +239,4 @@ export class atom {
     }
 }
 
-export const atomes = elements.map(element => new atom(element.Z))
+export const atomes = elements.map(element => new Atome(element.Z))

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { atom } from "../funct";
+import { Atome } from "../funct";
 import { useState, useEffect } from 'react';
 
 
 interface Props{
-    atome: atom
+    atome: Atome
     color?: string
     selected?: boolean
     canBeHovered?: boolean

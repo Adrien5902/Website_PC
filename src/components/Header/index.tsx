@@ -13,6 +13,7 @@ function Header() {
                 {id: "atom", name: "Atomes"},
                 {id: "elec", name: "Électricité"},
                 {id: "forces", name: "Forces"},
+                {id: "molecules", name: "Molécules"},
             ].map((page, i) => (
                 <Link
                     to={"/"+page.id} 
