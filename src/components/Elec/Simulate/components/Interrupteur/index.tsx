@@ -1,31 +1,33 @@
 import { Component, Pos } from "../types";
 import ImageBank from "../../img/bank";
 import { drawImage } from "../functions";
+import ComponentProperties from "../properties";
 
-export default class Générateur implements Component{
+export default class Interrupteur implements Component{
     id: number;
     pos: Pos;
-    on: boolean
+    opened: boolean
     name: string;
 
-    static nom = "Générateur"
+    static nom = "Interrupteur"
 
     constructor(id, pos){
         this.id = id
         this.pos = pos
-        this.on = true
+        this.opened = true
         this.name = this.constructor.name
     }
 
     draw = (ctx: CanvasRenderingContext2D, size: number) => {
-        const {x, y} = this.pos
-        const img = this.on ? ImageBank.GénérateurOn : ImageBank.GénérateurOff
+        const img = this.opened ? ImageBank.InterrupteurOpened : ImageBank.InterrupteurClosed
 
-        ctx.fillText("+", x + size/2, y - size/2);
-        ctx.fillText("-", x - size/2, y - size/2);
         drawImage(ctx, img, this.pos, size)
         ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
     };
 
+    properties = () => [
+        <ComponentProperties label="Ouvert : " component={this} property="opened" key={1}/>
+    ];
+    
     isPowerSource = () => true
 }

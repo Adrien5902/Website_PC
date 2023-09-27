@@ -4,8 +4,9 @@ export interface Component{
     id: number
     name: string
     isPowerSource: () => boolean
+    properties? : () => JSX.Element[]
 }
-
+// 
 export type Pos = {x: number, y: number}
 export type Side = -1 | 0 | 1
 

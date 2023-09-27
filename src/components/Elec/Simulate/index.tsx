@@ -12,6 +12,7 @@ import Lampe from './components/Lampe';
 import { drawDot, drawLine, getCtx } from './components/functions';
 import Interupteur from './components/Interrupteur';
 import Pile from './components/Pile';
+import ComponentProperties from './components/properties';
 
 
 const componentTypes = [
@@ -257,12 +258,18 @@ function ElecSimulate() {
                     {
                     selectedComponent ? 
 
+                    <>
                     <input 
                         type="text" 
                         ref={nameInput}
                         onInput={handleNameChange}
                     />
-
+                    {selectedComponent?.component.properties && selectedComponent.component.properties()}
+                    {selectedComponent?.component.pos && <>
+                        {/* <ComponentProperties label="Pos X : " component={selectedComponent.component} property='pos.x'/>
+                        <ComponentProperties label="Pos Y : " component={selectedComponent.component} property='pos.y'/> */}
+                    </>}
+                    </>
                     : ""
                     }
                 </div>

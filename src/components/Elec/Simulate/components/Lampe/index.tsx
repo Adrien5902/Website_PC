@@ -1,6 +1,7 @@
 import { Component, Pos } from "../types";
 import ImageBank from "../../img/bank";
 import { drawImage } from "../functions";
+import ComponentProperties from "../properties";
 
 export default class Lampe implements Component{
     id: number;
@@ -18,9 +19,13 @@ export default class Lampe implements Component{
     }
 
     draw = (ctx: CanvasRenderingContext2D, size: number) => {
-        drawImage(ctx, ImageBank.LampeOff, this.pos, size)
+        drawImage(ctx, this.on ? ImageBank.LampeOn : ImageBank.LampeOff, this.pos, size)
         ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
     };
+
+    properties = () => [
+        <ComponentProperties label="Allumé : " component={this} property="on" key={1} readonly={true}/>
+    ];
 
     isPowerSource = () => true
 }
