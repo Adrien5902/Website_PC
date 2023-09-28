@@ -1,6 +1,6 @@
 import './style.css'
 import { useEffect, useRef, useState } from "react";
-import { Component, ComponentSide, Connection, Pos, Side } from "./components/types";
+import { Component, ComponentSide, Connection, Pos, Side, PowerSource } from "./components/types";
 import ComponentDrag from './components/drag';
 
 import cableImg from './img/cable.png'
@@ -13,6 +13,7 @@ import { drawDot, drawLine, getCtx } from './components/functions';
 import Interupteur from './components/Interrupteur';
 import Pile from './components/Pile';
 import ComponentProperties from './components/properties';
+import { Circuit } from './components/circuit';
 
 
 const componentTypes = [
@@ -130,6 +131,11 @@ function ElecSimulate() {
             ctx.font = componentSize/3 + "px sans-serif"
             ctx.lineWidth = componentSize/12;
             components.current.forEach(component => component.draw(ctx, componentSize))
+
+            components.current.filter(c => "getVoltage" in c).forEach((component) => {
+                const on = typeof component["on"] !== "undefined" ? (component as Générateur).on : true
+                const circuit = new Circuit(connections.current)
+            })
 
             connections.current.forEach(c => {
                 const sidePosA = c.a.getPos(componentSize), sidePosB = c.b.getPos(componentSize)

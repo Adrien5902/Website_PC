@@ -3,10 +3,17 @@ export interface Component{
     pos: Pos
     id: number
     name: string
-    isPowerSource: () => boolean
     properties? : () => JSX.Element[]
 }
-// 
+
+export interface PowerSource extends Component{
+    getVoltage: () => number
+}
+
+export interface Récepteur extends Component{
+    R: number
+}
+
 export type Pos = {x: number, y: number}
 export type Side = -1 | 0 | 1
 
@@ -59,4 +66,6 @@ export class Connection{
         ctx.lineTo(b.x - componentSize/2 * this.b.side, b.y);
         ctx.stroke();
     }
+
+    getComponents = () => [this.a.component, this.b.component]
 }

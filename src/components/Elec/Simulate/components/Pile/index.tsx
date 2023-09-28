@@ -1,11 +1,12 @@
-import { Component, Pos } from "../types";
+import { Pos, PowerSource } from "../types";
 import ImageBank from "../../img/bank";
 import { drawImage } from "../functions";
 
-export default class Pile implements Component{
+export default class Pile implements PowerSource{
     id: number;
     pos: Pos;
     name: string;
+    volt: number
 
     static nom = "Pile"
 
@@ -13,6 +14,7 @@ export default class Pile implements Component{
         this.id = id
         this.pos = pos
         this.name = this.constructor.name
+        this.volt = 5
     }
 
     draw = (ctx: CanvasRenderingContext2D, size: number) => {
@@ -23,6 +25,6 @@ export default class Pile implements Component{
         drawImage(ctx, ImageBank.PileOn, this.pos, size)
         ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
     };
-    
-    isPowerSource = () => true
+
+    getVoltage = () => this.volt
 }

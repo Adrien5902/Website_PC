@@ -88,6 +88,7 @@ export default function ComponentProperties({label, suffix, component, readonly 
                 }}
             />
             }
+            {inputType == "range" && <span>{deepFind(component, property)}</span>}
             {suffix && <span>{suffix}</span>}
         </div>
     );

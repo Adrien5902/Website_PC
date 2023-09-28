@@ -28,6 +28,4 @@ export default class Interrupteur implements Component{
     properties = () => [
         <ComponentProperties label="Ouvert : " component={this} property="opened" key={1}/>
     ];
-    
-    isPowerSource = () => true
 }
