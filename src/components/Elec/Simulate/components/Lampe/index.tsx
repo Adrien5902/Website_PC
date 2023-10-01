@@ -17,7 +17,7 @@ export default class Lampe implements Récepteur{
     constructor(id, pos, resistance?: number){
         this.id = id
         this.pos = pos
-        this.name = this.constructor.name
+        this.name = Lampe.nom
         this.R = resistance ?? 3
         this.I = 0
         this.P = 0
@@ -47,6 +47,7 @@ export default class Lampe implements Récepteur{
 
         ctx.fillStyle = "black"
 
+        ctx.save()
         drawImage(ctx, ImageBank.LampeOff, this.pos, size)
         ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
     };

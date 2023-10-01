@@ -15,7 +15,7 @@ export default class Interrupteur implements Component{
         this.id = id
         this.pos = pos
         this.opened = true
-        this.name = this.constructor.name
+        this.name = Interrupteur.nom
     }
 
     draw = (ctx: CanvasRenderingContext2D, size: number) => {

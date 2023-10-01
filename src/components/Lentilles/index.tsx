@@ -58,6 +58,7 @@ export default function Lentilles() {
                     object.current.x = originPos.current.x - mousePosRef.current.x
                     object.current.y = originPos.current.y - mousePosRef.current.y
                     objectPos.current.value = String(object.current.x.toFixed(0))
+                    objectHeight.current.value = String(object.current.y.toFixed(0))
                     break;
 
                 case focalLength:
@@ -148,7 +149,7 @@ export default function Lentilles() {
         drawDot(ctx, Apos, size/10)
 
         drawLine(ctx, Apos, Bpos)
-        drawArrow(ctx, Bpos, "up")
+        drawArrow(ctx, Bpos, Bpos.y < Apos.y ? "up" : "down")
 
         if((isMouseNear(Bpos) && !moving.current) || moving.current == object){
             ctx.beginPath()

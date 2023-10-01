@@ -13,7 +13,7 @@ export default class Pile implements PowerSource{
     constructor(id, pos){
         this.id = id
         this.pos = pos
-        this.name = this.constructor.name
+        this.name = Pile.nom
         this.volt = 5
     }
 
