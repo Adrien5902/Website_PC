@@ -9,16 +9,10 @@ function Forces() {
     const [decimals, setDecimals] = useState(2)
     const [astre, setAstre] = useState(null)
 
-    function round(n, decimals){
-        return Math.round(n * 10 ** decimals) / 10 ** decimals
-    }
-
     const getInputNumber = (ref) => Number((ref.current as HTMLInputElement).value)
 
     const G = 6.67*10**-11
-    function calcForceGrav(mA, mB, d){
-        return round(G*(mA*mB)/(d**2), decimals)
-    }
+    const calcForceGrav = (mA, mB, d) => (G*(mA*mB)/(d**2)).toFixed(decimals)
 
     const mA = useRef<HTMLInputElement>(null)
     const mAe = useRef<HTMLInputElement>(null)
@@ -44,9 +38,7 @@ function Forces() {
     const gAstre = useRef<HTMLSelectElement>(null)
     const gOther = useRef<HTMLInputElement>(null)
 
-    function calcPoidsSurAstre(mObj, gAstre){
-        return round(mObj*gAstre, decimals)
-    }
+    const calcPoidsSurAstre = (mObj, gAstre) => (mObj*gAstre).toFixed(decimals)
 
     function handlePoidsSurAstre(){
         let g = getInputNumber(gAstre) || getInputNumber(gOther)
@@ -103,7 +95,7 @@ function Forces() {
                     <option value="10.44">Saturne 🪐</option>
                     <option value="other">Autre...</option>
                 </select>
-                <input className={astre == "other" ? "" : "hide"} type="number" ref={gOther} placeholder="Valeur de la gravité sur l'astre... ex: 9.8"/>
+                <input className={astre == "other" ? "" : "hide"} onChange={handlePoidsSurAstre} type="number" ref={gOther} placeholder="Valeur de la gravité sur l'astre... ex: 9.8"/>
                 
                 <p><FontAwesomeIcon icon={faSquareRootVariable}/> Formule : P<sub>objet</sub> = m<sub>objet</sub> x g<sub>astre</sub></p>
             </form>
