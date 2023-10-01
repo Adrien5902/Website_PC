@@ -30,6 +30,7 @@ export default function Lentilles() {
     const object = useRef<Pos>({x: 0, y: 0}) //X is the pos on delta axis, Y is the object height
     const focalLength = useRef<number>(0)
     const [gamma, setGamma] = useState(0)
+    const _object = useRef<Pos>(null)
 
     const objectPos = useRef<HTMLInputElement>(null)
     const objectHeight = useRef<HTMLInputElement>(null)
@@ -240,6 +241,8 @@ export default function Lentilles() {
             const _Apos = {x: 0, y: 0} //_A = A'
             _Apos.x = _Bpos.x
             _Apos.y = originY
+
+            _object.current = {x: _Apos.x - originX, y: _Bpos.y - originY}
     
             drawDot(ctx, _Apos)
 
@@ -322,16 +325,17 @@ export default function Lentilles() {
                 </div>
 
                 <div>
-                    <span>γ (gamma) = {gamma ? gamma.toFixed(2) : 0}</span>
-
-                    <div>
-                        <span>OA (distance de l'objet) : </span>
-                        <input type="number" ref={objectPos} onChange={(e) => {object.current.x = Number(e.target.value); drawCanvas(canvasRef.current)}}/>
-                    </div>
+                    <span>γ (gamma, grandissment) = {gamma ? gamma.toFixed(2) : 0}</span>
+                    <span>A'B' (taille de l'image) = {_object.current ? _object.current.y : "Pas d'image"}</span>
 
                     <div>
                         <span>AB (taille de l'objet) : </span>
                         <input type="number" ref={objectHeight} onChange={(e) => {object.current.y = Number(e.target.value); drawCanvas(canvasRef.current)}}/>
+                    </div>
+
+                    <div>
+                        <span>OA (distance de l'objet) : </span>
+                        <input type="number" ref={objectPos} onChange={(e) => {object.current.x = Number(e.target.value); drawCanvas(canvasRef.current)}}/>
                     </div>
 
                     <div>
