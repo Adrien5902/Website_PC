@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gupdate xmlns='http://www.google.com/update2/response' protocol='2.0'>
     <app appid='iinkmappcmpmkiglbhndagolmipankha'>
-        <updatecheck codebase='https://github.com/Adrien5902/Website_PC/releases/download/2.0.0-experimental23w38a/23w38a.crx' version='2.0.0' />
+        <updatecheck codebase='https://github.com/Adrien5902/Website_PC/releases/download/2.0.0-experimental-23w39a/23w39a.crx' version='2.0.0' />
     </app>
 </gupdate>
