@@ -327,7 +327,7 @@ export default function Lentilles() {
 
                 <div>
                     <span>γ (gamma, grandissment) = {gamma ? gamma.toFixed(2) : 0}</span>
-                    <span>A'B' (taille de l'image) = {_object.current ? _object.current.y : "Pas d'image"}</span>
+                    <span>A'B' (taille de l'image) = {_object.current ? _object.current.y.toFixed(2) : "Pas d'image"}</span>
 
                     <div>
                         <span>AB (taille de l'objet) : </span>
