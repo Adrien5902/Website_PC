@@ -37,6 +37,7 @@
     flex-direction: column;
     align-items: flex-start;
     margin: 1em;
+    width: calc(100% - 1em);
 
     & input:not([type="checkbox"]):not([type="range"]){
         border-radius: .5em;
