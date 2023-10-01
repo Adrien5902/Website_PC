@@ -1,5 +1,8 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './style.css'
 import { useRef, useState } from 'react';
+import { faArrowsLeftRight, faDownLeftAndUpRightToCenter, faEarth, faSquareRootVariable, faWeightHanging } from '@fortawesome/free-solid-svg-icons';
+
 
 function Forces() {
     const [result, setResult] = useState(null)
@@ -54,9 +57,9 @@ function Forces() {
     return (<>
         <div className="formulas">
             <form id="forceGrav">
-                <h2>Calculer la force d'interaction gravitationelle entre 2 objets :</h2>
+                <h2><FontAwesomeIcon icon={faDownLeftAndUpRightToCenter}/> Calculer la force d'interaction gravitationelle entre 2 objets :</h2>
 
-                <label>Masse du 1<sup>er</sup> objet (en kg) :</label>
+                <label><FontAwesomeIcon icon={faWeightHanging}/> Masse du 1<sup>er</sup> objet (en kg) :</label>
                 <div>
                     <input type="number" ref={mA} onInput={handleForceGrav} placeholder="ex. 12kg..."/>
                     x10^
@@ -65,7 +68,7 @@ function Forces() {
 
                 <br/>
 
-                <label>Masse du 2<sup>ème</sup> objet (en kg) :</label>
+                <label><FontAwesomeIcon icon={faWeightHanging}/> Masse du 2<sup>ème</sup> objet (en kg) :</label>
                 <div>
                     <input type="number" ref={mB} onInput={handleForceGrav} placeholder="ex. 25kg..."/>
                     x10^
@@ -74,24 +77,24 @@ function Forces() {
 
                 <br/>
 
-                <label>Distance entre les deux objets (en m) :</label>
+                <label><FontAwesomeIcon icon={faArrowsLeftRight}/> Distance entre les deux objets (en m) :</label>
                 <div>
                     <input type="number" ref={d} onInput={handleForceGrav} placeholder="ex. 5m..."/>
                     x10^
                     <input type="number" className='e' ref={de} onInput={handleForceGrav} defaultValue="0"/>
                 </div>
-                <p>Formule : F<sub>A/B</sub> = G x (m<sub>A</sub> x m<sub>B</sub>) / d²</p>
+                <p><FontAwesomeIcon icon={faSquareRootVariable}/> Formule : F<sub>A/B</sub> = G x (m<sub>A</sub> x m<sub>B</sub>) / d²</p>
             </form>
 
             <form >
-                <h2>Calculer le poids d'un objet sur un astre :</h2>
+                <h2><FontAwesomeIcon icon={faWeightHanging}/> Calculer le poids d'un objet sur un astre :</h2>
 
-                <label>Masse de l'objet (en kg) :</label>
+                <label><FontAwesomeIcon icon={faWeightHanging}/> Masse de l'objet (en kg) :</label>
                 <input type="number" onInput={handlePoidsSurAstre} ref={mObj} placeholder="ex. 20kg..."/>
 
                 <br/>
 
-                <label>Astre :</label>
+                <label><FontAwesomeIcon icon={faEarth}/>  Astre :</label>
                 <select onInput={handlePoidsSurAstre} ref={gAstre}>
                     <option value="9.807">Terre 🌍</option>
                     <option value="1.62">Lune 🌕</option>
@@ -102,7 +105,7 @@ function Forces() {
                 </select>
                 <input className={astre == "other" ? "" : "hide"} type="number" ref={gOther} placeholder="Valeur de la gravité sur l'astre... ex: 9.8"/>
                 
-                <p>Formule : P<sub>objet</sub> = m<sub>objet</sub> x g<sub>astre</sub></p>
+                <p><FontAwesomeIcon icon={faSquareRootVariable}/> Formule : P<sub>objet</sub> = m<sub>objet</sub> x g<sub>astre</sub></p>
             </form>
         </div>
         
