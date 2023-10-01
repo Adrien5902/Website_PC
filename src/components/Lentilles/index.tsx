@@ -226,9 +226,6 @@ export default function Lentilles() {
         }
 
         if(m.length >= 2 && p.length >= 2){
-            ctx.strokeStyle = "#FF0000"
-            ctx.fillStyle = "#FF0000"
-
             const _Bpos = {x: 0, y: 0} //_B = B'
 
             //m1 x + p1 = m2 x + p2
@@ -243,18 +240,10 @@ export default function Lentilles() {
             _Apos.y = originY
 
             _object.current = {x: _Apos.x - originX, y: _Bpos.y - originY}
-    
-            drawDot(ctx, _Apos)
-
-            drawLine(ctx, _Apos, _Bpos)
-            drawArrow(ctx, _Bpos, _Bpos.y > _Apos.y ? "down" : "up")
-            ctx.fillText("A'", _Apos.x + size/3, originY + size/4*3)
-            ctx.fillText("B'", _Bpos.x + size/3, _Bpos.y + size/3)
         
             let gma = (_Bpos.y - _Apos.y)/(Bpos.y - Apos.y)
-            setGamma(gma)
 
-            if(gma > 1){
+            if(gma > 0){
                 if(rdelta.enabled){
                     ctx.strokeStyle = rdelta.color
                     drawDashedLine(ctx, {x: originX, y: Bpos.y}, _Bpos, size/4)
@@ -270,6 +259,18 @@ export default function Lentilles() {
                     drawDashedLine(ctx, {x: originX, y: pF}, _Bpos, size/4)
                 }
             }
+            
+            ctx.strokeStyle = "#FF0000"
+            ctx.fillStyle = "#FF0000"
+    
+            drawDot(ctx, _Apos)
+
+            drawLine(ctx, _Apos, _Bpos)
+            drawArrow(ctx, _Bpos, _Bpos.y > _Apos.y ? "down" : "up")
+            ctx.fillText("A'", _Apos.x + size/3, originY + size/4*3)
+            ctx.fillText("B'", _Bpos.x + size/3, _Bpos.y + size/3)
+
+            setGamma(gma)
         }
     }
 
