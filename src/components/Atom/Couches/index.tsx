@@ -20,7 +20,7 @@ function AtomeCouches({atome = new Atome(1), shortened = true}) {
 
             {
                 couchesList
-                .filter(couche => atome.couches[couche] && (!shortened  || (atome.lastGazNoble && atome.couches[couche] != atome.lastGazNoble.couches[couche])))
+                .filter(couche => atome.couches[couche] && (!shortened || !atome.lastGazNoble  || (atome.lastGazNoble && atome.couches[couche] != atome.lastGazNoble.couches[couche])))
                 .map((couche, i) => <span key={i}>
                     ({couche}<sup>{atome.couches[couche]}</sup>)
                 </span>)
