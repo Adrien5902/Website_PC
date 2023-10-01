@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 import './style.css'
 import { faAtom, faBolt, faCameraRetro, faDna, faMagnet } from "@fortawesome/free-solid-svg-icons";
 import HeaderLink from "./links";

@@ -8,11 +8,9 @@ body
     background: var(--background);
 }
 
-.unlink
-
 /*Retire l'effet bleu ou violet et sous-ligné par défaut des liens avec la classe unlink*/
-    {
-    text-decoration: none !important;
+.unlink{
+    text-decoration: none;
     color: unset;
 }
 
