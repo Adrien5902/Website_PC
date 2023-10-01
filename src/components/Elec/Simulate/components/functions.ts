@@ -1,1 +1,0 @@
-export const getCtx = (canvas: React.MutableRefObject<HTMLCanvasElement>) => canvas.current.getContext("2d")

@@ -12,6 +12,7 @@ export default class Générateur implements PowerSource{
     U: number
 
     static nom = "Générateur"
+    static defaultImage = ImageBank.GénérateurOff
 
     constructor(id, pos){
         this.id = id

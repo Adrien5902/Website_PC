@@ -6,7 +6,7 @@ import PileOn from '../components/Pile/on.png'
 import PileOff from '../components/Pile/off.png'
 import LampeOn from '../components/Lampe/on.png'
 import LampeOff from '../components/Lampe/off.png'
-import Moteur from '../components/Moteur/imgs/index.png'
+import Moteur from '../components/Moteur/img.png'
 
 const ImageBank = {
     GénérateurOff,

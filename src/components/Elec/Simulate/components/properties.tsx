@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import { Component, ComponentSide, Connection } from "./types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlugCircleXmark, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Générateur from "./Générateur";
 
 interface Props {
     label: string;
@@ -68,6 +69,8 @@ export function ComponentProperty({
         }
     }
 
+    const rerenderProperties = useContext(ComponentPropertiesContext)
+
     return (
         <div>
             <label>{label}</label>
@@ -76,13 +79,16 @@ export function ComponentProperty({
             ) : (
                 <input
                     type={inputType}
-                    value={component[property]}
+                    key={inputType == "range" ? null : inputType == "checkbox" ? component[property] : propertyToString(component[property])}
+                    defaultValue={propertyToString(component[property])}
+                    defaultChecked={inputType === "checkbox" ? component[property] : null}
                     onChange={(e) => {
                         const newValue =
                             inputType === "checkbox"
                                 ? e.target.checked
                                 : parseInputValue(e.target.value);
                         component[property] = newValue;
+                        rerenderProperties()
                     }}
                 />
             )}
@@ -92,6 +98,7 @@ export function ComponentProperty({
     );
 }
 
+const ComponentPropertiesContext = createContext(null)
 export function ComponentProperties(
     {
         c, 
@@ -109,7 +116,9 @@ export function ComponentProperties(
 
     useEffect(() => {
         setSide(c)
-    }, [c])
+    }, [c, c?.component, c?.component.name])
+
+    const [rerender, setRerender] = useState(false)
 
     function handleNameChange(e){
         side.component.name = (e.target as HTMLInputElement).value
@@ -121,6 +130,15 @@ export function ComponentProperties(
 
         <>
         <div id="right-props">
+            <div>
+                <img 
+                    id="preview" 
+                    src={(side.component.constructor as typeof Générateur).defaultImage} 
+                    alt={(side.component.constructor as typeof Générateur).nom} 
+                />
+                <span> {(side.component.constructor as typeof Générateur).nom} </span>
+            </div>
+            
             <div>
                 <FontAwesomeIcon icon={faTrash} id="bin"
                     onClick={() => {
@@ -164,15 +182,14 @@ export function ComponentProperties(
                 id="component-name-input"
                 type="text"
                 defaultValue={side.component?.name}
+                key={side.component?.name}
                 onInput={handleNameChange}
             />
         </div>
 
+        <ComponentPropertiesContext.Provider value={() => setRerender(!rerender)}>
         {"properties" in side.component && side.component?.properties()}
-        {side.component?.pos && <>
-            {/* <ComponentProperties label="Pos X : " component={selectedComponent.component} property='pos.x'/>
-            <ComponentProperties label="Pos Y : " component={selectedComponent.component} property='pos.y'/> */}
-        </>}
+        </ComponentPropertiesContext.Provider>
         </>
         : ""
         }

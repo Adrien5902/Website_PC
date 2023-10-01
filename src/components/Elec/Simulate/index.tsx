@@ -17,18 +17,19 @@ import Pile from './components/Pile';
 
 //Canvas import
 import { Pos, drawDot, drawLine, getMousePos } from '../../../types/canvas';
-import { getCtx } from './components/functions';
 
 //Img import
 import cableImg from './img/cable.png'
 import ImageBank from './img/bank';
 import useCanvas from '../../../hooks/Canvas';
+import { Moteur } from './components/Moteur';
 
 const componentTypes = [
     Générateur,
     Lampe,
     Interupteur,
-    Pile
+    Pile,
+    Moteur,
 ]
 
 function ElecSimulate() {
@@ -245,11 +246,9 @@ function ElecSimulate() {
                             <img src={cableImg} className={cableMouse ? 'cable' : ""} onClick={() => setCableMouse(cable => ! cable)} draggable="false"/>
                             <span>Câble</span>
                         </div>
-                        <ComponentDrag img={ImageBank.GénérateurOff} name={"Générateur"}/>
-                        <ComponentDrag img={ImageBank.PileOff} name={"Pile"}/>
-                        <ComponentDrag img={ImageBank.LampeOff} name={"Lampe"}/>
-                        <ComponentDrag img={ImageBank.InterrupteurOpened} name={"Interrupteur"}/>
-                        {/* <ComponentDrag img={Moteur} name={"Moteur"}/> */}
+                        {componentTypes.map((type, i) => 
+                            <ComponentDrag img={type.defaultImage} name={type.nom} key={i}/>
+                        )}
                     </div>
         
                     <canvas 

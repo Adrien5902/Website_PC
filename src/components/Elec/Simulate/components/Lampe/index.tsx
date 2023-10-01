@@ -13,6 +13,7 @@ export default class Lampe implements Récepteur{
     U: number;
 
     static nom = "Lampe"
+    static defaultImage = ImageBank.LampeOff
 
     constructor(id, pos, resistance?: number){
         this.id = id
@@ -28,7 +29,7 @@ export default class Lampe implements Récepteur{
         this.U = this.R * this.I
         this.P = this.U * this.I
 
-        const lightnessRatio = this.P/100
+        const lightnessRatio = this.P/50
         const lightness = lightnessRatio > 1 ? 1 : lightnessRatio < 0 ? 0 : lightnessRatio
 
         if(lightness > 0){
@@ -56,5 +57,7 @@ export default class Lampe implements Récepteur{
         <ComponentProperty label="Allumée : " component={this} property="P" key={1} readonly={true} type="boolean"/>,
         <ComponentProperty label="Résistance : " suffix=" Ω" component={this} property="R" key={2}/>,
         <ComponentProperty label="Puissance : " suffix=" W" component={this} property="P" key={3} readonly={true}/>,
+        // <ComponentProperty label="Tension : " suffix=" V" component={this} property="U" key={4} readonly={true}/>,
+        // <ComponentProperty label="Intensité : " suffix=" A" component={this} property="I" key={5} readonly={true}/>,
     ];
 }

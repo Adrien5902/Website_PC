@@ -83,7 +83,7 @@ canvas#result{
 
 #components img{
     margin: auto;
-    width: 64px;
+    width: 54px;
     cursor: pointer;
 }
 
@@ -124,4 +124,8 @@ canvas#result{
 
 #toogle-fullscreen{
     cursor: pointer;
+}
+
+#preview{
+    height: 3em;
 }

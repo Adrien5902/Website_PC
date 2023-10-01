@@ -10,6 +10,7 @@ export default class Interrupteur implements Component{
     name: string;
 
     static nom = "Interrupteur"
+    static defaultImage = ImageBank.InterrupteurOpened
 
     constructor(id, pos){
         this.id = id

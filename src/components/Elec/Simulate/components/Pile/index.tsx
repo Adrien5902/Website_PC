@@ -9,6 +9,7 @@ export default class Pile implements PowerSource{
     volt: number
 
     static nom = "Pile"
+    static defaultImage = ImageBank.PileOff
 
     constructor(id, pos){
         this.id = id
