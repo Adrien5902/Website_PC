@@ -1,26 +1,18 @@
-import { Component, Connection, PowerSource, Récepteur } from "./types";
+import { Connection, PowerSource, Récepteur } from "./types";
 
-export class Circuit{
-    connections: Connection[]
-    I: number
-    components: Component[]
-    Rtotal: number
-    V: number
+export function Circuit(connections: Connection[]){
+    const components = connections.map(c => c.getComponents()).flat(1).filter(
+        (c, i, arr) => 
+        arr.indexOf(c) != i
+    )
+
+    const récepteurs: Récepteur[] = components.filter(c => "R" in c) as Récepteur[]
+    const Rtotal = récepteurs.reduce((r, c) => r + c.R, 0)
+
+    const powerSources : PowerSource[] = components.filter(c => "getVoltage" in c) as PowerSource[]
+    const V = powerSources.reduce((v, c) => v + c.getVoltage(), 0)
+
+    const I = V / Rtotal
     
-    constructor(connections: Connection[]){
-        this.components = connections.map(c => c.getComponents()).flat(1).reduce((array, c): Component[] => {
-            if(array.find((c) => c)){
-                array.push(c)
-            }
-            return array
-        }, [])
-
-        const récepteurs: Récepteur[] = this.components.filter(c => "R" in c) as Récepteur[]
-        this.Rtotal = récepteurs.reduce((r, c) => r + c.R, 0)
-
-        const powerSources : PowerSource[] = this.components.filter(c => "getVoltage" in c) as PowerSource[]
-        this.V = powerSources.reduce((v, c) => v + c.getVoltage(), 0)
-
-        this.I = this.V / this.Rtotal
-    }
+    récepteurs.forEach(r => r.I = I)
 }

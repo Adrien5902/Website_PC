@@ -1,7 +1,7 @@
-import { Component, Pos } from "../types";
+import { Component } from "../types";
 import ImageBank from "../../img/bank";
-import { drawImage } from "../functions";
-import ComponentProperties from "../properties";
+import {ComponentProperty} from "../properties";
+import { Pos, drawImage } from "../../../../../types/canvas";
 
 export default class Interrupteur implements Component{
     id: number;
@@ -26,6 +26,6 @@ export default class Interrupteur implements Component{
     };
 
     properties = () => [
-        <ComponentProperties label="Ouvert : " component={this} property="opened" key={1}/>
+        <ComponentProperty label="Ouvert : " component={this} property="opened" key={1}/>
     ];
 }

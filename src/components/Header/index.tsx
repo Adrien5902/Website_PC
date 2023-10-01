@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom"
 import './style.css'
+import { faAtom, faBolt, faCameraRetro, faDna, faMagnet } from "@fortawesome/free-solid-svg-icons";
+import HeaderLink from "./links";
 
 function Header() {
     return (
@@ -9,18 +11,11 @@ function Header() {
             </Link>
             
             <div id="links">
-            {[
-                {id: "atom", name: "Atomes"},
-                {id: "elec", name: "Électricité"},
-                {id: "forces", name: "Forces"},
-                {id: "molecules", name: "Molécules"},
-            ].map((page, i) => (
-                <Link
-                    to={"/"+page.id} 
-                    key={i}
-                    className={useLocation().pathname.split("/")[1] == page.id ? "underlined" : ""}
-                >{page.name}</Link>
-            ))}
+                <HeaderLink id="atom" name="Atomes" icon={faAtom}/>
+                <HeaderLink id="elec" name="Électricité" icon={faBolt}/>
+                <HeaderLink id="forces" name="Forces" icon={faMagnet}/>
+                <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
+                <HeaderLink id="lentilles" name="Lentilles" icon={faCameraRetro}/>
             </div>
         </header>
     );

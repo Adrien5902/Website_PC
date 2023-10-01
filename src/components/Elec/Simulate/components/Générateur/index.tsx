@@ -1,7 +1,7 @@
-import { Pos, PowerSource } from "../types";
+import { PowerSource } from "../types";
 import ImageBank from "../../img/bank";
-import { drawImage } from "../functions";
-import ComponentProperties from "../properties";
+import {ComponentProperty} from "../properties";
+import { Pos, drawImage } from "../../../../../types/canvas";
 
 export default class Générateur implements PowerSource{
     id: number;
@@ -18,7 +18,7 @@ export default class Générateur implements PowerSource{
         this.pos = pos
         this.on = true
         this.name = Générateur.nom
-        this.volt = 6
+        this.volt = 10
     }
 
     draw = (ctx: CanvasRenderingContext2D, size: number) => {
@@ -32,8 +32,8 @@ export default class Générateur implements PowerSource{
     };
 
     properties = () => [
-        <ComponentProperties label="Activé : " property="on" component={this} key={1}/>,
-        <ComponentProperties label="Voltage : " type="range" suffix="V" property="volt" component={this} key={2}/>
+        <ComponentProperty label="Activé : " property="on" component={this} key={1}/>,
+        <ComponentProperty label="Voltage : " type="range" suffix="V" property="volt" component={this} key={2}/>
     ]
 
     getVoltage = () => this.on && this.volt

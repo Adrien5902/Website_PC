@@ -1,23 +1,28 @@
-body  /*Sur toute la page*/
-{
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /*Change la police d'écriture*/
+body
+
+/*Sur toute la page*/
+    {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /*Change la police d'écriture*/
     font-size: 20px;
+    background: var(--background);
 }
 
-.unlink /*Retire l'effet bleu ou violet et sous-ligné par défaut des liens avec la classe unlink*/
-{
+.unlink
+
+/*Retire l'effet bleu ou violet et sous-ligné par défaut des liens avec la classe unlink*/
+    {
     text-decoration: none !important;
     color: unset;
 }
 
-input, select
-{
+input,
+select {
     font-size: inherit;
 }
 
 /*Contenu de la page sans l'en-tête et le footer*/
-div.content
-{
+div.content {
     text-align: center;
     margin: auto;
     top: 270px;
@@ -25,44 +30,40 @@ div.content
 }
 
 /*Message quand on passse la souris dessus*/
-.tooltip-text
-{
+.tooltip-text {
     display: inline-block;
     position: absolute;
-    background : #BBB;
+    background: #BBB;
     color: white;
     padding: 0.3em;
     border-radius: 1em;
     visibility: hidden;
 }
 
-.tooltip
-{
+.tooltip {
     cursor: pointer;
 }
 
-.tooltip:hover .tooltip-text
-{
+.tooltip:hover .tooltip-text {
     visibility: visible;
 }
 
 /*Couleurs*/
-:root{
+:root {
     --cyan: #00C3FF;
+    --background: #FFFFFF
 }
 
-.cyan
-{
+.cyan {
     color: var(--cyan);
 }
 
-a:hover
-{
-    text-decoration: underline; /*Sous ligne les liens quand on passe la souris dessus*/
+a:hover {
+    text-decoration: underline;
+    /*Sous ligne les liens quand on passe la souris dessus*/
 }
 
-.back
-{
+.back {
     position: absolute;
     left: 0;
     height: 2em;
@@ -70,16 +71,15 @@ a:hover
     cursor: pointer;
 }
 
-img.back:hover
-{
+img.back:hover {
     filter: invert(52%) sepia(93%) saturate(1622%) hue-rotate(159deg) brightness(102%) contrast(108%);
 }
 
-.hide{
+.hide {
     display: none !important;
 }
 
-#errorBox{
+#errorBox {
     color: red;
     position: fixed;
     max-width: 40%;
@@ -93,20 +93,20 @@ img.back:hover
     cursor: default;
 }
 
-body.blur :not(#errorBox){
+body.blur :not(#errorBox) {
     opacity: .4;
 }
 
-.underlined{
+.underlined {
     text-decoration: underline;
 }
 
-#pages{
+#pages {
     display: flex;
     justify-content: center;
 }
 
-#pages a{
+#pages a {
     width: 15em;
     height: 15em;
     background-size: cover;
@@ -118,11 +118,11 @@ body.blur :not(#errorBox){
     transition-duration: 300ms;
 }
 
-#pages a:hover{
+#pages a:hover {
     transform: scale(1.2);
 }
 
-#pages span{
+#pages span {
     position: relative;
     bottom: 0;
     left: 0;
@@ -135,26 +135,72 @@ body.blur :not(#errorBox){
     text-align: left;
 }
 
-form{
+form {
     display: inline-grid;
 }
 
-ul{
+ul {
     display: inline-grid;
 }
 
-.formulas{
+.formulas {
     display: flex;
     justify-content: center;
     padding: 4px;
 }
 
-.formulas form, #formula-result{
+.formulas form,
+#formula-result {
     padding: 1em;
     border: #222 dashed;
     margin: 12px 1em;
 }
 
-li{
+li {
     text-align: left;
+}
+
+.shadow-box {
+    box-shadow: gray 0 0 1em 0.1em;
+    border-radius: .5em;
+    margin: 0.5em;
+}
+
+input[type="checkbox"] {
+    height: 1em;
+    width: 1em;
+}
+
+input[type="color"] {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    height: 1.5em;
+    padding: 0;
+    width: 1.5em;
+    margin: .2em;
+    outline: none !important;
+}
+
+::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+::-webkit-color-swatch {
+    border: 0;
+    border-radius: 0;
+    border-radius: .2em;
+}
+
+::-moz-color-swatch,
+::-moz-focus-inner {
+    border: 0;
+    border-radius: .2em;
+}
+
+::-moz-focus-inner {
+    padding: 0;
 }

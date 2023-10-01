@@ -1,6 +1,6 @@
-import { Pos, PowerSource } from "../types";
+import { PowerSource } from "../types";
 import ImageBank from "../../img/bank";
-import { drawImage } from "../functions";
+import { Pos, drawImage } from "../../../../../types/canvas";
 
 export default class Pile implements PowerSource{
     id: number;

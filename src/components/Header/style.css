@@ -4,7 +4,7 @@ header
     color: white;
     text-align: center;
     padding: 12px;
-    font-size: 2.5em;
+    font-size: 2.1em;
     font-weight: bold;
     vertical-align: middle;
     width: 100%;
@@ -24,4 +24,9 @@ header a
     margin: 0 12px;
     color: white;
     text-decoration: none;
+}
+
+#links{
+    display: inline-flex;
+    justify-content: center;
 }

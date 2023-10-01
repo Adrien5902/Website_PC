@@ -1,3 +1,5 @@
+import { Pos } from "../../../../types/canvas"
+
 export interface Component{
     draw : (ctx: CanvasRenderingContext2D, size: number) => void
     pos: Pos
@@ -12,9 +14,10 @@ export interface PowerSource extends Component{
 
 export interface Récepteur extends Component{
     R: number
+    U: number
+    I: number
 }
 
-export type Pos = {x: number, y: number}
 export type Side = -1 | 0 | 1
 
 export class ComponentSide{

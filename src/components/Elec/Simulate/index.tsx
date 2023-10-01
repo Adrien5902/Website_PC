@@ -1,20 +1,28 @@
+//React Imports
 import './style.css'
 import { useEffect, useRef, useState } from "react";
-import { Component, ComponentSide, Connection, Pos, Side, PowerSource } from "./components/types";
-import ComponentDrag from './components/drag';
+import useFullscreen from '../../../hooks/Fullscreen';
 
-import cableImg from './img/cable.png'
-import binImg from './img/bin.png'
-import disconnectImg from './img/disconnect.png';
+//Elec imports
+import { Component, ComponentSide, Connection, Side, PowerSource } from "./components/types";
+import ComponentDrag from './components/drag';
+import { Circuit } from './components/circuit';
+import { ComponentProperties } from './components/properties';
+
+//Component types
 import Générateur from './components/Générateur';
-import ImageBank from './img/bank';
 import Lampe from './components/Lampe';
-import { drawDot, drawLine, getCtx } from './components/functions';
 import Interupteur from './components/Interrupteur';
 import Pile from './components/Pile';
-import ComponentProperties from './components/properties';
-import { Circuit } from './components/circuit';
 
+//Canvas import
+import { Pos, drawDot, drawLine, getMousePos } from '../../../types/canvas';
+import { getCtx } from './components/functions';
+
+//Img import
+import cableImg from './img/cable.png'
+import ImageBank from './img/bank';
+import useCanvas from '../../../hooks/Canvas';
 
 const componentTypes = [
     Générateur,
@@ -25,8 +33,11 @@ const componentTypes = [
 
 function ElecSimulate() {
     const [cableMouse, setCableMouse] = useState(false)
-    const [selectedComponent, setSelectedComponent] = useState<ComponentSide>(null)
+    const [selectedSide, setSelectedSide] = useState<ComponentSide>(null)
+    const app = useRef(null)
     const movingComponent = useRef<Component>(null)
+
+    const [fullscreenButton] = useFullscreen(app)
 
     const components = useRef<Component[]>([])
     const connections = useRef<Connection[]>([])
@@ -40,10 +51,10 @@ function ElecSimulate() {
 
     const canvasRef = useRef<HTMLCanvasElement>()
 
-    const getConnections = (c: Component) =>  connections.current.filter(con => con.a.component == c || con.b.component == c).map(con => con.a.component.id != c.id ? con.a : con.b)
+    const getConnections = (c: Component) :  Connection[] =>  connections.current.filter(con => con.a.component == c || con.b.component == c)
 
     function handleDrop(e){
-        const pos = getMousePos(e)
+        const pos = getMousePos(canvasRef, e)
         const type = e.dataTransfer.getData("text/plain")
 
         const componentType = componentTypes.find(t => type == t.nom)
@@ -53,22 +64,10 @@ function ElecSimulate() {
         
             components.current.push(component)
             setIdMax((prevId) => prevId + 1);
-            setSelectedComponent(new ComponentSide(component, 0))
+            setSelectedSide(new ComponentSide(component, 0))
         }
-        
-        canvasRef.current.style.border = ''
-    }
 
-    function getMousePos(evt) {
-        const canvas = canvasRef.current
-        var rect = canvas.getBoundingClientRect(),
-        scaleX = canvas.width / rect.width,
-        scaleY = canvas.height / rect.height;
-    
-        return {
-            x: (evt.clientX - rect.left) * scaleX,
-            y: (evt.clientY - rect.top) * scaleY
-        }
+        canvasRef.current.classList.remove("draghover")
     }
 
     function selectComponent(mousePos: Pos) : ComponentSide{
@@ -88,10 +87,10 @@ function ElecSimulate() {
 
 
     function handleMouseDown(e){
-        const mousePos = getMousePos(e)
+        const mousePos = getMousePos(canvasRef, e)
         const componentSide = selectComponent(mousePos)
 
-        setSelectedComponent(componentSide)
+        setSelectedSide(componentSide)
         movingComponent.current = componentSide?.component
 
         if(movingComponent.current && !cableMouse){
@@ -100,13 +99,13 @@ function ElecSimulate() {
     }
 
     function handleMouseUp(e){
-        const componentBSide = selectComponent(getMousePos(e))
+        const componentBSide = selectComponent(getMousePos(canvasRef, e))
 
-        const isMovingCable = cableMouse && movingComponent.current && selectedComponent.side
+        const isMovingCable = cableMouse && movingComponent.current && selectedSide.side
 
         if(isMovingCable){
             if(componentBSide && componentBSide.component.id != movingComponent.current.id){
-                const a = new ComponentSide(movingComponent.current, selectedComponent.side)
+                const a = new ComponentSide(movingComponent.current, selectedSide.side)
                 const b = componentBSide
 
                 connections.current.push(new Connection(a, b))
@@ -117,7 +116,7 @@ function ElecSimulate() {
     }
 
     function handleMouseMove(e){
-        const mousePos = getMousePos(e)
+        const mousePos = getMousePos(canvasRef, e)
         mousePosRef.current = mousePos
 
         if(movingComponent.current && !cableMouse){
@@ -125,16 +124,75 @@ function ElecSimulate() {
         }
     }
 
-    function drawCanvas(ctx: CanvasRenderingContext2D, mousePos: Pos, componentSize: number){
+    function drawCanvas(canvas: HTMLCanvasElement, mousePos: Pos, componentSize: number){
+        const ctx = canvas.getContext("2d")
         if(canvasRef.current){
             ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
             ctx.font = componentSize/3 + "px sans-serif"
             ctx.lineWidth = componentSize/12;
-            components.current.forEach(component => component.draw(ctx, componentSize))
 
-            components.current.filter(c => "getVoltage" in c).forEach((component) => {
-                const on = typeof component["on"] !== "undefined" ? (component as Générateur).on : true
-                const circuit = new Circuit(connections.current)
+            components.current.forEach(component => {
+                if("I" in component){
+                    component.I = 0
+                }
+            })
+
+            components.current.filter(c => "getVoltage" in c).forEach((c) => {
+                const powerSource: PowerSource = c as PowerSource
+                const connexions = getConnections(powerSource).filter(c => 
+                    c.a.component.id == powerSource.id && c.a.side == 1
+                    || c.b.component.id == powerSource.id && c.b.side == 1
+                )
+                
+                for(let firstConn of connexions){
+                    const conns: Connection[] = []
+
+                    let conn: Connection = firstConn
+                    let component: Component = powerSource
+                    let broke = false
+                    let i = 0
+
+                    while(conn && !broke){
+                        const {component: c, side} = conn.a.component.id == component.id ? conn.b : conn.a
+                        component = c
+                        
+                        if("opened" in component) broke = component.opened as boolean
+
+                        const nextSide = side * -1
+                        conn = connections.current.find(c => {
+                            if(c.a.component == component){
+                                return c.a.side == nextSide
+                            }else if(c.b.component == component){
+                                return c.b.side == nextSide
+                            }
+                            return false
+                        })
+
+                        if(!conn){
+                            broke = true
+                        }else{
+                            conns.push(conn)
+                        }
+
+                        i++
+
+                        if(conn == firstConn || i > 100){
+                            break
+                        }
+                    }
+                    
+                    if(!broke && conns.length){
+                        broke = !(conns[conns.length - 1].getComponents().findIndex(m => m.id == powerSource.id) != -1)
+                    }
+
+                    if(!broke){
+                        Circuit(conns)
+                    }
+                }
+            })
+
+            components.current.forEach(component => {
+                component.draw(ctx, componentSize)
             })
 
             connections.current.forEach(c => {
@@ -151,8 +209,8 @@ function ElecSimulate() {
                     drawDot(ctx, sidePos)
                 }
 
-                if(movingComponent.current && selectedComponent.side){
-                    const sidePos = selectedComponent.getPos(componentSize)
+                if(movingComponent.current && selectedSide.side){
+                    const sidePos = selectedSide.getPos(componentSize)
                     drawDot(ctx, sidePos)
                     drawLine(ctx, sidePos, mousePos)
                 }
@@ -161,125 +219,56 @@ function ElecSimulate() {
     }
 
     useEffect(() => {
-        const ctx = getCtx(canvasRef)
-
         const intervalId = setInterval(() => {
-            drawCanvas(ctx, mousePosRef.current, componentSizeRef.current)
+            drawCanvas(canvasRef.current, mousePosRef.current, componentSizeRef.current)
         }, 1000/frameRate)
     
         return () => clearInterval(intervalId);
     }, [components, mousePosRef.current, componentSizeRef.current])
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
-
-        canvas.ondragover = (event) => {
-            event.preventDefault()
-            canvas.style.borderStyle = 'dashed'
-            canvas.style.borderColor = '#009eff'
-        }
-
-        canvas.ondragleave = () => canvas.style.border = '';
-
-        function resizeCanvas(){
-            canvas.setAttribute('width', (canvas.getBoundingClientRect().width * 2).toString())
-            canvas.setAttribute('height', (canvas.getBoundingClientRect().height * 2).toString())
-        }
-
-        resizeCanvas()
-        window.addEventListener("resize", resizeCanvas);
-    }, [])
+    useCanvas(canvasRef)
     
     const nameInput = useRef<HTMLInputElement>(null)
-    const handleNameChange = () => selectedComponent.component.name = nameInput.current.value
-    useEffect(() => {if(nameInput.current) {nameInput.current.value = selectedComponent?.component.name}}, [selectedComponent])
+    useEffect(() => {if(nameInput.current) {nameInput.current.value = selectedSide?.component.name}}, [selectedSide])
 
     return (<>
         <img className="back" onClick={() => history.go(-1)} src="/assets/back-arrow.png" alt="←"/>
         
-        <h1>Simulation de circuit électriques</h1>
-        
-        <div id="app" className={cableMouse ? 'cable' : ""}>
-            <div>
-                <div id="components">
-                    <div className="componentBox">
-                        <img src={cableImg} className={cableMouse ? 'cable' : ""} onClick={() => setCableMouse(cable => ! cable)} draggable="false"/>
-                        <span>Câble</span>
+        <div id="app" className={cableMouse ? 'cable' : ""} ref={app}>
+
+            <h1>Simulation de circuit électriques {fullscreenButton}</h1>
+
+            <div id='app-main'>
+                <div id='workspace'>
+                    <div id="components" className='shadow-box'>
+                        <div className="componentBox">
+                            <img src={cableImg} className={cableMouse ? 'cable' : ""} onClick={() => setCableMouse(cable => ! cable)} draggable="false"/>
+                            <span>Câble</span>
+                        </div>
+                        <ComponentDrag img={ImageBank.GénérateurOff} name={"Générateur"}/>
+                        <ComponentDrag img={ImageBank.PileOff} name={"Pile"}/>
+                        <ComponentDrag img={ImageBank.LampeOff} name={"Lampe"}/>
+                        <ComponentDrag img={ImageBank.InterrupteurOpened} name={"Interrupteur"}/>
+                        {/* <ComponentDrag img={Moteur} name={"Moteur"}/> */}
                     </div>
-                    <ComponentDrag img={ImageBank.GénérateurOff} name={"Générateur"}/>
-                    <ComponentDrag img={ImageBank.PileOff} name={"Pile"}/>
-                    <ComponentDrag img={ImageBank.LampeOff} name={"Lampe"}/>
-                    <ComponentDrag img={ImageBank.InterrupteurOpened} name={"Interrupteur"}/>
-                    {/* <ComponentDrag img={Moteur} name={"Moteur"}/> */}
+        
+                    <canvas 
+                        id="result" 
+                        ref={canvasRef} 
+                        width="800" 
+                        height="400"
+                        onDrop={handleDrop}
+                        onMouseDown={handleMouseDown}
+                        onMouseMove={handleMouseMove}
+                        onMouseUp={handleMouseUp}
+                        onMouseLeave={handleMouseUp}
+                        className='shadow-box'
+                    ></canvas>
                 </div>
-    
-                <canvas 
-                    id="result" 
-                    ref={canvasRef} 
-                    width="800" 
-                    height="400"
-                    onDrop={handleDrop}
-                    onMouseDown={handleMouseDown}
-                    onMouseMove={handleMouseMove}
-                    onMouseUp={handleMouseUp}
-                    onMouseLeave={handleMouseUp}
-                ></canvas>
+
+                <ComponentProperties c={selectedSide} components={components} conns={connections} sizeRef={componentSizeRef}/>
             </div>
 
-            <div>
-                <img 
-                    src={binImg} 
-                    onClick={() => {
-                        if(selectedComponent){
-                            const id = selectedComponent.component.id
-                            connections.current = connections.current.filter(c => !(c.a.component.id == id || c.b.component.id == id))
-                            components.current.splice(components.current.findIndex(c => c.id == id), 1)
-                            setSelectedComponent(null)
-                        }
-                    }}
-                    alt="🗑" 
-                    id="bin"
-                />
-                <img 
-                    src={disconnectImg} 
-                    id="disconnect" 
-                    onClick={() => {
-                        if(selectedComponent){
-                            const id = selectedComponent.component.id
-                            connections.current = connections.current.filter(c => !(c.a.component.id == id || c.b.component.id == id))
-                        }
-                    }} 
-                    alt=""
-                />
-                <label htmlFor="range">Taille</label>
-                <input 
-                    type="range" 
-                    min="64" 
-                    max="256" 
-                    defaultValue={128}
-                    onInput={(e) => {componentSizeRef.current = Number((e.target as HTMLInputElement).value)}}
-                />
-
-                <div id="properties">
-                    {
-                    selectedComponent ? 
-
-                    <>
-                    <input 
-                        type="text" 
-                        ref={nameInput}
-                        onInput={handleNameChange}
-                    />
-                    {selectedComponent?.component.properties && selectedComponent.component.properties()}
-                    {selectedComponent?.component.pos && <>
-                        {/* <ComponentProperties label="Pos X : " component={selectedComponent.component} property='pos.x'/>
-                        <ComponentProperties label="Pos Y : " component={selectedComponent.component} property='pos.y'/> */}
-                    </>}
-                    </>
-                    : ""
-                    }
-                </div>
-            </div>
         </div>
     </>)
 }
