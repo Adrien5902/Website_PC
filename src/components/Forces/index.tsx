@@ -1,10 +1,10 @@
 import './style.css'
 import { useRef, useState } from 'react';
 
-
 function Forces() {
     const [result, setResult] = useState(null)
     const [decimals, setDecimals] = useState(2)
+    const [astre, setAstre] = useState(null)
 
     function round(n, decimals){
         return Math.round(n * 10 ** decimals) / 10 ** decimals
@@ -17,12 +17,12 @@ function Forces() {
         return round(G*(mA*mB)/(d**2), decimals)
     }
 
-    const mA = useRef()
-    const mAe = useRef()
-    const mB = useRef()
-    const mBe = useRef()
-    const d = useRef()
-    const de = useRef()
+    const mA = useRef<HTMLInputElement>(null)
+    const mAe = useRef<HTMLInputElement>(null)
+    const mB = useRef<HTMLInputElement>(null)
+    const mBe = useRef<HTMLInputElement>(null)
+    const d = useRef<HTMLInputElement>(null)
+    const de = useRef<HTMLInputElement>(null)
 
     function handleForceGrav(){
         let mAr = getInputNumber(mA)
@@ -37,16 +37,17 @@ function Forces() {
         setResult(calcForceGrav(mAr, mBr, dr))
     }
 
-    const mObj = useRef()
-    const gAstre = useRef()
-    const gOther = useRef()
+    const mObj = useRef<HTMLInputElement>(null)
+    const gAstre = useRef<HTMLSelectElement>(null)
+    const gOther = useRef<HTMLInputElement>(null)
 
     function calcPoidsSurAstre(mObj, gAstre){
         return round(mObj*gAstre, decimals)
     }
 
     function handlePoidsSurAstre(){
-        let g = getInputNumber(gAstre) ?? getInputNumber(gOther)
+        let g = getInputNumber(gAstre) || getInputNumber(gOther)
+        setAstre(gAstre.current.value)
         setResult(calcPoidsSurAstre(getInputNumber(mObj), g))
     }
 
@@ -99,7 +100,7 @@ function Forces() {
                     <option value="10.44">Saturne 🪐</option>
                     <option value="other">Autre...</option>
                 </select>
-                <input className="hide" type="number" ref={gOther} placeholder="Valeur de la gravité sur l'astre... ex: 9.8"/>
+                <input className={astre == "other" ? "" : "hide"} type="number" ref={gOther} placeholder="Valeur de la gravité sur l'astre... ex: 9.8"/>
                 
                 <p>Formule : P<sub>objet</sub> = m<sub>objet</sub> x g<sub>astre</sub></p>
             </form>
