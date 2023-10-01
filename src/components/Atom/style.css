@@ -25,6 +25,7 @@ tfoot tr{
     font-size: clamp(0.5em, 1vw, 1.5em);
     transition: all 200ms;
     overflow: hidden;
+    text-decoration: none !important;
 
     & > .Z {
         font-size: 1em;
