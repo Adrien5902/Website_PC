@@ -20,7 +20,6 @@ import { Pos, drawDot, drawLine, getMousePos } from '../../../types/canvas';
 
 //Img import
 import cableImg from './img/cable.png'
-import ImageBank from './img/bank';
 import useCanvas from '../../../hooks/Canvas';
 import { Moteur } from './components/Moteur';
 
