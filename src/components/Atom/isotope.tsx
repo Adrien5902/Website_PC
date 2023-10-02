@@ -4,15 +4,11 @@ export class Isotope extends Atome{
     electrons: number
     A: number
 
-    constructor(Z: number, A: number, electrons?: number){
+    constructor(Z: number, A?: number, electrons?: number){
         super(Z)
-        this.A = A
+        this.A = A ?? Z
         this.electrons = electrons ?? Z
     }
 
     getN = () => this.A - this.Z
-
-    static parseString(input: string){
-        atomes.find(a => input.includes(a.symbol))
-    }
 }

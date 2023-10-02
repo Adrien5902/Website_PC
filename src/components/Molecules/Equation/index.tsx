@@ -1,3 +1,6 @@
+import { useState } from "react"
+import { Molécule } from "../molecules"
+
 class EqError extends Error{
     constructor(message: string){
         super(message)
@@ -6,6 +9,8 @@ class EqError extends Error{
 
 
 function MoleculesEquation({}) {
+    const [result, setResult] = useState("")
+
     function handleInput(e){
         const input = (e.target as HTMLInputElement).value
         try {
@@ -25,13 +30,15 @@ function MoleculesEquation({}) {
             throw new EqError("The equation must have to sides")
         }
 
-        
-
-        console.log(sides)
+        const equation = sides.map(side => side.split(" + ")).map(side => side.map(m => Molécule.parseString(m)))
+        const res = equation.map(side => side.map(mol => mol.toHTML()).join(" + ")).join(" -> ")
+        console.log(res)
+        setResult(res)
     }
 
     return (<>
         <input type="text" onInput={handleInput}/>
+        <p>{result}</p>
     </>);
 }
 
