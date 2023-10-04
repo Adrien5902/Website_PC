@@ -9,13 +9,13 @@ export class Molécule{
     }
 
     toHTML = () => <span className="molecule-string">{
-        this.data.map(d => <span>{d.atome.symbol}<sub>{d.count}</sub></span>)
+        this.data.map((d, i) => <span key={i}>{d.atome.symbol}{d.count > 1 && <sub>{d.count}</sub>}</span>)
     }</span>
 
     static parseString(input: string){
         const isotopes = input.split(/(?=[A-Z])/)
         .map(part => ({
-            atome: new Isotope(elements.find(a => part.includes(a.symbol)).Z),
+            atome: new Isotope(elements.find(a => part.replace(/\d+/g, '') == a.symbol).Z),
             count: Number(part.match(/\d+/)?.[0]) || 1
         }))
         return new Molécule(isotopes)
