@@ -1,4 +1,4 @@
-# Website
+# Physique Chimie
 Un site dédié sur la physique chimie pour M.Humbert.
 
 Créé avec [React](https://github.com/facebook/react) et [TypeScript](https://www.typescriptlang.org/)
