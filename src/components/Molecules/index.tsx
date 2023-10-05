@@ -6,8 +6,8 @@ function Molecules() {
     return (
         <Routes>
             <Route path="/" element={<div id="pages">
-                <Page href="/molecules/lewis" img="/assets/pages/" text="Schéma de Lewis"></Page>
-                <Page href="/molecules/equation" img="/assets/pages/equation_molecules.png" text="Equations moléculaires"></Page>
+                <Page href="/molecules/lewis" img="./assets/pages/" text="Schéma de Lewis"></Page>
+                <Page href="/molecules/equation" img="./assets/pages/equation_molecules.png" text="Equations moléculaires"></Page>
             </div>}/>
 
             <Route

@@ -7,7 +7,7 @@ function Header() {
     return (
         <header>
             <Link className="unlink" to="/">
-                <img src="/assets/logo.png" alt="[Nom du site]"/>
+                <img src="./assets/logo.png" alt="[Nom du site]"/>
             </Link>
             
             <div id="links">

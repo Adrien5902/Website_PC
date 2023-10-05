@@ -1,0 +1,20 @@
+{
+    "manifest_version": 3,
+    "name": "Site web Physique Chimie",
+    "description": "Site web Physique Chimie par Adrien5902 créé avec React",
+    "version": "2.0.0",
+    "icons": {
+        "32": "/assets/favicon.png",
+        "256": "/assets/favicon_256.png"
+    },
+    "action": {
+        "default_icon": {
+            "32": "/assets/favicon.png",
+            "256": "/assets/favicon_256.png"
+        }
+    },
+    "background": {
+        "service_worker": "worker.js"
+    },
+    "update_url": "https://raw.githubusercontent.com/Adrien5902/Website_PC/main/update.xml"
+}
