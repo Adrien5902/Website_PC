@@ -11,10 +11,10 @@ function Electricity() {
                 element={
                     <>
                     <Navigate to={"/elec/simulate"}/>
-                    {/* <h2>Pages : </h2>
+                    <h2>Pages : </h2>
                     <div id="pages">
                         <Page href="/elec/simulate" text="Simulation de circuit électrique" img='./assets/pages/elecSchema.png'></Page>
-                    </div> */}
+                    </div>
                     </>
                 }
             />
