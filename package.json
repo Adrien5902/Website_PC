@@ -17,6 +17,7 @@
         "url": "https://github.com/Adrien5902/Website_PC/issues",
         "email": "adrien.m5902@gmail.com"
     },
+    "license": "MIT",
     "scripts": {
         "dev": "vite",
         "build": "vite build && crx pack dist -o build.crx",
