@@ -13,7 +13,7 @@ function ViewAtom() {
         {atome ? 
         
         <div style={{display: "flex", alignItems: "center", flexDirection: "column", marginTop: "24px"}}>
-            <img className="back" onClick={()=>history.go(-1)} src="../assets/back-arrow.png" alt="←"/>
+            <img className="back" onClick={()=>history.go(-1)} src="./assets/back-arrow.png" alt="←"/>
 
             <div id="atome-name">
                 <span>{atome.name}</span>

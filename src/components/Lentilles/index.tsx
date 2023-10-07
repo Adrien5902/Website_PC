@@ -56,7 +56,7 @@ export default function Lentilles() {
         if(moving.current){
             switch (moving.current) {
                 case object:
-                    object.current.x = originPos.current.x - mousePosRef.current.x
+                    object.current.x = mousePosRef.current.x - originPos.current.x
                     object.current.y = originPos.current.y - mousePosRef.current.y
                     objectPos.current.value = String(object.current.x.toFixed(0))
                     objectHeight.current.value = String(object.current.y.toFixed(0))
@@ -77,7 +77,7 @@ export default function Lentilles() {
     }
 
     function handleMouseDown(){
-        if(isMouseNear({x: originPos.current.x - object.current.x, y: originPos.current.y - object.current.y})){
+        if(isMouseNear({x: originPos.current.x + object.current.x, y: originPos.current.y - object.current.y})){
             moving.current = object
         }
 
@@ -138,7 +138,7 @@ export default function Lentilles() {
 
         ctx.fillText("Δ", xEnd.x, xEnd.y+size)
 
-        const Apos = {x: originX - object.current.x, y: originY}
+        const Apos = {x: originX + object.current.x, y: originY}
         const Bpos :Pos = {x: Apos.x, y: originY - object.current.y}
 
         ctx.fillText("A", Apos.x, originY + size)
@@ -175,12 +175,18 @@ export default function Lentilles() {
         drawLine(ctx, {x: _Fpos.x, y: _Fpos.y - size/5}, {x: _Fpos.x, y: _Fpos.y + size/5})
         ctx.fillText("F'", _Fpos.x, _Fpos.y + size)
 
-        const Otop = {x: originX, y: originY - focalLength.current}
-        const Obottom = {x: originX, y: originY + focalLength.current}
+        const m1 = (Fpos.y - Bpos.y)/(Fpos.x - Bpos.x);
+        const p1 = Fpos.y - m1 * Fpos.x;
+        const pF = originX * m1 + p1
+
+        const Osize = Math.max(Math.abs(object.current.y), Math.abs(originY - pF))
+
+        const Otop = {x: originX, y: originY - Osize - size}
+        const Obottom = {x: originX, y: originY + Osize + size}
 
         drawLine(ctx, Otop, Obottom)
-        drawArrow(ctx, Otop, "up")
-        drawArrow(ctx, Obottom, "down")
+        drawArrow(ctx, Otop, focalLength.current > 0 ? "up": "down")
+        drawArrow(ctx, Obottom, focalLength.current < 0 ? "up": "down")
 
         let m = []
         let p = []
@@ -209,16 +215,12 @@ export default function Lentilles() {
             m.push(mO)
             p.push(pO)
         }
-        
-        let pF = null
+
         const rF = rayons[2]
         if(rF.enabled){
-            const m1 = (Fpos.y - Bpos.y)/(Fpos.x - Bpos.x);
-            const p1 = Fpos.y - m1 * Fpos.x;
+            const mF = 0
             ctx.strokeStyle = rF.color
             drawLine(ctx, Bpos, {x: originX, y: originX * m1 + p1})
-            const mF = 0
-            pF = originX * m1 + p1
             drawLine(ctx, {x: originX, y: pF}, {x: originX * 2, y: pF})
 
             m.push(mF)
@@ -239,7 +241,7 @@ export default function Lentilles() {
             _Apos.x = _Bpos.x
             _Apos.y = originY
 
-            _object.current = {x: _Apos.x - originX, y: _Bpos.y - originY}
+            _object.current = {x: _Apos.x - originX, y: originY - _Bpos.y}
         
             let gma = (_Bpos.y - _Apos.y)/(Bpos.y - Apos.y)
 
@@ -258,14 +260,20 @@ export default function Lentilles() {
                     ctx.strokeStyle = rF.color
                     drawDashedLine(ctx, {x: originX, y: pF}, _Bpos, size/4)
                 }
+                
+
+                ctx.strokeStyle = "#FF0000"
+                ctx.fillStyle = "#FF0000"
+
+                drawDashedLine(ctx, _Apos, _Bpos, size/4)
+            }else{
+                ctx.strokeStyle = "#FF0000"
+                ctx.fillStyle = "#FF0000"
+                drawLine(ctx, _Apos, _Bpos)
             }
-            
-            ctx.strokeStyle = "#FF0000"
-            ctx.fillStyle = "#FF0000"
     
             drawDot(ctx, _Apos)
 
-            drawLine(ctx, _Apos, _Bpos)
             drawArrow(ctx, _Bpos, _Bpos.y > _Apos.y ? "down" : "up")
             ctx.fillText("A'", _Apos.x + size/3, originY + size/4*3)
             ctx.fillText("B'", _Bpos.x + size/3, _Bpos.y + size/3)
@@ -276,7 +284,7 @@ export default function Lentilles() {
 
     useEffect(()=>{
         focalLength.current = originPos.current.x/4
-        object.current.x = originPos.current.x/2
+        object.current.x = -originPos.current.x/2
         object.current.y = originPos.current.y/2
 
         objectPos.current.value = object.current.x.toFixed(0).toString()
@@ -328,6 +336,7 @@ export default function Lentilles() {
                 <div>
                     <span>γ (gamma, grandissment) = {gamma ? gamma.toFixed(2) : 0}</span>
                     <span>A'B' (taille de l'image) = {_object.current ? _object.current.y.toFixed(2) : "Pas d'image"}</span>
+                    <span>OA' (distance entre la lentille et l'image) = {_object.current ? _object.current.x.toFixed(2) : "Pas d'image"}</span>
 
                     <div>
                         <span>AB (taille de l'objet) : </span>

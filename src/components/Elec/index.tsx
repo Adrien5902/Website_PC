@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Page from "../Page";
 import ElecSimulate from "./Simulate";
 
@@ -10,10 +10,11 @@ function Electricity() {
                 path="/"
                 element={
                     <>
-                    <h2>Pages : </h2>
+                    <Navigate to={"/elec/simulate"}/>
+                    {/* <h2>Pages : </h2>
                     <div id="pages">
-                        <Page href="/elec/simulate" text="Simulation de circuit électrique" img='./../../assets/pages/elecSchema.png'></Page>
-                    </div>
+                        <Page href="/elec/simulate" text="Simulation de circuit électrique" img='./assets/pages/elecSchema.png'></Page>
+                    </div> */}
                     </>
                 }
             />

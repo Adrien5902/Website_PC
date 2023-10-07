@@ -232,7 +232,7 @@ function ElecSimulate() {
     useEffect(() => {if(nameInput.current) {nameInput.current.value = selectedSide?.component.name}}, [selectedSide])
 
     return (<>
-        <img className="back" onClick={() => history.go(-1)} src="/assets/back-arrow.png" alt="←"/>
+        <img className="back" onClick={() => history.go(-1)} src="./assets/back-arrow.png" alt="←"/>
         
         <div id="app" className={cableMouse ? 'cable' : ""} ref={app}>
 

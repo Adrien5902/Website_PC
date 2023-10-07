@@ -1,8 +1,22 @@
 {
     "name": "website-pc",
     "private": true,
-    "version": "2.0.0",
+    "version": "2.0.1",
     "type": "module",
+    "description": "Un site web sur la physique chimie codé par Adrien5902 avec React",
+    "author": {
+        "name": "Adrien5902",
+        "url": "https://github.com/Adrien5902/",
+        "email": "adrien.m5902@gmail.com"
+    },
+    "repository": {
+        "url": "https://github.com/Adrien5902/Website_PC",
+        "type": "github"
+    },
+    "bugs": {
+        "url": "https://github.com/Adrien5902/Website_PC/issues",
+        "email": "adrien.m5902@gmail.com"
+    },
     "scripts": {
         "dev": "vite",
         "build": "vite build && crx pack dist -o build.crx",
