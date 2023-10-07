@@ -1,6 +1,8 @@
 # Physique Chimie
 Un site dédié sur la physique chimie pour M.Humbert.
 
+[Lien](https://adrien5902.github.io/Website_PC/) du site : https://adrien5902.github.io/Website_PC/
+
 Créé avec [React](https://github.com/facebook/react) et [TypeScript](https://www.typescriptlang.org/)
 
 # Pages :
