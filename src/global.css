@@ -104,35 +104,6 @@ body.blur :not(#errorBox) {
     justify-content: center;
 }
 
-#pages a {
-    width: 15em;
-    height: 15em;
-    background-size: cover;
-    display: grid;
-    align-items: end;
-    text-decoration: none;
-    box-shadow: inset 0 0 2em #cbcbcb;
-    margin: 1em;
-    transition-duration: 300ms;
-}
-
-#pages a:hover {
-    transform: scale(1.2);
-}
-
-#pages span {
-    position: relative;
-    bottom: 0;
-    left: 0;
-    color: white;
-    text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black, 1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
-    max-width: 70%;
-    font-size: 1.5em;
-    font-weight: bold;
-    margin: 1em;
-    text-align: left;
-}
-
 form {
     display: inline-grid;
 }
