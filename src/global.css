@@ -173,3 +173,10 @@ input[type="color"] {
 ::-moz-focus-inner {
     padding: 0;
 }
+
+.align-between{
+    display: inline-flex;
+    justify-content: space-between;
+    width: 90vw;
+    align-items: center
+}

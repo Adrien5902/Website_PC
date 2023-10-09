@@ -22,6 +22,8 @@ import { Pos, drawDot, drawLine, getMousePos } from '../../../types/canvas';
 import cableImg from './img/cable.png'
 import useCanvas from '../../../hooks/Canvas';
 import { Moteur } from './components/Moteur';
+import { faPlugCircleBolt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const componentTypes = [
     Générateur,
@@ -236,7 +238,11 @@ function ElecSimulate() {
         
         <div id="app" className={cableMouse ? 'cable' : ""} ref={app}>
 
-            <h1>Simulation de circuit électriques {fullscreenButton}</h1>
+            <h1 style={{width: "90vw"}} className='align-between'>
+                <div></div>
+                <span><FontAwesomeIcon icon={faPlugCircleBolt}/> Simulation de circuit électriques</span>
+                <span>{fullscreenButton}</span>
+            </h1>
 
             <div id='app-main'>
                 <div id='workspace'>
