@@ -84,7 +84,7 @@ canvas#result{
 
 #components img{
     margin: auto;
-    width: 54px;
+    height: 5vh;
     cursor: pointer;
 }
 
