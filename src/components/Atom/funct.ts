@@ -61,7 +61,7 @@ export class Atome {
 
         let i = 0 //Initialize la variable couches
         while (remaining > 0){ //tant qu'il y a des e- a répartir
-            let couche = couchesList[i] //Définit la couche sur laqulle on va répartir les e-
+            const couche = couchesList[i] //Définit la couche sur laqulle on va répartir les e-
 
             const limiteSousCouche = couchesLimit[couche[1]] //limite sous couche  ex : 2 (pour s), 6 (pour d)...
 
@@ -104,7 +104,7 @@ export class Atome {
 
     valence(){ //Calcule le nombre d'électron de valence
         let n = 0
-        for(let couche of Object.keys(this.couches)){
+        for(const couche of Object.keys(this.couches)){
             if(couche[0] == this.période.toString()){
                 n += this.couches[couche]
             }

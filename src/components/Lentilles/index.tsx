@@ -12,7 +12,7 @@ class Rayon{
     color: string
     enabled: boolean
 
-    constructor(id, label, color){
+    constructor(id: string, label: string, color: string){
         this.id = id
         this.label = label
         this.color = color
@@ -24,7 +24,7 @@ export default function Lentilles() {
     const size = 80
     const arrowSize = size/2
 
-    const fullscreenAble = useRef(null)
+    const fullscreenAble = useRef<HTMLElement>(null)
     const [fullscreenButton] = useFullscreen(fullscreenAble)
     const mousePosRef = useRef<Pos>({x: 0, y:0})
     const originPos = useRef<Pos>({x: 0, y: 0})
@@ -37,7 +37,7 @@ export default function Lentilles() {
     const objectHeight = useRef<HTMLInputElement>(null)
     const focalLengthRef = useRef<HTMLInputElement>(null)
 
-    const moving = useRef<React.MutableRefObject<Pos> | any>(null)
+    const moving = useRef<React.MutableRefObject<Pos | number>>(null)
 
     const [rayons] = useState<Rayon[]>([
         new Rayon("rΔ", "Rayon passant parrallèle à Δ", "#FF00FF"),
@@ -94,14 +94,14 @@ export default function Lentilles() {
     const isMouseNear = (pos :Pos) => Math.abs(mousePosRef.current.x - pos.x) < size/2 && Math.abs(mousePosRef.current.y - pos.y) < size/2
 
     function drawArrow(ctx: CanvasRenderingContext2D, origin: Pos, side: "left" | "right" | "up" | "down", size = arrowSize){
-        let pos1 = {...origin}
-        let pos2 = {...origin}
+        const pos1 = {...origin}
+        const pos2 = {...origin}
 
         if(side == "left" || side == "right"){
             pos1.y += size
             pos2.y -= size
 
-            let coef = (side == "left" ? 1 : -1)
+            const coef = (side == "left" ? 1 : -1)
 
             pos1.x += size * coef
             pos2.x += size * coef
@@ -109,7 +109,7 @@ export default function Lentilles() {
             pos1.x += size
             pos2.x -= size
 
-            let coef = (side == "up" ? 1 : -1)
+            const coef = (side == "up" ? 1 : -1)
 
             pos1.y += size * coef
             pos2.y += size * coef
@@ -120,7 +120,7 @@ export default function Lentilles() {
     }
 
     function drawCanvas(canvas: HTMLCanvasElement){
-        const ctx = canvas.getContext("2d")
+        const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
         setColor(ctx, "#FFF")
         ctx.font = size/5*4+"px sans-serif"
         ctx.fillRect(0,0, canvas.width, canvas.height)
@@ -186,8 +186,8 @@ export default function Lentilles() {
         drawArrow(ctx, Otop, focalLength.current > 0 ? "up": "down")
         drawArrow(ctx, Obottom, focalLength.current < 0 ? "up": "down")
 
-        let m = []
-        let p = []
+        const m = []
+        const p = []
 
         const rdelta = rayons[0]
         if(rdelta.enabled){
@@ -244,7 +244,7 @@ export default function Lentilles() {
 
             _object.current = {x: _Apos.x - originX, y: originY - _Bpos.y}
         
-            let gma = (_Bpos.y - _Apos.y)/(Bpos.y - Apos.y)
+            const gma = (_Bpos.y - _Apos.y)/(Bpos.y - Apos.y)
 
             if(gma > 0){
                 if(rdelta.enabled){

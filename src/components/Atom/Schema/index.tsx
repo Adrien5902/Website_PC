@@ -37,7 +37,7 @@ export default function AtomeSchema({atome}: Props) {
             let remainingZ = atome.Z
             let remainingN = atome.getN()
 
-            this.data = new Array(A+1).fill(0).map((_, i) => {
+            this.data = new Array(A+1).fill(0).map(() => {
                 const canvas = canvasRef.current
                 const {width, height} = canvas
                 const origin: Pos = {x: width/2, y: height/2}

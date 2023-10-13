@@ -9,9 +9,9 @@ import { Isotope } from "./isotope";
 
 function ViewAtom() {
     let atome: Atome
+    const Z = Number(useParams().Z)
 
     try {
-        const Z = Number(useParams().Z)
         atome = Z && new Atome(Z)
     } catch (error) {
         return <Navigate to=".."/>

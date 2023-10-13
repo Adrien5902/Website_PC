@@ -75,8 +75,8 @@ function ElecSimulate() {
         const componentSize = componentSizeRef.current
         let side = 0 as Side
         const component = components.current.find((component) => {
-            let x = mousePos.x - component.pos.x
-            let y = mousePos.y - component.pos.y
+            const x = mousePos.x - component.pos.x
+            const y = mousePos.y - component.pos.y
             
             side = x > 0 ? 1 : -1
 
@@ -145,7 +145,7 @@ function ElecSimulate() {
                     || c.b.component.id == powerSource.id && c.b.side == 1
                 )
                 
-                for(let firstConn of connexions){
+                for(const firstConn of connexions){
                     const conns: Connection[] = []
 
                     let conn: Connection = firstConn

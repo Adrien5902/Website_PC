@@ -41,7 +41,7 @@ function Forces() {
     const calcPoidsSurAstre = (mObj, gAstre) => (mObj*gAstre).toFixed(decimals)
 
     function handlePoidsSurAstre(){
-        let g = getInputNumber(gAstre) || getInputNumber(gOther)
+        const g = getInputNumber(gAstre) || getInputNumber(gOther)
         setAstre(gAstre.current.value)
         setResult(calcPoidsSurAstre(getInputNumber(mObj), g))
     }

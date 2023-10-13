@@ -2,7 +2,13 @@ import { useEffect } from 'react';
 import { atomes } from '../funct';
 import AtomSearchResult from './result';
 
-function SearchAtom({setSelectedAtomZ, setSearch, search}) {
+interface Props{
+    setSelectedAtomZ: React.Dispatch<React.SetStateAction<number>>
+    setSearch: React.Dispatch<React.SetStateAction<string>>
+    search: string
+}
+
+function SearchAtom({setSelectedAtomZ, setSearch, search} : Props) {
     const stringtoSearch = (s :string) => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase();
     
     function handleInput(e : React.FormEvent<HTMLInputElement>){

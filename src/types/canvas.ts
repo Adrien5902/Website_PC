@@ -2,7 +2,7 @@ export type Pos = {x: number, y: number}
 
 export function getMousePos(canvasRef, evt) {
     const canvas = canvasRef.current
-    var rect = canvas.getBoundingClientRect(),
+    const rect = canvas.getBoundingClientRect(),
     scaleX = canvas.width / rect.width,
     scaleY = canvas.height / rect.height;
 

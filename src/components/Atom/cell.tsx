@@ -9,7 +9,7 @@ interface Props{
     selected?: boolean
     canBeHovered?: boolean
     defaultHover?: boolean
-    setSelectedAtomZ? : (atome: number | null) => void
+    setSelectedAtomZ? : React.Dispatch<React.SetStateAction<number>>
 }
 
 function AtomCell({atome, color = "#ffffff", selected, canBeHovered = true, defaultHover = false, setSelectedAtomZ} : Props) {

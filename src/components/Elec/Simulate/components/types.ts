@@ -54,7 +54,7 @@ export class Connection{
         
         ctx.lineTo(a.x, a.y);
 
-        let pos: Pos = {x: 0, y: 0}
+        const pos: Pos = {x: 0, y: 0}
         if(a.x > b.x){
             pos.x = this.a.side > 0 ? a.x : b.x
             pos.y = this.a.side > 0 ? b.y : a.y
