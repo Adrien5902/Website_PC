@@ -1,8 +1,8 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import SearchAtom from './Search';
-import TableauPeriodique from './Table';
+import TableauPeriodique from './table';
 import './style.css'
-import ViewAtom from './View';
+import ViewAtom from './view';
 import { useState } from 'react';
 
 function Atom() {

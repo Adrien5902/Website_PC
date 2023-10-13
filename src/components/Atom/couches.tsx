@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Atome, couchesList } from "../funct"
+import { Atome, couchesList } from "./funct"
 
 function AtomeCouches({atome = new Atome(1), shortened = true}) {
     return (

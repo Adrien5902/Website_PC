@@ -1,5 +1,5 @@
-import AtomeCouches from "../Couches";
-import AtomCell from "../Cell";
+import AtomeCouches from "../couches";
+import AtomCell from "../cell";
 import { Atome } from "../funct";
 
 function AtomSearchResult({atome, setSelectedAtomZ}: {atome: Atome, setSelectedAtomZ: any}) {

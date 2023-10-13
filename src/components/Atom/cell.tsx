@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Atome } from "../funct";
+import { Atome } from "./funct";
 import { useState, useEffect } from 'react';
 
 
