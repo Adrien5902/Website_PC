@@ -60,3 +60,8 @@ export function drawDot(ctx: CanvasRenderingContext2D, {x, y}: Pos, size = ctx.l
     ctx.fill();
     ctx.stroke();
 }
+
+export function setColor(ctx: CanvasRenderingContext2D, color: string){
+    ctx.fillStyle = color
+    ctx.strokeStyle = color
+}

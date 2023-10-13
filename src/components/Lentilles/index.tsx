@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import './style.css'
 import useFullscreen from "../../hooks/Fullscreen";
-import { Pos, drawDashedLine, drawDot, drawLine, getMousePos } from "../../types/canvas";
+import { Pos, drawDashedLine, drawDot, drawLine, getMousePos, setColor } from "../../types/canvas";
 import useCanvas from "../../hooks/Canvas";
 
 class Rayon{
@@ -120,12 +120,11 @@ export default function Lentilles() {
 
     function drawCanvas(canvas: HTMLCanvasElement){
         const ctx = canvas.getContext("2d")
-        ctx.fillStyle = "#FFF"
+        setColor(ctx, "#FFF")
         ctx.font = size/5*4+"px sans-serif"
         ctx.fillRect(0,0, canvas.width, canvas.height)
         
-        ctx.fillStyle = "#000"
-        ctx.strokeStyle = "#000"
+        setColor(ctx, "#000")
         ctx.lineWidth = size/12;
 
         const {x: originX, y: originY} = originPos.current
@@ -144,8 +143,7 @@ export default function Lentilles() {
         ctx.fillText("A", Apos.x, originY + size)
         ctx.fillText("B", Bpos.x + size/3, Bpos.y)
 
-        ctx.strokeStyle = "#FF0000"
-        ctx.fillStyle = "#FF0000"
+        setColor(ctx, "#FF0000")
 
         drawDot(ctx, Apos, size/10)
 
@@ -158,8 +156,7 @@ export default function Lentilles() {
             ctx.stroke()
         }
         
-        ctx.fillStyle = "#000"
-        ctx.strokeStyle = "#000"
+        setColor(ctx, "#000")
 
         const Fpos = {x: originX - focalLength.current, y: originY}
         const _Fpos = {x: originX + focalLength.current, y: originY} //_F = F'
@@ -193,7 +190,8 @@ export default function Lentilles() {
 
         const rdelta = rayons[0]
         if(rdelta.enabled){
-            ctx.strokeStyle = rdelta.color
+            
+            setColor(ctx, rdelta.color)
             const mdelta = (_Fpos.y - Bpos.y)/(_Fpos.x - originX)
             const pdelta =  _Fpos.y - (mdelta * _Fpos.x)
             drawLine(ctx, Bpos, {x: originX, y: Bpos.y})
@@ -207,7 +205,8 @@ export default function Lentilles() {
         let pO = null
         const rO = rayons[1]
         if(rO.enabled){
-            ctx.strokeStyle = rO.color
+            
+            setColor(ctx, rO.color)
             mO = (originY - Bpos.y)/(originX - Bpos.x)
             pO = Bpos.y - mO * Bpos.x
             drawLine(ctx, Bpos, {x: originX * 2, y: mO * (originX * 2) + pO})
@@ -219,7 +218,8 @@ export default function Lentilles() {
         const rF = rayons[2]
         if(rF.enabled){
             const mF = 0
-            ctx.strokeStyle = rF.color
+            
+            setColor(ctx, rF.color)
             drawLine(ctx, Bpos, {x: originX, y: originX * m1 + p1})
             drawLine(ctx, {x: originX, y: pF}, {x: originX * 2, y: pF})
 
@@ -247,28 +247,31 @@ export default function Lentilles() {
 
             if(gma > 0){
                 if(rdelta.enabled){
-                    ctx.strokeStyle = rdelta.color
+                    
+                    setColor(ctx, rdelta.color)
                     drawDashedLine(ctx, {x: originX, y: Bpos.y}, _Bpos, size/4)
                 }
 
                 if(rO.enabled){
-                    ctx.strokeStyle = rO.color
+                    
+                    setColor(ctx, rO.color)
                     drawDashedLine(ctx, {x: originX * 2, y: mO * (originX * 2) + pO}, _Bpos, size/4)
                 }
 
                 if(rF.enabled){
-                    ctx.strokeStyle = rF.color
+                    
+                    setColor(ctx, rF.color)
                     drawDashedLine(ctx, {x: originX, y: pF}, _Bpos, size/4)
                 }
                 
 
-                ctx.strokeStyle = "#FF0000"
-                ctx.fillStyle = "#FF0000"
+                
+                setColor(ctx, "#FF0000")
 
                 drawDashedLine(ctx, _Apos, _Bpos, size/4)
             }else{
-                ctx.strokeStyle = "#FF0000"
-                ctx.fillStyle = "#FF0000"
+                
+                setColor(ctx, "#FF0000")
                 drawLine(ctx, _Apos, _Bpos)
             }
     
