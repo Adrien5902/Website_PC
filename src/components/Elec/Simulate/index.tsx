@@ -256,8 +256,6 @@ function ElecSimulate() {
                     <canvas 
                         id="result" 
                         ref={canvasRef} 
-                        width="800" 
-                        height="400"
                         onDrop={handleDrop}
                         onMouseDown={handleMouseDown}
                         onMouseMove={handleMouseMove}

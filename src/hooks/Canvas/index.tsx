@@ -21,10 +21,11 @@ export default function useCanvas(
         canvas.ondragleave = () => canvasRef.current.classList.remove("draghover");
 
         function resizeCanvas() {
-            const box = canvas.getBoundingClientRect();
+            canvas.width = 0
+            canvas.height = 0
 
-            canvas.width = box.width * sizeCoef;
-            canvas.height = box.height * sizeCoef;
+            canvas.width = canvas.offsetWidth * sizeCoef;
+            canvas.height = canvas.offsetHeight * sizeCoef;
 
             onResize && onResize({ x: canvas.width, y: canvas.height });
         }
