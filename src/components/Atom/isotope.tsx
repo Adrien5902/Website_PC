@@ -1,4 +1,4 @@
-import { Atome, atomes } from "./funct";
+import { Atome } from "./funct";
 
 export class Isotope extends Atome{
     electrons: number
@@ -6,7 +6,7 @@ export class Isotope extends Atome{
 
     constructor(Z: number, A?: number, electrons?: number){
         super(Z)
-        this.A = A ?? Z
+        this.A = A ?? Z * 2
         this.electrons = electrons ?? Z
     }
 
