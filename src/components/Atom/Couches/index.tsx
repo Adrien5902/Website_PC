@@ -7,7 +7,7 @@ function AtomeCouches({atome = new Atome(1), shortened = true}) {
             {(shortened && atome.lastGazNoble) ? 
                 <>
                     <span>[</span>
-                    <Link to={"/atom/view?Z="+atome.lastGazNoble.Z} className="cyan unlink tooltip">
+                    <Link to={`/atom/view/${atome.lastGazNoble.Z}`} className="cyan unlink tooltip">
                         {atome.lastGazNoble.symbol}
                         <span className="tooltip-text">
                             {<AtomeCouches atome={atome.lastGazNoble} shortened={false}/>}

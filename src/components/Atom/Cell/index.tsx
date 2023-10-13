@@ -31,7 +31,7 @@ function AtomCell({atome, color = "#ffffff", selected, canBeHovered = true, defa
 
     return (
         <Link
-            to={`/atom/view?Z=${atome.Z}`} 
+            to={`/atom/view/${atome.Z}`} 
             style={{background: color}} 
             className={(selected ? "selected " : "") + (hover ? "hover " : "") + "atom-cell unlink"}
             onMouseEnter={()=> handleHover(true)}

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import SearchAtom from './Search';
 import TableauPeriodique from './Table';
 import './style.css'
@@ -12,7 +12,12 @@ function Atom() {
     return ( <>
         <Routes>
             <Route
-                path='/view'
+                path='/view/'
+                element={<Navigate to="../"/>}
+            ></Route>
+            
+            <Route
+                path='/view/:Z'
                 element={<ViewAtom/>}
             ></Route>
             

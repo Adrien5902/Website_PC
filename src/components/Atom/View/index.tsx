@@ -1,17 +1,23 @@
-import { Navigate, useLocation } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { Atome } from "../funct";
 import AtomeCouches from "../Couches";
 import AtomCell from "../Cell";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAddressCard, faArrowDown19, faAtom, faCubes, faHashtag, faObjectGroup, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
+// import AtomeSchema from "../Schema";
+// import { Isotope } from "../isotope";
 
 function ViewAtom() {
-    const Z = Number(new URLSearchParams(useLocation().search).get("Z"))
-    const atome = new Atome(Z)
+    let atome: Atome
+
+    try {
+        const Z = Number(useParams().Z)
+        atome = Z && new Atome(Z)
+    } catch (error) {
+        return <Navigate to=".."/>
+    }
 
     return (<>
-        {atome ? 
-        
         <div style={{display: "flex", alignItems: "center", flexDirection: "column", marginTop: "24px"}}>
             <img className="back" onClick={()=>history.go(-1)} src="./assets/back-arrow.png" alt="←"/>
 
@@ -30,10 +36,8 @@ function ViewAtom() {
                 <span><FontAwesomeIcon icon={faObjectGroup}/> Famille : {atome.family}</span>
             </div>
         
+            {/* <AtomeSchema atome={new Isotope(atome.Z)}/> */}
         </div>
-        
-        
-        : <Navigate to="./"/>}   
     </>);
 }
 
