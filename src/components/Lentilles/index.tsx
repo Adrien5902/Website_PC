@@ -27,7 +27,6 @@ export default function Lentilles() {
     const fullscreenAble = useRef(null)
     const [fullscreenButton] = useFullscreen(fullscreenAble)
     const mousePosRef = useRef<Pos>({x: 0, y:0})
-    const canvasRef = useRef<HTMLCanvasElement>(null)
     const originPos = useRef<Pos>({x: 0, y: 0})
     const object = useRef<Pos>({x: 0, y: 0}) //X is the pos on delta axis, Y is the object height
     const focalLength = useRef<number>(0)
@@ -46,7 +45,7 @@ export default function Lentilles() {
         new Rayon("rF", "Rayon passant par le foyer F", "#00AAFF"),
     ])
 
-    useCanvas(canvasRef, (size) => {
+    const canvasRef = useCanvas((size) => {
         originPos.current = {x: size.x/2, y: size.y/2}
 
         drawCanvas(canvasRef.current)

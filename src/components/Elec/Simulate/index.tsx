@@ -50,8 +50,7 @@ function ElecSimulate() {
     const frameRate = 60
 
     const mousePosRef = useRef<Pos>({ x: 0, y: 0 });
-
-    const canvasRef = useRef<HTMLCanvasElement>()
+    const canvasRef = useCanvas()
 
     const getConnections = (c: Component) :  Connection[] =>  connections.current.filter(con => con.a.component == c || con.b.component == c)
 
@@ -227,8 +226,6 @@ function ElecSimulate() {
     
         return () => clearInterval(intervalId);
     }, [components, mousePosRef.current, componentSizeRef.current])
-
-    useCanvas(canvasRef)
     
     const nameInput = useRef<HTMLInputElement>(null)
     useEffect(() => {if(nameInput.current) {nameInput.current.value = selectedSide?.component.name}}, [selectedSide])
