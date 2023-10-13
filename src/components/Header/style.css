@@ -1,10 +1,9 @@
-header
-{
+header{
     background: #222;
     color: white;
     text-align: center;
     padding: 12px;
-    font-size: 2.1em;
+    font-size: 2em;
     font-weight: bold;
     vertical-align: middle;
     width: 100%;
@@ -13,20 +12,65 @@ header
     top: 0;
     display: flex;
     flex-direction: column;
+    padding-bottom: 0;
 }
 
 header img{
     max-width: 100%;
-}
-
-header a
-{
-    margin: 0 12px;
-    color: white;
-    text-decoration: none;
+    height: 15vh
 }
 
 #links{
     display: inline-flex;
     justify-content: center;
+}
+
+.dropdown{
+    --width: clamp(6em, 20vw, 10em);
+    --padding: .2em;
+
+    margin: .3em .9em;
+    margin-bottom: 0;
+    background: #333;
+    border-top-right-radius: .3em;
+    border-top-left-radius: .3em;
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 100;
+    width: var(--width);
+    padding: var(--padding);
+    user-select: none;
+
+    &:hover .dropdown-children{
+        max-height: 10em;
+    }
+
+    & .dropdown-children{
+        border-top: dashed white 4px;
+        transition: max-height 300ms;
+        max-height: 0;
+        position: absolute;
+        flex-direction: column;
+        display: flex;
+        background: inherit;
+        border-bottom-left-radius: .3em;
+        border-bottom-right-radius: .3em;
+        left: 0;
+        top: calc(1.5em + var(--padding));
+        width: calc(var(--width) + var(--padding)*2);
+        padding: 0;
+        overflow: hidden;
+
+        & a{
+            color: white;
+            text-decoration: none !important;
+            padding: .2em;
+        
+            &:hover, &.active{
+                background: #1a1a1a;
+            }
+        }
+    }
 }

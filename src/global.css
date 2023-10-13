@@ -20,10 +20,10 @@ select {
 }
 
 /*Contenu de la page sans l'en-tête et le footer*/
-div.content {
+.content {
     text-align: center;
     margin: auto;
-    top: 270px;
+    top: calc(15vh + 5em);
     position: relative;
 }
 
@@ -69,7 +69,7 @@ a:hover {
     cursor: pointer;
 }
 
-img.back:hover {
+.back:hover {
     filter: invert(52%) sepia(93%) saturate(1622%) hue-rotate(159deg) brightness(102%) contrast(108%);
 }
 
