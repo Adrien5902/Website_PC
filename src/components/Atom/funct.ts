@@ -10,7 +10,7 @@ import elements from './elements.json'
 
 export const couchesList = [ //Liste des couches électroniques dans l'odre de remplissage
     "1s","2s","2p","3s","3p","4s","3d","4p","5s","4d","5p","6s","4f","5d","6p","7s","5f","6d","7p"
-]
+] as const
 
 //Liste des gaz nobles (numéros atomiques)
 export const gazNobles = [2, 10, 18, 36, 54, 86, 118]
@@ -27,13 +27,7 @@ export const couchesLimit = { //Limites des sous couches
 */
 
 export type Bloc = "s" | "p" | "d" | "f"
-
-export type Couches = {
-    "1s"?: number,"2s"?: number,"2p"?: number,"3s"?: number,"3p"?: number,"4s"?: number,"3d"?: number,
-    "4p"?: number,"5s"?: number,"4d"?: number,"5p"?: number,"6s"?: number,"4f"?: number,"5d"?: number,
-    "6p"?: number,"7s"?: number,"5f"?: number,"6d"?: number,"7p"?: number
-}
-
+export type Couches = Partial<Record<typeof couchesList[number], number>>
 
 /*
 SCRIPT
@@ -88,7 +82,7 @@ export class Atome {
     //Constructeur Atom
     constructor (Z: number) { //Z = Numéro atomique
         if(Z < 1 || Z > 118){ //Si le numéro atomique n'est aucun de ceux des éléments
-            console.error("Atome inexistant") //Renvoie une erreur dans la console
+            throw "Atome inexistant" //Renvoie une erreur dans la console
         }else{
             const i = Z-1
             this.Z = Z //Set numéro atomique
