@@ -3,6 +3,8 @@ import './style.css'
 import useFullscreen from "../../hooks/Fullscreen";
 import { Pos, drawDashedLine, drawDot, drawLine, getMousePos, setColor } from "../../types/canvas";
 import useCanvas from "../../hooks/Canvas";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 class Rayon{
     label: string
@@ -298,7 +300,11 @@ export default function Lentilles() {
     }, [])
 
     return (<div ref={fullscreenAble}>
-        <h1>Lentilles {fullscreenButton}</h1>
+        <h1 style={{width: "90vw"}} className="align-between">
+            <div></div>
+            <span><FontAwesomeIcon icon={faMagnifyingGlass}/> Lentilles</span>
+            <span>{fullscreenButton}</span>
+        </h1>
 
         <div id="lentilles-app">
             <canvas

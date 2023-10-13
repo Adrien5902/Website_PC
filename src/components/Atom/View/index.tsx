@@ -31,7 +31,7 @@ function ViewAtom() {
                 <span><FontAwesomeIcon icon={faAddressCard}/> Symbole : {atome.symbol}</span>
                 <span><FontAwesomeIcon icon={faArrowDown19}/> Période : {atome.période}</span>
                 <span><FontAwesomeIcon icon={faAtom}/> Couches éléctroniques : <AtomeCouches atome={atome}/></span>
-                <span><FontAwesomeIcon icon={faCubes}/> Bloc : {atome.bloc}</span>
+                <span><FontAwesomeIcon icon={faCubes}/> Bloc : {atome.bloc.toUpperCase()}</span>
                 <span><FontAwesomeIcon icon={faWeightHanging}/> Masse Molaire : {atome.M} g/mol</span>
                 <span><FontAwesomeIcon icon={faObjectGroup}/> Famille : {atome.family}</span>
             </div>
