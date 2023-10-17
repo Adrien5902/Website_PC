@@ -1,5 +1,8 @@
 import { useState } from "react"
 import { Molécule } from "../molecules"
+import { Isotope } from "../../Atom/isotope";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 
 class EqError extends Error{
     constructor(message: string){
@@ -47,11 +50,26 @@ function MoleculesEquation({}) {
             counts: null
         }))
 
-        equation.map(side => side.counts = side.data.map(mol => mol.mol.data.map(a => ({atome: a.atome, count: a.count * mol.count}))).flat(1))
-        
+        equation
+            .map(
+                side => 
+                side.counts = side.data
+                    .map(mol => mol.mol.data.map(a => ({atome: a.atome, count: a.count * mol.count})))
+                    .flat(1)
+            .reduce((prev, curr) => {
+                const otherSameAtomIndex = (prev as {atome: Isotope, count: number}[]).findIndex((v) => v.atome.Z == curr.atome.Z)
+                if(otherSameAtomIndex >= 0){
+                    prev[otherSameAtomIndex].count += curr.count
+                    return prev
+                }else{
+                    return [...prev, curr]
+                }
+            }, [])
+        )
+
         
 
-        const res = equation.map(side => 
+        const resString = equation.map(side => 
             side.data.map(
                 (mol, i) => <span key={i}>{mol.count}{mol.mol.toHTML()}</span>
             ).reduce(
@@ -60,15 +78,15 @@ function MoleculesEquation({}) {
             )
         ).reduce(
             (prev, current) => 
-            [...prev, prev.length ? <span key="arrow"> {"->"} </span> : "", current], []
+            [...prev, prev.length ? <FontAwesomeIcon style={{margin: ".5em"}} icon={faArrowRight}/>: "", current], []
         )
 
-        setResult(res)
+        setResult(resString)
     }
 
     return (<>
         <input type="text" onInput={handleInput}/>
-        <p>{result}</p>
+        <p style={{display: "flex", alignItems: "center", justifyContent: "center"}}>{result}</p>
     </>);
 }
 
