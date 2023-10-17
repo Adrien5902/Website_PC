@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom"
 import './style.css'
-import { faAtom, faBolt, faCameraRetro, faDna, faMagnet } from "@fortawesome/free-solid-svg-icons";
+import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faMagnet } from "@fortawesome/free-solid-svg-icons";
 import HeaderLink from "./links";
+import HeaderDropDown from "./dropdown";
 
 function Header() {
     return (
@@ -11,11 +12,20 @@ function Header() {
             </Link>
             
             <div id="links">
-                <HeaderLink id="atom" name="Atomes" icon={faAtom}/>
-                <HeaderLink id="elec" name="Électricité" icon={faBolt}/>
-                <HeaderLink id="forces" name="Forces" icon={faMagnet}/>
-                <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
-                <HeaderLink id="lentilles" name="Lentilles" icon={faCameraRetro}/>
+                <HeaderDropDown name="Physique">
+                    <HeaderLink id="forces" name="Forces" icon={faMagnet}/>
+                    <HeaderLink id="elec" name="Électricité" icon={faBolt}/>
+                    <HeaderLink id="lentilles" name="Lentilles" icon={faCameraRetro}/>
+                </HeaderDropDown>
+
+                <HeaderDropDown name="Chimie">
+                    <HeaderLink id="atom" name="Atomes" icon={faAtom}/>
+                    <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
+                </HeaderDropDown>
+
+                <HeaderDropDown name="Autres">
+                    <HeaderLink id="graph" name="Graphiques" icon={faChartLine}/>
+                </HeaderDropDown>
             </div>
         </header>
     );

@@ -11,7 +11,7 @@ interface Props{
 export default function HeaderLink(props: Props) {
     return (<Link
         to={"/"+props.id} 
-        className={useLocation().pathname.split("/")[1] == props.id ? "underlined" : ""}
+        className={(useLocation().pathname.split("/")[1] == props.id ? "active " : "") + "unlink"}
     >
         <FontAwesomeIcon icon={props.icon}/>
         <span> {props.name}</span>

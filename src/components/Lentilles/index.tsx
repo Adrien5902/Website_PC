@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import './style.css'
 import useFullscreen from "../../hooks/Fullscreen";
-import { Pos, drawDashedLine, drawDot, drawLine, getMousePos } from "../../types/canvas";
+import { Pos, drawDashedLine, drawDot, drawLine, getMousePos, setColor } from "../../types/canvas";
 import useCanvas from "../../hooks/Canvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -12,7 +12,7 @@ class Rayon{
     color: string
     enabled: boolean
 
-    constructor(id, label, color){
+    constructor(id: string, label: string, color: string){
         this.id = id
         this.label = label
         this.color = color
@@ -24,10 +24,9 @@ export default function Lentilles() {
     const size = 80
     const arrowSize = size/2
 
-    const fullscreenAble = useRef(null)
+    const fullscreenAble = useRef<HTMLElement>(null)
     const [fullscreenButton] = useFullscreen(fullscreenAble)
     const mousePosRef = useRef<Pos>({x: 0, y:0})
-    const canvasRef = useRef<HTMLCanvasElement>(null)
     const originPos = useRef<Pos>({x: 0, y: 0})
     const object = useRef<Pos>({x: 0, y: 0}) //X is the pos on delta axis, Y is the object height
     const focalLength = useRef<number>(0)
@@ -38,7 +37,7 @@ export default function Lentilles() {
     const objectHeight = useRef<HTMLInputElement>(null)
     const focalLengthRef = useRef<HTMLInputElement>(null)
 
-    const moving = useRef<React.MutableRefObject<Pos> | any>(null)
+    const moving = useRef<React.MutableRefObject<Pos | number>>(null)
 
     const [rayons] = useState<Rayon[]>([
         new Rayon("rΔ", "Rayon passant parrallèle à Δ", "#FF00FF"),
@@ -46,7 +45,7 @@ export default function Lentilles() {
         new Rayon("rF", "Rayon passant par le foyer F", "#00AAFF"),
     ])
 
-    useCanvas(canvasRef, (size) => {
+    const canvasRef = useCanvas((size) => {
         originPos.current = {x: size.x/2, y: size.y/2}
 
         drawCanvas(canvasRef.current)
@@ -95,14 +94,14 @@ export default function Lentilles() {
     const isMouseNear = (pos :Pos) => Math.abs(mousePosRef.current.x - pos.x) < size/2 && Math.abs(mousePosRef.current.y - pos.y) < size/2
 
     function drawArrow(ctx: CanvasRenderingContext2D, origin: Pos, side: "left" | "right" | "up" | "down", size = arrowSize){
-        let pos1 = {...origin}
-        let pos2 = {...origin}
+        const pos1 = {...origin}
+        const pos2 = {...origin}
 
         if(side == "left" || side == "right"){
             pos1.y += size
             pos2.y -= size
 
-            let coef = (side == "left" ? 1 : -1)
+            const coef = (side == "left" ? 1 : -1)
 
             pos1.x += size * coef
             pos2.x += size * coef
@@ -110,7 +109,7 @@ export default function Lentilles() {
             pos1.x += size
             pos2.x -= size
 
-            let coef = (side == "up" ? 1 : -1)
+            const coef = (side == "up" ? 1 : -1)
 
             pos1.y += size * coef
             pos2.y += size * coef
@@ -121,13 +120,12 @@ export default function Lentilles() {
     }
 
     function drawCanvas(canvas: HTMLCanvasElement){
-        const ctx = canvas.getContext("2d")
-        ctx.fillStyle = "#FFF"
+        const ctx = canvas.getContext("2d") as CanvasRenderingContext2D
+        setColor(ctx, "#FFF")
         ctx.font = size/5*4+"px sans-serif"
         ctx.fillRect(0,0, canvas.width, canvas.height)
         
-        ctx.fillStyle = "#000"
-        ctx.strokeStyle = "#000"
+        setColor(ctx, "#000")
         ctx.lineWidth = size/12;
 
         const {x: originX, y: originY} = originPos.current
@@ -146,8 +144,7 @@ export default function Lentilles() {
         ctx.fillText("A", Apos.x, originY + size)
         ctx.fillText("B", Bpos.x + size/3, Bpos.y)
 
-        ctx.strokeStyle = "#FF0000"
-        ctx.fillStyle = "#FF0000"
+        setColor(ctx, "#FF0000")
 
         drawDot(ctx, Apos, size/10)
 
@@ -160,8 +157,7 @@ export default function Lentilles() {
             ctx.stroke()
         }
         
-        ctx.fillStyle = "#000"
-        ctx.strokeStyle = "#000"
+        setColor(ctx, "#000")
 
         const Fpos = {x: originX - focalLength.current, y: originY}
         const _Fpos = {x: originX + focalLength.current, y: originY} //_F = F'
@@ -190,12 +186,13 @@ export default function Lentilles() {
         drawArrow(ctx, Otop, focalLength.current > 0 ? "up": "down")
         drawArrow(ctx, Obottom, focalLength.current < 0 ? "up": "down")
 
-        let m = []
-        let p = []
+        const m = []
+        const p = []
 
         const rdelta = rayons[0]
         if(rdelta.enabled){
-            ctx.strokeStyle = rdelta.color
+            
+            setColor(ctx, rdelta.color)
             const mdelta = (_Fpos.y - Bpos.y)/(_Fpos.x - originX)
             const pdelta =  _Fpos.y - (mdelta * _Fpos.x)
             drawLine(ctx, Bpos, {x: originX, y: Bpos.y})
@@ -209,7 +206,8 @@ export default function Lentilles() {
         let pO = null
         const rO = rayons[1]
         if(rO.enabled){
-            ctx.strokeStyle = rO.color
+            
+            setColor(ctx, rO.color)
             mO = (originY - Bpos.y)/(originX - Bpos.x)
             pO = Bpos.y - mO * Bpos.x
             drawLine(ctx, Bpos, {x: originX * 2, y: mO * (originX * 2) + pO})
@@ -221,7 +219,8 @@ export default function Lentilles() {
         const rF = rayons[2]
         if(rF.enabled){
             const mF = 0
-            ctx.strokeStyle = rF.color
+            
+            setColor(ctx, rF.color)
             drawLine(ctx, Bpos, {x: originX, y: originX * m1 + p1})
             drawLine(ctx, {x: originX, y: pF}, {x: originX * 2, y: pF})
 
@@ -245,32 +244,35 @@ export default function Lentilles() {
 
             _object.current = {x: _Apos.x - originX, y: originY - _Bpos.y}
         
-            let gma = (_Bpos.y - _Apos.y)/(Bpos.y - Apos.y)
+            const gma = (_Bpos.y - _Apos.y)/(Bpos.y - Apos.y)
 
             if(gma > 0){
                 if(rdelta.enabled){
-                    ctx.strokeStyle = rdelta.color
+                    
+                    setColor(ctx, rdelta.color)
                     drawDashedLine(ctx, {x: originX, y: Bpos.y}, _Bpos, size/4)
                 }
 
                 if(rO.enabled){
-                    ctx.strokeStyle = rO.color
+                    
+                    setColor(ctx, rO.color)
                     drawDashedLine(ctx, {x: originX * 2, y: mO * (originX * 2) + pO}, _Bpos, size/4)
                 }
 
                 if(rF.enabled){
-                    ctx.strokeStyle = rF.color
+                    
+                    setColor(ctx, rF.color)
                     drawDashedLine(ctx, {x: originX, y: pF}, _Bpos, size/4)
                 }
                 
 
-                ctx.strokeStyle = "#FF0000"
-                ctx.fillStyle = "#FF0000"
+                
+                setColor(ctx, "#FF0000")
 
                 drawDashedLine(ctx, _Apos, _Bpos, size/4)
             }else{
-                ctx.strokeStyle = "#FF0000"
-                ctx.fillStyle = "#FF0000"
+                
+                setColor(ctx, "#FF0000")
                 drawLine(ctx, _Apos, _Bpos)
             }
     

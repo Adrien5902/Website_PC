@@ -1,12 +1,16 @@
-import React, { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Pos } from "../../types/canvas";
 
 export default function useCanvas(
-    canvasRef: React.MutableRefObject<HTMLCanvasElement>,
-    onResize?: (size: Pos) => unknown
+    onResize?: (size: Pos) => unknown,
+    sizeCoef: number = 2,
 ) {
+    const canvasRef = useRef<HTMLCanvasElement>(null)
+
     useEffect(() => {
         const canvas = canvasRef.current;
+
+        if(!canvas) return
 
         canvas.ondragover = (event) => {
             event.preventDefault();
@@ -17,10 +21,11 @@ export default function useCanvas(
         canvas.ondragleave = () => canvasRef.current.classList.remove("draghover");
 
         function resizeCanvas() {
-            const box = canvas.getBoundingClientRect();
+            canvas.width = 0
+            canvas.height = 0
 
-            canvas.width = box.width * 2;
-            canvas.height = box.height * 2;
+            canvas.width = canvas.offsetWidth * sizeCoef;
+            canvas.height = canvas.offsetHeight * sizeCoef;
 
             onResize && onResize({ x: canvas.width, y: canvas.height });
         }
@@ -33,4 +38,6 @@ export default function useCanvas(
             window.removeEventListener("resize", resizeCanvas);
         };
     }, []);
+
+    return canvasRef
 }

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Atome } from "../funct";
+import { Atome } from "./funct";
 import { useState, useEffect } from 'react';
 
 
@@ -9,7 +9,7 @@ interface Props{
     selected?: boolean
     canBeHovered?: boolean
     defaultHover?: boolean
-    setSelectedAtomZ? : (atome: number | null) => void
+    setSelectedAtomZ? : React.Dispatch<React.SetStateAction<number>>
 }
 
 function AtomCell({atome, color = "#ffffff", selected, canBeHovered = true, defaultHover = false, setSelectedAtomZ} : Props) {
@@ -31,7 +31,7 @@ function AtomCell({atome, color = "#ffffff", selected, canBeHovered = true, defa
 
     return (
         <Link
-            to={`/atom/view?Z=${atome.Z}`} 
+            to={`/atom/view/${atome.Z}`} 
             style={{background: color}} 
             className={(selected ? "selected " : "") + (hover ? "hover " : "") + "atom-cell unlink"}
             onMouseEnter={()=> handleHover(true)}

@@ -2,7 +2,7 @@ export type Pos = {x: number, y: number}
 
 export function getMousePos(canvasRef, evt) {
     const canvas = canvasRef.current
-    var rect = canvas.getBoundingClientRect(),
+    const rect = canvas.getBoundingClientRect(),
     scaleX = canvas.width / rect.width,
     scaleY = canvas.height / rect.height;
 
@@ -59,4 +59,9 @@ export function drawDot(ctx: CanvasRenderingContext2D, {x, y}: Pos, size = ctx.l
     ctx.arc(x, y, size, 0, 2 * Math.PI);
     ctx.fill();
     ctx.stroke();
+}
+
+export function setColor(ctx: CanvasRenderingContext2D, color: string){
+    ctx.fillStyle = color
+    ctx.strokeStyle = color
 }

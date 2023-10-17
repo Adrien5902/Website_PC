@@ -50,8 +50,7 @@ function ElecSimulate() {
     const frameRate = 60
 
     const mousePosRef = useRef<Pos>({ x: 0, y: 0 });
-
-    const canvasRef = useRef<HTMLCanvasElement>()
+    const canvasRef = useCanvas()
 
     const getConnections = (c: Component) :  Connection[] =>  connections.current.filter(con => con.a.component == c || con.b.component == c)
 
@@ -76,8 +75,8 @@ function ElecSimulate() {
         const componentSize = componentSizeRef.current
         let side = 0 as Side
         const component = components.current.find((component) => {
-            let x = mousePos.x - component.pos.x
-            let y = mousePos.y - component.pos.y
+            const x = mousePos.x - component.pos.x
+            const y = mousePos.y - component.pos.y
             
             side = x > 0 ? 1 : -1
 
@@ -146,7 +145,7 @@ function ElecSimulate() {
                     || c.b.component.id == powerSource.id && c.b.side == 1
                 )
                 
-                for(let firstConn of connexions){
+                for(const firstConn of connexions){
                     const conns: Connection[] = []
 
                     let conn: Connection = firstConn
@@ -227,15 +226,11 @@ function ElecSimulate() {
     
         return () => clearInterval(intervalId);
     }, [components, mousePosRef.current, componentSizeRef.current])
-
-    useCanvas(canvasRef)
     
     const nameInput = useRef<HTMLInputElement>(null)
     useEffect(() => {if(nameInput.current) {nameInput.current.value = selectedSide?.component.name}}, [selectedSide])
 
     return (<>
-        <img className="back" onClick={() => history.go(-1)} src="./assets/back-arrow.png" alt="←"/>
-        
         <div id="app" className={cableMouse ? 'cable' : ""} ref={app}>
 
             <h1 style={{width: "90vw"}} className='align-between'>
@@ -259,8 +254,6 @@ function ElecSimulate() {
                     <canvas 
                         id="result" 
                         ref={canvasRef} 
-                        width="800" 
-                        height="400"
                         onDrop={handleDrop}
                         onMouseDown={handleMouseDown}
                         onMouseMove={handleMouseMove}

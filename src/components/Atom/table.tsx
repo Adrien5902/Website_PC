@@ -1,6 +1,6 @@
 import { useState } from "react";
-import AtomCell from "../Cell";
-import { Bloc, Atome, atomes, couchesLimit, gazNobles } from "../funct";
+import AtomCell from "./cell";
+import { Bloc, Atome, atomes, couchesLimit, gazNobles } from "./funct";
 
 function TableauPeriodique({selectedAtomZ}) {
     const [selectedBloc, setSelectedBloc] = useState<Bloc>(null)

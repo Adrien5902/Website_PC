@@ -1,19 +1,25 @@
-import { Navigate, useLocation } from "react-router-dom"
-import { Atome } from "../funct";
-import AtomeCouches from "../Couches";
-import AtomCell from "../Cell";
+import { Navigate, useParams } from "react-router-dom"
+import { Atome } from "./funct";
+import AtomeCouches from "./couches";
+import AtomCell from "./cell";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressCard, faArrowDown19, faAtom, faCubes, faHashtag, faObjectGroup, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
+import { faAddressCard, faArrowDown19, faAtom, faCircleLeft, faCubes, faHashtag, faObjectGroup, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
+import AtomeSchema from "./Schema";
+import { Isotope } from "./isotope";
 
 function ViewAtom() {
-    const Z = Number(new URLSearchParams(useLocation().search).get("Z"))
-    const atome = new Atome(Z)
+    let atome: Atome
+    const Z = Number(useParams().Z)
+
+    try {
+        atome = Z && new Atome(Z)
+    } catch (error) {
+        return <Navigate to=".."/>
+    }
 
     return (<>
-        {atome ? 
-        
         <div style={{display: "flex", alignItems: "center", flexDirection: "column", marginTop: "24px"}}>
-            <img className="back" onClick={()=>history.go(-1)} src="./assets/back-arrow.png" alt="←"/>
+            <FontAwesomeIcon className="back" onClick={()=>history.go(-1)} icon={faCircleLeft}/>
 
             <div id="atome-name">
                 <span>{atome.name}</span>
@@ -25,15 +31,13 @@ function ViewAtom() {
                 <span><FontAwesomeIcon icon={faAddressCard}/> Symbole : {atome.symbol}</span>
                 <span><FontAwesomeIcon icon={faArrowDown19}/> Période : {atome.période}</span>
                 <span><FontAwesomeIcon icon={faAtom}/> Couches éléctroniques : <AtomeCouches atome={atome}/></span>
-                <span><FontAwesomeIcon icon={faCubes}/> Bloc : {atome.bloc}</span>
+                <span><FontAwesomeIcon icon={faCubes}/> Bloc : {atome.bloc.toUpperCase()}</span>
                 <span><FontAwesomeIcon icon={faWeightHanging}/> Masse Molaire : {atome.M} g/mol</span>
                 <span><FontAwesomeIcon icon={faObjectGroup}/> Famille : {atome.family}</span>
             </div>
         
+            <AtomeSchema atome={new Isotope(atome.Z)}/>
         </div>
-        
-        
-        : <Navigate to="./"/>}   
     </>);
 }
 

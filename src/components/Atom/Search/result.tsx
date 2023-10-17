@@ -1,8 +1,13 @@
-import AtomeCouches from "../Couches";
-import AtomCell from "../Cell";
+import AtomeCouches from "../couches";
+import AtomCell from "../cell";
 import { Atome } from "../funct";
 
-function AtomSearchResult({atome, setSelectedAtomZ}: {atome: Atome, setSelectedAtomZ: any}) {
+interface Props{
+    atome: Atome, 
+    setSelectedAtomZ: React.Dispatch<React.SetStateAction<number>>
+}
+
+function AtomSearchResult({atome, setSelectedAtomZ}: Props) {
     return ( 
         <div className="atom-search-result">
             <AtomCell setSelectedAtomZ={setSelectedAtomZ} atome={atome} canBeHovered={false}></AtomCell>
