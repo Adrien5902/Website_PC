@@ -11,7 +11,7 @@ interface Props{
 export default function AtomeSchema({atome}: Props) {
     const canvasRef = useCanvas()
     const [size, setSize] = useState<number>(12)
-    const frameRate = 60
+    const frameRate = 30
     const angleRef = useRef<number>(0)
 
     class Nucléon{
