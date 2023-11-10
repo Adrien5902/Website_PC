@@ -1,7 +1,6 @@
 export type Pos = {x: number, y: number}
 
-export function getMousePos(canvasRef, evt) {
-    const canvas = canvasRef.current
+export function getMousePos(canvas: HTMLCanvasElement, evt: React.MouseEvent) {
     const rect = canvas.getBoundingClientRect(),
     scaleX = canvas.width / rect.width,
     scaleY = canvas.height / rect.height;
@@ -9,7 +8,7 @@ export function getMousePos(canvasRef, evt) {
     return {
         x: (evt.clientX - rect.left) * scaleX,
         y: (evt.clientY - rect.top) * scaleY
-    }
+    } as Pos
 }
 
 export function drawImage(ctx: CanvasRenderingContext2D, src: string, pos: Pos, size: number){

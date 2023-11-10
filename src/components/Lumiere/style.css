@@ -1,6 +1,6 @@
 canvas{
-    width: 40vw;
-    height: 40vh;
+    width: clamp(28em, 40vw, 100em);
+    aspect-ratio: 2;
 }
 
 .alpha-slider{

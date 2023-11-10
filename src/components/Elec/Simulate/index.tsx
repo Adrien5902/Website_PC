@@ -55,7 +55,7 @@ function ElecSimulate() {
     const getConnections = (c: Component) :  Connection[] =>  connections.current.filter(con => con.a.component == c || con.b.component == c)
 
     function handleDrop(e){
-        const pos = getMousePos(canvasRef, e)
+        const pos = getMousePos(canvasRef.current, e)
         const type = e.dataTransfer.getData("text/plain")
 
         const componentType = componentTypes.find(t => type == t.nom)
@@ -88,7 +88,7 @@ function ElecSimulate() {
 
 
     function handleMouseDown(e){
-        const mousePos = getMousePos(canvasRef, e)
+        const mousePos = getMousePos(canvasRef.current, e)
         const componentSide = selectComponent(mousePos)
 
         setSelectedSide(componentSide)
@@ -100,7 +100,7 @@ function ElecSimulate() {
     }
 
     function handleMouseUp(e){
-        const componentBSide = selectComponent(getMousePos(canvasRef, e))
+        const componentBSide = selectComponent(getMousePos(canvasRef.current, e))
 
         const isMovingCable = cableMouse && movingComponent.current && selectedSide.side
 
@@ -117,7 +117,7 @@ function ElecSimulate() {
     }
 
     function handleMouseMove(e){
-        const mousePos = getMousePos(canvasRef, e)
+        const mousePos = getMousePos(canvasRef.current, e)
         mousePosRef.current = mousePos
 
         if(movingComponent.current && !cableMouse){

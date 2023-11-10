@@ -52,7 +52,7 @@ export default function Lentilles() {
     })
 
     function handleMouseMove(e){
-        mousePosRef.current = getMousePos(canvasRef, e)
+        mousePosRef.current = getMousePos(canvasRef.current, e)
 
         if(moving.current){
             switch (moving.current) {
