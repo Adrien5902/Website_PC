@@ -6,6 +6,7 @@ import Electricity from "../Elec";
 import Forces from "../Forces";
 import Molecules from "../Molecules";
 import Lentilles from "../Lentilles";
+import SpectreCouleur from "../Lumiere";
 
 function App() {
     return ( 
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/forces/*" element={<Forces></Forces>}></Route>
                 <Route path="/molecules/*" element={<Molecules></Molecules>}></Route>
                 <Route path="/lentilles/*" element={<Lentilles></Lentilles>}></Route>
+                <Route path="/lumiere/couleur" element={<SpectreCouleur></SpectreCouleur>}></Route>
             </Routes>
         </div>
         </>

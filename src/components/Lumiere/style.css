@@ -1,0 +1,17 @@
+canvas{
+    width: 40vw;
+    height: 40vh;
+}
+
+.alpha-slider{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.round-label{
+    width: 1em;
+    height: 1em;
+    border-radius: 100%;
+}
