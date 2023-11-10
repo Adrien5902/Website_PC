@@ -9,7 +9,7 @@ interface Props{
 }
 
 export default function AtomeSchema({atome}: Props) {
-    const canvasRef = useCanvas()
+    const canvasRef = useCanvas(null, 2)
     const [size, setSize] = useState<number>(12)
     const frameRate = 30
     const angleRef = useRef<number>(0)
@@ -85,7 +85,7 @@ export default function AtomeSchema({atome}: Props) {
             const electrons :number = Object.keys(atome.couches).filter(key => key.includes(p.toString())).map(c => atome.couches[c]).reduce((prev, curr) => prev+curr, 0)
             setColor(ctx, "black")
             ctx.beginPath()
-            const radius = (origin.x - size*15) * p/atome.période + size*12
+            const radius = canvas.width * p/atome.période/3
             ctx.arc(origin.x, origin.y, radius, 0, Math.PI*2);
             ctx.stroke()
 
