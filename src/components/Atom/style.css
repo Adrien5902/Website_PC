@@ -13,8 +13,8 @@ tfoot tr{
 
 /*Cases du tableau périodique*/
 .atom-cell {
-    border: solid 2px black;
-    padding: 4px;
+    border: solid 2px var(--text);
+    padding: .5em;
     width: clamp(3em, 3.5vw, 9em);
     height: clamp(3em, 3.5vw, 9em);
     aspect-ratio: 1;
@@ -53,7 +53,7 @@ td .atom-cell:hover, .atom-cell.hover {
 .atom-search-result {
     display: flex;
     margin: 24px auto;
-    border: 2px solid black;
+    border: 2px solid var(--text);
     padding: 12px;
 }
 

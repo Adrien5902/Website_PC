@@ -6,7 +6,7 @@
         display: table-cell;
 
         & td{
-            border: .15em solid #333;
+            border: .15em solid var(--secondary);
             min-width: 7em;
             height: 2em;
             display: table-row;
@@ -27,7 +27,7 @@
             }
 
             .plus{
-                color: lime;
+                color: var(--accent);
                 cursor: pointer;
                 margin: .5em 0;
                 position: absolute;

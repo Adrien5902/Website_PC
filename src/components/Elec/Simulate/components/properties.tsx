@@ -176,7 +176,6 @@ export function ComponentProperties(
         </div>
 
         <div>
-
             <label htmlFor="component-name-input">Nom : </label>
             <input 
                 id="component-name-input"

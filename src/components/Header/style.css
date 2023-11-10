@@ -1,5 +1,5 @@
 header{
-    background: #222;
+    background: var(--primary);
     color: white;
     text-align: center;
     padding: 12px;
@@ -31,7 +31,7 @@ header img{
 
     margin: .3em .9em;
     margin-bottom: 0;
-    background: #333;
+    background: var(--secondary);
     border-top-right-radius: .3em;
     border-top-left-radius: .3em;
     text-align: center;
@@ -48,7 +48,7 @@ header img{
     }
 
     & .dropdown-children{
-        border-top: dashed white 4px;
+        border-top: dashed var(--background) 4px;
         transition: max-height 300ms;
         max-height: 0;
         position: absolute;
@@ -69,7 +69,7 @@ header img{
             padding: .2em;
         
             &:hover, &.active{
-                background: #1a1a1a;
+                background: var(--primary);
             }
         }
     }

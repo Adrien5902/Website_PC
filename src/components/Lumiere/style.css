@@ -23,6 +23,8 @@ canvas{
     flex-direction: column;
     margin: .5em;
     overflow: hidden;
+    background: var(--secondary);
+    color: var(--background);
 }
 
 .sythese-label{

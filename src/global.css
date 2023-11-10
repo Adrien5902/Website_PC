@@ -1,7 +1,18 @@
-body
+:root{
+    /*Color palette */
 
-/*Sur toute la page*/
-    {
+    --background: #FFF;
+    --text: #000;
+    --primary: #222;
+    --secondary: #333;
+    --accent: #F90;
+    --gray: #aaa;
+    --cyan: #00C3FF;
+}
+
+
+body
+{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     /*Change la police d'écriture*/
     font-size: 20px;
@@ -31,8 +42,8 @@ select {
 .tooltip-text {
     display: inline-block;
     position: absolute;
-    background: #BBB;
-    color: white;
+    background: var(--gray);
+    color: var(--background);
     padding: 0.3em;
     border-radius: 1em;
     visibility: hidden;
@@ -44,12 +55,6 @@ select {
 
 .tooltip:hover .tooltip-text {
     visibility: visible;
-}
-
-/*Couleurs*/
-:root {
-    --cyan: #00C3FF;
-    --background: #FFFFFF
 }
 
 .cyan {
@@ -121,7 +126,7 @@ ul {
 .formulas form,
 #formula-result {
     padding: 1em;
-    border: #222 dashed;
+    border: var(--primary) dashed;
     margin: 12px 1em;
 }
 
@@ -130,7 +135,7 @@ li {
 }
 
 .shadow-box {
-    box-shadow: gray 0 0 1em 0.1em;
+    box-shadow: var(--gray) 0 0 1em 0.1em;
     border-radius: .5em;
     margin: 0.5em;
 }
@@ -185,14 +190,17 @@ button{
     outline: 0;
     border-radius: .2em;
     font-size: 1em;
-    background: #333;
-    color: white;
+    background: var(--secondary);
+    color: var(--background);
     cursor: pointer;
     padding: .3em;
+    border: 0;
     box-sizing: border-box;
-    box-shadow: 0 0 .2em .2em #bbb;
+    box-shadow: .1em .1em 0 .2em var(--gray);
+    transition: 100ms all;
 
     &:active{
-        transform: scale(.9);
+        box-shadow: 0 0 0 .1em var(--gray);
+        transform: translate(.1em, .1em);
     }
 }

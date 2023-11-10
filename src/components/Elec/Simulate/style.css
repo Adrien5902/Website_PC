@@ -97,7 +97,7 @@ canvas#result{
     margin-left: .5em;
 
     &:hover{
-        filter: invert(14%) sepia(76%) saturate(7397%) hue-rotate(359deg) brightness(110%) contrast(110%);
+        color: var(--accent);
     }
 }
 
