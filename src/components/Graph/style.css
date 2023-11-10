@@ -1,0 +1,42 @@
+#tableur{
+    margin: auto;
+    border-collapse: collapse;
+
+    & tr{
+        display: table-cell;
+
+        & td{
+            border: .15em solid #333;
+            min-width: 7em;
+            height: 2em;
+            display: table-row;
+            position: relative;
+            text-align: center;
+
+            & > *{
+                width: inherit;
+                height: inherit;
+                margin: 0;
+                padding: .2em;
+                outline: 0;
+                border: 0;
+            }
+
+            &:has(input:focus) .plus{
+                display: none;
+            }
+
+            .plus{
+                color: lime;
+                cursor: pointer;
+                margin: .5em 0;
+                position: absolute;
+                width: 100%;
+            }
+        }
+
+        &:not(:first-child) td{
+            border-left: 0;
+        }
+    }
+}
