@@ -180,3 +180,19 @@ input[type="color"] {
     width: 90vw;
     align-items: center
 }
+
+button{
+    outline: 0;
+    border-radius: .2em;
+    font-size: 1em;
+    background: #333;
+    color: white;
+    cursor: pointer;
+    padding: .3em;
+    box-sizing: border-box;
+    box-shadow: 0 0 .2em .2em #bbb;
+
+    &:active{
+        transform: scale(.9);
+    }
+}

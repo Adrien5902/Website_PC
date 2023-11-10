@@ -3,11 +3,14 @@ import { Atome } from "./funct";
 import AtomeCouches from "./couches";
 import AtomCell from "./cell";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressCard, faArrowDown19, faAtom, faCircleLeft, faCubes, faHashtag, faObjectGroup, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
+import { faAddressCard, faArrowDown19, faAtom, faCircleLeft, faCubes, faEye, faEyeSlash, faHashtag, faObjectGroup, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
 import AtomeSchema from "./Schema";
 import { Isotope } from "./isotope";
+import { useState } from "react";
 
 function ViewAtom() {
+    const [SchemaShown, ToogleSchema] = useState(false)
+
     let atome: Atome
     const Z = Number(useParams().Z)
 
@@ -35,8 +38,11 @@ function ViewAtom() {
                 <span><FontAwesomeIcon icon={faWeightHanging}/> Masse Molaire : {atome.M} g/mol</span>
                 <span><FontAwesomeIcon icon={faObjectGroup}/> Famille : {atome.family}</span>
             </div>
+
+            <br />
+            <button onClick={() => ToogleSchema(s => !s)}>{(SchemaShown ? "Cacher" : "Afficher") + " le schéma"} <FontAwesomeIcon icon={SchemaShown ? faEyeSlash : faEye}/></button>
         
-            <AtomeSchema atome={new Isotope(atome.Z)}/>
+            {SchemaShown ? <AtomeSchema atome={new Isotope(atome.Z)}/> : ""}
         </div>
     </>);
 }
