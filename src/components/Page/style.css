@@ -1,14 +1,15 @@
 .page{
     width: 15em;
     aspect-ratio: 1;
-    font-size: clamp(.3em, 1.4vw, 1em);
+    font-size: clamp(.8em, 1.8vw, 1em);
     background-size: cover;
-    display: grid;
-    align-items: end;
-    text-decoration: none !important;
+    display: flex;
+    align-items: flex-end;
     box-shadow: inset 0 0 2em var(--gray);
-    margin: 1em;
     transition-duration: 300ms;
+    margin: 1em;
+    text-decoration: none !important;
+    justify-content: flex-start;
     border-radius: .5em;
 }
 
@@ -16,7 +17,7 @@
     transform: scale(1.2);
 }
 
-.page span {
+.page-text{
     position: relative;
     bottom: 0;
     left: 0;
@@ -27,4 +28,19 @@
     font-weight: bold;
     margin: 1em;
     text-align: left;
+
+    & svg{
+        color: var(--background);
+        filter: 
+            drop-shadow(.05em .05em .05em var(--text))
+            drop-shadow(-.05em -.05em .05em var(--text))
+            drop-shadow(-.05em .05em .05em var(--text))
+            drop-shadow(.05em .05em .05em var(--text));
+    }
+}
+
+#pages {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }

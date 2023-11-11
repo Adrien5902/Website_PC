@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import './style.css'
-import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faFillDrip, faFlask, faFlaskVial, faMagnet, faSlash } from "@fortawesome/free-solid-svg-icons";
+import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faFillDrip, faFlask, faFlaskVial, faLightbulb, faMagnet, faSlash } from "@fortawesome/free-solid-svg-icons";
 import HeaderLink from "./links";
 import HeaderDropDown from "./dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,8 +19,7 @@ function Header() {
                 <HeaderDropDown name="Physique">
                     <HeaderLink id="forces" name="Forces" icon={faMagnet}/>
                     <HeaderLink id="elec" name="Électricité" icon={faBolt}/>
-                    <HeaderLink id="lentilles" name="Lentilles" icon={faCameraRetro}/>
-                    <HeaderLink id="lumiere/couleur" name="Spectres de couleur" icon={faFillDrip}/>
+                    <HeaderLink id="lumiere" name="Lumière" icon={faLightbulb}/>
                 </HeaderDropDown>
 
                 <HeaderDropDown name="Chimie">

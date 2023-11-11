@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Page from "../Page";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faCameraRetro, faFillDrip } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
     return ( <>
@@ -14,7 +15,8 @@ function Home() {
         <Page href="/atom" text="Tableau périodique" img='./assets/pages/periodicTable.png'></Page>
         <Page href="/elec/simulate" text="Simulation de circuits électriques" img='./assets/pages/elecSchema.png'></Page>
         <Page href="/forces" text="Calcul des forces" img="./assets/pages/forces.jpg"></Page>
-        <Page href="/lentilles" text="Lentilles convergentes" img="./assets/pages/lentilles_convergentes.png"></Page>
+        <Page href="/lumiere/lentilles" text={<span><FontAwesomeIcon icon={faCameraRetro}/> Lentilles convergentes</span>} img="./assets/pages/lentilles_convergentes.png"></Page>
+        <Page href="/lumiere/synthese" text={<span><FontAwesomeIcon icon={faFillDrip}/> Synthèse des couleurs</span>} img="./assets/pages/synthese.png"></Page>
     </div>
 
     <a 

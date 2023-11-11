@@ -104,11 +104,6 @@ body.blur :not(#errorBox) {
     text-decoration: underline;
 }
 
-#pages {
-    display: flex;
-    justify-content: center;
-}
-
 form {
     display: inline-grid;
 }

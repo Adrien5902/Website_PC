@@ -5,15 +5,13 @@ import Atom from "../Atom";
 import Electricity from "../Elec";
 import Forces from "../Forces";
 import Molecules from "../Molecules";
-import Lentilles from "../Lentilles";
 import Graph from "../Graph";
-import SpectreCouleur from "../Lumiere";
 import ReactionsChimique from "../Reactions";
+import Lumiere from "../Lumiere";
 
 function App() {
     return ( 
         <>
-        
         <Header></Header>
 
         <div className="content">
@@ -23,9 +21,8 @@ function App() {
                 <Route path="/elec/*" element={<Electricity></Electricity>}></Route>
                 <Route path="/forces/*" element={<Forces></Forces>}></Route>
                 <Route path="/molecules/*" element={<Molecules></Molecules>}></Route>
-                <Route path="/lentilles/*" element={<Lentilles></Lentilles>}></Route>
                 <Route path="/graph/*" element={<Graph></Graph>}></Route>
-                <Route path="/lumiere/couleur" element={<SpectreCouleur></SpectreCouleur>}></Route>
+                <Route path="/lumiere/*" element={<Lumiere/>}></Route>
                 <Route path="/reactions/*" element={<ReactionsChimique/>}></Route>
             </Routes>
         </div>

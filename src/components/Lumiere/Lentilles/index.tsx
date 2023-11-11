@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import './style.css'
-import useFullscreen from "../../hooks/Fullscreen";
-import { Pos, drawDashedLine, drawDot, drawLine, getMousePos, setColor } from "../../types/canvas";
-import useCanvas from "../../hooks/Canvas";
+import useFullscreen from "../../../hooks/Fullscreen";
+import { Pos, drawDashedLine, drawDot, drawLine, getMousePos, setColor } from "../../../types/canvas";
+import useCanvas from "../../../hooks/Canvas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
@@ -24,7 +24,7 @@ export default function Lentilles() {
     const size = 80
     const arrowSize = size/2
 
-    const fullscreenAble = useRef<HTMLElement>(null)
+    const fullscreenAble = useRef<HTMLDivElement>(null)
     const [fullscreenButton] = useFullscreen(fullscreenAble)
     const mousePosRef = useRef<Pos>({x: 0, y:0})
     const originPos = useRef<Pos>({x: 0, y: 0})

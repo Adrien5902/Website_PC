@@ -3,7 +3,7 @@ import './style.css'
 
 interface Props{
     img : string
-    text : string
+    text : string | JSX.Element
     href : string
 }
 
@@ -13,7 +13,7 @@ function Page(props: Props) {
             style={{backgroundImage: `url(${props.img})`}}
             to={props.href}
             className="page"
-        ><span>{props.text}</span></Link>
+        ><div className="page-text">{props.text}</div></Link>
     );
 }
 
