@@ -24,14 +24,18 @@ export default function TableauAvancement() {
     const [echelle, setEchelle] = useState<number>(0)
     const [quantity, setQuantity] = useState<number[]>([])
 
+    const reactifs = equation?.sides[0].data
+    const produits = equation?.sides[1].data
+
     const equationInput = useRef<HTMLInputElement>(null)
     function changeEquation(e: React.FormEvent){
         const input = (e.target as HTMLInputElement).value
-        setEquation(Equation.parseString(input))
-    }
+        const newEquation = Equation.parseString(input)
+        setEquation(newEquation)
 
-    const reactifs = equation?.sides[0].data
-    const produits = equation?.sides[1].data
+        const reactifs = newEquation?.sides[0].data
+        setQuantity([...quantity, ...(new Array(reactifs.length).fill(10))].slice(0, reactifs.length))
+    }
 
     const elements = equation?.sides.flat(1).map(s => s.data).flat(1) ?? []
 
@@ -65,7 +69,7 @@ export default function TableauAvancement() {
                 <td>Initial</td>
                 <td>x = 0</td>
                 {
-                    reactifs.map((_mol, i) => <td key={i} className='reaction-quantity'>
+                    reactifs?.map((_mol, i) => <td key={i} className='reaction-quantity'>
                         <input type="number" defaultValue={10} onChange={(e) => {
                             setQuantity(q => {
                                 const quant = [...q]
@@ -76,19 +80,19 @@ export default function TableauAvancement() {
                     </td>)
                 }
                 {
-                    produits.map((_mol, i) => <td key={i} className='reaction-quantity'>0</td>)
+                    produits?.map((_mol, i) => <td key={i} className='reaction-quantity'>0</td>)
                 }
             </tr>
             <tr>
                 <td rowSpan={2}>Intermédiaire</td>
                 <td>x quelconque</td>
                 {
-                    reactifs.map((mol, i) => <td key={i}>
+                    reactifs?.map((mol, i) => <td key={i}>
                         {quantity[i]} - {parseCoef(mol.count)}x
                     </td>)
                 }
                 {
-                    produits.map((mol, i) => <td key={i}>
+                    produits?.map((mol, i) => <td key={i}>
                         {parseCoef(mol.count)}x
                     </td>)
                 }
@@ -99,15 +103,15 @@ export default function TableauAvancement() {
             </tr>
             <tr>
                 <td>Final</td>
-                <td>xf = {xf}</td>
+                <td>xf = {xf.toFixed(1)}</td>
                 {
-                    reactifs.map((mol, i) => <td key={i}>
-                        {quantity[i] - mol.count * xf}
+                    reactifs?.map((mol, i) => <td key={i}>
+                        {(quantity[i] - mol.count * xf).toFixed(1)}
                     </td>)
                 }
                 {
-                    produits.map((mol, i) => <td key={i}>
-                        {parseCoef(mol.count)}xf = {mol.count * xf}
+                    produits?.map((mol, i) => <td key={i}>
+                        {parseCoef(mol.count)}xf = {(mol.count * xf).toFixed(1)}
                     </td>)
                 }
             </tr>
