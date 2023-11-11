@@ -45,7 +45,7 @@ function SytheseElement({colors, sythese, moving}: SytheseProps){
 
         ctx.globalCompositeOperation = sythese == "soustractive" ? 'multiply' : 'screen';
 
-        for(let circle of circles){
+        for(const circle of circles){
             ctx.globalAlpha = circle.alpha
             ctx.fillStyle = circle.color
             ctx.beginPath()

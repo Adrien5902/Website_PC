@@ -20,7 +20,7 @@ function MoleculesEquation({}) {
         const input = (e.target as HTMLInputElement).value
         try {
             const eq = Equation.parseString(input)
-            setResult(eq.toString())
+            setResult(eq.toJSX())
         } catch (error) {
             if(error instanceof EqError){
                 console.log(error.message)
