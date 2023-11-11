@@ -21,12 +21,22 @@ function Header() {
 
                 <HeaderDropDown name="Chimie">
                     <HeaderLink id="atom" name="Atomes" icon={faAtom}/>
-                    <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
+                    {
+                        import.meta.env.DEV ? //Uncomment when done
+                        <>
+                        <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
+                        </>
+                        : <></>
+                    }
                 </HeaderDropDown>
 
-                <HeaderDropDown name="Autres">
-                    <HeaderLink id="graph" name="Graphiques" icon={faChartLine}/>
-                </HeaderDropDown>
+                {
+                    import.meta.env.DEV ? //Uncomment when done
+                    <HeaderDropDown name="Autres">
+                        <HeaderLink id="graph" name="Graphiques" icon={faChartLine}/>
+                    </HeaderDropDown>
+                    : ""
+                }
             </div>
         </header>
     );
