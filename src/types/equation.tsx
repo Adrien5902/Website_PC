@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Isotope } from "../../Atom/isotope"
-import { Molécule } from "../molecules"
+import { Isotope } from "../components/Atom/isotope"
+import { Molécule } from "../components/Molecules/molecules"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 
 export class EqError extends Error{
@@ -50,23 +50,28 @@ export class Equation{
 
         const data = sides.map(
             side => 
-            side.split(" + ").map(m => ({mol: Molécule.parseString(m), count: 1})) as EquationSideData
+            side
+            .split(" + ")
+            .map(m => ({
+                mol: Molécule.parseString(m.replace(m.match(/^\d+/)?.[0] ?? "", "").replaceAll(" ", "")), 
+                count: m.match(/^\d+/)?.[0] ?? 1
+            })) as EquationSideData
         )
 
         return new this(data)
     }
 
-    toString(){
-        return this.sides.map(side => 
+    toJSX(){
+        return this.sides.map((side, i) => 
             side.data.map(
-                (mol, i) => <span key={i}>{mol.count}{mol.mol.toHTML()}</span>
+                (mol, j) => <span key={"mol" + i + j}>{mol.count > 1 ? mol.count : ""}{mol.mol.toHTML()}</span>
             ).reduce(
-                (prev, current) => 
-                [...prev, prev.length ? <span key="plus"> + </span> : "", current], []
+                (prev, current, j) => 
+                [...prev, prev.length ? <span key={"plus" + i + j}> + </span> : "", current], []
             )
         ).reduce(
-            (prev, current) => 
-            [...prev, prev.length ? <FontAwesomeIcon style={{margin: ".5em"}} icon={faArrowRight}/>: "", current], []
+            (prev, current, k) => 
+            [...prev, prev.length ? <FontAwesomeIcon style={{margin: ".5em"}} key={"arrow" + k} icon={faArrowRight}/>: "", current], []
         ) as JSX.Element[]
     }
 }

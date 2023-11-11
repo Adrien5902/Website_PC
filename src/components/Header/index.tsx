@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import './style.css'
-import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faFillDrip, faMagnet } from "@fortawesome/free-solid-svg-icons";
+import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faFillDrip, faFlaskVial, faMagnet } from "@fortawesome/free-solid-svg-icons";
 import HeaderLink from "./links";
 import HeaderDropDown from "./dropdown";
 
@@ -25,6 +25,7 @@ function Header() {
                         import.meta.env.DEV ? //Uncomment when done
                         <>
                         <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
+                        <HeaderLink id="reactions" name="Réactions chimique" icon={faFlaskVial}/>
                         </>
                         : <></>
                     }

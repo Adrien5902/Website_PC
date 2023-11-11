@@ -1,9 +1,5 @@
 import { useState } from "react"
-import { Molécule } from "../molecules"
-import { Isotope } from "../../Atom/isotope";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { EqError, Equation } from "./functions";
+import { EqError, Equation } from "../../../types/equation";
 
 function ppcm(a: number, b: number) {
     function pgcd(x: number, y: number) {

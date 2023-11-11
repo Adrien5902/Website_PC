@@ -1,0 +1,16 @@
+[
+    {"name": "Téra", "prefix": "T", "puissance": 12},
+    {"name": "Giga", "prefix": "G", "puissance": 9},
+    {"name": "Méga", "prefix": "M", "puissance": 6},
+    {"name": "Kilo", "prefix": "k", "puissance": 3},
+    {"name": "Hecto", "prefix": "h", "puissance": 2},
+    {"name": "Déca", "prefix": "da", "puissance": 1},
+    {"name": "Unité", "prefix": "", "puissance": 0},
+    {"name": "Déci", "prefix": "d", "puissance": -1},
+    {"name": "Centi", "prefix": "c", "puissance": -2},
+    {"name": "Milli", "prefix": "m", "puissance": -3},
+    {"name": "Micro", "prefix": "µ", "puissance": -6},
+    {"name": "Nano", "prefix": "n", "puissance": -9},
+    {"name": "Pico", "prefix": "p", "puissance": -12},
+    {"name": "Femto", "prefix": "f", "puissance": -15}
+]

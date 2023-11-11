@@ -1,0 +1,72 @@
+#avancement-reaction{
+    border-collapse: collapse;
+    border-radius: .5em;
+    margin: auto;
+
+    font-size: clamp(.8em, 1.8vw, 1.6em);
+
+    & td{
+        border: solid .2em var(--primary);
+        padding: .2em;
+    }
+
+    & input{
+        text-align: center;
+        padding: .2em;
+        border: 0;
+        outline: 0;
+        height: 100%;
+        width: 100%; 
+    }
+
+    & td:has(input){
+        padding: 0;
+    }
+
+    & select{
+        border: solid var(--primary) .2em;
+        border-top: 0;
+        border-bottom: 0;
+        border-radius: .5em;
+        outline: 0;
+        padding: .1em;
+    }
+}
+
+td:has(#equation-input){
+    position: relative;
+    cursor: pointer;
+
+    > #equation{
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        left: 0.2em;
+        justify-content: space-evenly;
+        width: 100%;
+        top: -0.1em;
+    }
+}
+
+td:has(#equation-input:focus), #equation-input:focus{
+    opacity: 1;
+    background: var(--accent);
+    color: var(--background);
+    pointer-events: all;
+
+    > #equation{
+        display: none;
+    }
+}
+
+#equation-input{
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    font-size: inherit;
+    width: 18em;
+}
+
+.reaction-quantity{
+    width: 5em;
+}

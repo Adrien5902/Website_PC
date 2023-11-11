@@ -8,6 +8,7 @@ import Molecules from "../Molecules";
 import Lentilles from "../Lentilles";
 import Graph from "../Graph";
 import SpectreCouleur from "../Lumiere";
+import ReactionsChimique from "../Reactions";
 
 function App() {
     return ( 
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/lentilles/*" element={<Lentilles></Lentilles>}></Route>
                 <Route path="/graph/*" element={<Graph></Graph>}></Route>
                 <Route path="/lumiere/couleur" element={<SpectreCouleur></SpectreCouleur>}></Route>
+                <Route path="/reactions/*" element={<ReactionsChimique/>}></Route>
             </Routes>
         </div>
         </>
