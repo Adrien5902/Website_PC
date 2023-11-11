@@ -74,3 +74,17 @@ header img{
         }
     }
 }
+
+#experiments{
+    cursor: pointer;
+    position: absolute;
+    font-size: .8em;
+    top: .5em;
+    right: .5em;
+
+    & .slash{
+        position: absolute;
+        top: 0;
+        left: -.1em;
+    }
+}

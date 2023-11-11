@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom"
 import './style.css'
-import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faFillDrip, faFlaskVial, faMagnet } from "@fortawesome/free-solid-svg-icons";
+import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faFillDrip, faFlask, faFlaskVial, faMagnet, faSlash } from "@fortawesome/free-solid-svg-icons";
 import HeaderLink from "./links";
 import HeaderDropDown from "./dropdown";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 
 function Header() {
+    const [experiments, setExperiments] = useState(false)
+
     return (
         <header>
             <Link className="unlink" to="/">
@@ -22,7 +26,7 @@ function Header() {
                 <HeaderDropDown name="Chimie">
                     <HeaderLink id="atom" name="Atomes" icon={faAtom}/>
                     {
-                        import.meta.env.DEV ? //Uncomment when done
+                        experiments ?
                         <>
                         <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
                         <HeaderLink id="reactions" name="Réactions chimique" icon={faFlaskVial}/>
@@ -32,12 +36,16 @@ function Header() {
                 </HeaderDropDown>
 
                 {
-                    import.meta.env.DEV ? //Uncomment when done
+                    experiments ?
                     <HeaderDropDown name="Autres">
                         <HeaderLink id="graph" name="Graphiques" icon={faChartLine}/>
                     </HeaderDropDown>
                     : ""
                 }
+            </div>
+            <div id="experiments" onClick={() => setExperiments(e => !e)}>
+                <FontAwesomeIcon icon={faFlask}/>
+                <FontAwesomeIcon className="slash" icon={faSlash} style={{display: experiments ? "none" : "block"}}/>
             </div>
         </header>
     );
