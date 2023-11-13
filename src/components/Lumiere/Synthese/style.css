@@ -1,5 +1,4 @@
-canvas{
-    width: clamp(28em, 40vw, 100em);
+.sythese-couleur canvas{
     aspect-ratio: 2;
 }
 
@@ -25,6 +24,7 @@ canvas{
     overflow: hidden;
     background: var(--secondary);
     color: var(--background);
+    width: clamp(28em, 45vw, 100em);
 }
 
 .sythese-label{
