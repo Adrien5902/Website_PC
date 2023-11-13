@@ -1,13 +1,13 @@
 import { Link } from "react-router-dom"
 import './style.css'
-import { faAtom, faBolt, faCameraRetro, faChartLine, faDna, faFillDrip, faFlask, faFlaskVial, faLightbulb, faMagnet, faSlash } from "@fortawesome/free-solid-svg-icons";
+import { faAtom, faBolt, faChartLine, faDna, faFlask, faFlaskVial, faLightbulb, faMagnet, faSlash } from "@fortawesome/free-solid-svg-icons";
 import HeaderLink from "./links";
 import HeaderDropDown from "./dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
 function Header() {
-    const [experiments, setExperiments] = useState(false)
+    const [experiments, setExperiments] = useState(import.meta.env.DEV)
 
     return (
         <header>
