@@ -9,7 +9,7 @@ export class Molécule{
         this.data = data
     }
 
-    toHTML = () => <span className="molecule-string">{
+    toHTML = (key? : number) => <span className="molecule-string" key={key}>{
         this.data.map((d, i) => <span key={i}>{d.atome.symbol}{d.count > 1 && <sub>{d.count}</sub>}</span>)
     }</span>
 

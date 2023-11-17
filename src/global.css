@@ -5,7 +5,7 @@
     --text: #000;
     --primary: #222;
     --secondary: #333;
-    --accent: #F90;
+    --accent: rgb(255, 145, 0);
     --gray: #aaa;
     --cyan: #00C3FF;
 }
@@ -197,5 +197,12 @@ button{
     &:active{
         box-shadow: 0 0 0 .1em var(--gray);
         transform: translate(.1em, .1em);
+    }
+}
+
+.accent-hover{
+    cursor: pointer;
+    &:hover{
+        color: var(--accent);
     }
 }

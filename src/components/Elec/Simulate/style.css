@@ -95,10 +95,6 @@ canvas#result{
     font-size: 2.5em;
     margin: .2em 0;
     margin-left: .5em;
-
-    &:hover{
-        color: var(--accent);
-    }
 }
 
 #right-props{

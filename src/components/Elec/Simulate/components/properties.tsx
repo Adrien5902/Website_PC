@@ -140,7 +140,10 @@ export function ComponentProperties(
             </div>
             
             <div>
-                <FontAwesomeIcon icon={faTrash} id="bin"
+                <FontAwesomeIcon 
+                    icon={faTrash} 
+                    id="bin"
+                    className="accent-hover"
                     onClick={() => {
                         if(side){
                             const id = side.component?.id
@@ -154,6 +157,7 @@ export function ComponentProperties(
                 <FontAwesomeIcon 
                     id="disconnect"
                     icon={faPlugCircleXmark}
+                    className="accent-hover"
                     onClick={() => {
                         if(side){
                             const id = side.component?.id

@@ -3,7 +3,7 @@ import './style.css'
 import { Equation, EquationError } from '../../../types/equation';
 import unites from './../../../types/unites.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFlaskVial, faTable } from '@fortawesome/free-solid-svg-icons';
+import { faFlaskVial, faPlus, faTable, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 function SelectEchelle({echelle, setEchelle}){
     return <select defaultValue={echelle.toString()} key={echelle} onChange={(e) => setEchelle(Number(e.target.value))}>
@@ -20,15 +20,17 @@ function parseCoef(ceof: number){
 }
 
 export default function TableauAvancement() {
-    const [equation, setEquation] = useState<Equation | null>(null)
-    const [echelle, setEchelle] = useState<number>(0)
-    const [quantity, setQuantity] = useState<number[]>([])
+    const [equation, setEquation] = useState<Equation | null>(null) //Equation de la réaction
+    const [echelle, setEchelle] = useState<number>(0) //Ordre de grandeur mol
+    const [quantity, setQuantity] = useState<number[]>([]) //Quantités initiales des réactifs    const [error, setError] = useState<EquationError>(null)
     const [error, setError] = useState<EquationError>(null)
-
-    const reactifs = equation?.sides[0].data
-    const produits = equation?.sides[1].data
+    const [intermediaires, setIntermediaires] = useState<number[]>([]) //Valeur de x des états intermédiaires
 
     const equationInput = useRef<HTMLInputElement>(null)
+
+    const reactifs = equation?.sides[0].data ?? []
+    const produits = equation?.sides[1].data ?? []
+
     function changeEquation(e: React.FormEvent){
         const input = (e.target as HTMLInputElement).value
         try {
@@ -52,6 +54,9 @@ export default function TableauAvancement() {
     const elements = equation?.sides.flat(1).map(s => s.data).flat(1) ?? []
 
     const xf = Math.min(...quantity.map((q, i) => q/reactifs[i].count))
+    const reactisLimitants = reactifs.filter((mol, i) => quantity[i] - mol.count * xf == 0) ?? []
+    const stoechiometrique = reactisLimitants.length == reactifs.length
+
 
     return (<>
     {error ? <p className='error'>{error.message}</p> : ""}
@@ -82,7 +87,7 @@ export default function TableauAvancement() {
                 <td>Initial</td>
                 <td>x = 0</td>
                 {
-                    reactifs?.map((_mol, i) => <td key={i} className='reaction-quantity'>
+                    reactifs.map((_mol, i) => <td key={i} className='reaction-quantity'>
                         <input type="number" defaultValue={10} onChange={(e) => {
                             setQuantity(q => {
                                 const quant = [...q]
@@ -93,42 +98,88 @@ export default function TableauAvancement() {
                     </td>)
                 }
                 {
-                    produits?.map((_mol, i) => <td key={i} className='reaction-quantity'>0</td>)
+                    produits.map((_mol, i) => <td key={i} className='reaction-quantity'>0</td>)
                 }
             </tr>
             <tr>
-                <td rowSpan={2}>Intermédiaire</td>
+                <td rowSpan={intermediaires.length + 2}>Intermédiaire</td>
                 <td>x quelconque</td>
                 {
-                    reactifs?.map((mol, i) => <td key={i}>
+                    reactifs.map((mol, i) => <td key={i}>
                         {quantity[i]} - {parseCoef(mol.count)}x
                     </td>)
                 }
                 {
-                    produits?.map((mol, i) => <td key={i}>
+                    produits.map((mol, i) => <td key={i}>
                         {parseCoef(mol.count)}x
                     </td>)
                 }
             </tr>
+            {
+                intermediaires.map((x, i) => <tr key={i}>
+                    <td>
+                        <span>x = </span>
+                        <input type="number" defaultValue={x} onInput={(e) => {
+                            setIntermediaires(inter => {
+                                const newI = [...inter]
+                                newI[i] = Number((e.target as HTMLInputElement).value)
+                                return newI
+                            })
+                        }}/>
+                        <FontAwesomeIcon icon={faXmark} className='accent-hover' onClick={() => {
+                            setIntermediaires(inter => {
+                                const newI = [...inter]
+                                newI.splice(i, 1)
+                                return newI
+                            })
+                        }}/>
+                    </td>
+                    {
+                        reactifs.map((mol, i) => <td key={i}>
+                            {(quantity[i] - mol.count * x).toFixed(2)}
+                        </td>)
+                    }
+                    {
+                        produits.map((mol, i) => <td key={i}>
+                            {parseCoef(mol.count)}x = {(mol.count * x).toFixed(2)}
+                        </td>)
+                    }
+                </tr>)
+            }
             <tr>
-                <td>x</td>
-                <td colSpan={elements.length}></td>
+                <td colSpan={elements.length + 1} className="add-state" onClick={() => {
+                    setIntermediaires(i => [...i, 0])
+                }}>
+                    <FontAwesomeIcon icon={faPlus}/>
+                    <span> Ajouter un état intermédiaire</span>
+                </td>
             </tr>
             <tr>
                 <td>Final</td>
-                <td>xf = {xf.toFixed(1)}</td>
+                <td>xf = {xf.toFixed(2)}</td>
                 {
-                    reactifs?.map((mol, i) => <td key={i}>
-                        {(quantity[i] - mol.count * xf).toFixed(1)}
+                    reactifs.map((mol, i) => <td key={i}>
+                        {(quantity[i] - mol.count * xf).toFixed(2)}
                     </td>)
                 }
                 {
-                    produits?.map((mol, i) => <td key={i}>
-                        {parseCoef(mol.count)}xf = {(mol.count * xf).toFixed(1)}
+                    produits.map((mol, i) => <td key={i}>
+                        {parseCoef(mol.count)}xf = {(mol.count * xf).toFixed(2)}
                     </td>)
                 }
             </tr>
         </tbody>
     </table>
+    <p id='info'>{
+        reactifs.length ?
+        stoechiometrique ? 
+        "Le mélange est stoechiometrique tous les réactifs sont entièrement consommés" 
+        : 
+        <>
+            {reactisLimitants.length > 1 ? "Les réactifs limitant sont " : "Le réactif limitant est "}
+            {reactisLimitants.map((mol, i) => mol.mol.toHTML(i)).reduce((prev, curr) => [...prev, prev.length ? " et " : "", curr] , [])}
+        </>
+        :""
+        }</p>
     </>);
 }

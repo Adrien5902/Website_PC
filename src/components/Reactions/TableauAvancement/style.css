@@ -16,7 +16,11 @@
         border: 0;
         outline: 0;
         height: 100%;
-        width: 100%; 
+        width: 5em; 
+
+        &#equation-input{
+            width: 100%;
+        }
     }
 
     & td:has(input){
@@ -69,4 +73,44 @@ td:has(#equation-input:focus), #equation-input:focus{
 
 .reaction-quantity{
     width: 5em;
+}
+
+.add-state{
+    cursor: pointer;
+    user-select: none;
+
+    & svg{
+        color: var(--accent);
+        transition: 200ms all;
+    }
+
+    &:hover svg{
+        transform: rotate(90deg);
+    }
+}
+
+.add-state:has(:focus){
+    & #add-state-input{
+        height: initial;
+        padding: .2em;
+    }
+
+    & #add-state-button{
+        height: 0;
+        padding: 0;
+    }
+}
+
+#add-state-button{
+    padding: .2em;
+    overflow: hidden;
+}
+
+#add-state-input{
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    display: inline-flex;
+    flex-direction: row;
+    text-wrap: nowrap;
 }
