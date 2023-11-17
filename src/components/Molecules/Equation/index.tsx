@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { EqError, Equation } from "../../../types/equation";
+import { Equation, EquationError } from "../../../types/equation";
 
 function ppcm(a: number, b: number) {
     function pgcd(x: number, y: number) {
@@ -22,7 +22,7 @@ function MoleculesEquation({}) {
             const eq = Equation.parseString(input)
             setResult(eq.toJSX())
         } catch (error) {
-            if(error instanceof EqError){
+            if(error instanceof EquationError){
                 console.log(error.message)
             }else{
                 throw error

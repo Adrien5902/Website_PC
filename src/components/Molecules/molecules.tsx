@@ -1,3 +1,4 @@
+import { EquationError } from "../../types/equation";
 import elements from "../Atom/elements.json";
 import { Isotope } from "../Atom/isotope";
 
@@ -14,10 +15,21 @@ export class Molécule{
 
     static parseString(input: string){
         const isotopes = input.split(/(?=[A-Z])/)
-        .map(part => ({
-            atome: new Isotope(elements.find(a => part.replace(/\d+/g, '') == a.symbol).Z),
-            count: Number(part.match(/\d+/)?.[0]) || 1
-        }))
+        .map(part => {
+            const symbol = part.replace(/\d+/g, '')
+            const element = elements.find(a => symbol == a.symbol)
+
+            if(!element){
+                throw new EquationError(`Élément introuvable vérifier que le symbole ${symbol} existe bien sur le tableau périodique.`)
+            }
+
+            const atome = new Isotope(element.Z)
+
+            return {
+                atome,
+                count: Number(part.match(/\d+/)?.[0]) || 1
+            }
+        })
         return new Molécule(isotopes)
     }
 }

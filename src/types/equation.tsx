@@ -3,7 +3,7 @@ import { Isotope } from "../components/Atom/isotope"
 import { Molécule } from "../components/Molecules/molecules"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons"
 
-export class EqError extends Error{
+export class EquationError extends Error{
     constructor(message: string){
         super(message)
     }
@@ -23,6 +23,10 @@ export class Equation{
     sides: EquationSide[]
 
     constructor(sides: EquationSideData[]){
+        if(sides.length != 2){
+            throw new EquationError('La réaction doit contenir des réactifs et des produits délémitez les avec "->"')
+        } 
+
         this.sides = sides.map(data => ({
             data,
             counts: data
@@ -40,18 +44,22 @@ export class Equation{
                     }
                 }, [])
         } as EquationSide))
+
+        for(const mol of this.sides[0].counts){
+            const produit = this.sides[1].counts.find(m => m.atome.Z == mol.atome.Z)
+            if(!produit){
+                throw new EquationError(`Aucun produit trouvé pour l'élément ${produit.atome.name} (${produit.atome.symbol})`)
+            }
+        }
     }
 
     static parseString(input: string){
-        const sides = input.split(" -> ")
-        if(sides.length != 2){
-            throw new EqError("The equation must have to sides")
-        }
+        const sides = input.split("->")
 
         const data = sides.map(
-            side => 
-            side
+            side => side
             .split(" + ")
+            .filter(m => m.replaceAll(" ", ""))
             .map(m => ({
                 mol: Molécule.parseString(m.replace(m.match(/^\d+/)?.[0] ?? "", "").replaceAll(" ", "")), 
                 count: m.match(/^\d+/)?.[0] ?? 1

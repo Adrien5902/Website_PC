@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import './style.css'
-import { Equation } from '../../../types/equation';
+import { Equation, EquationError } from '../../../types/equation';
 import unites from './../../../types/unites.json';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlaskVial, faTable } from '@fortawesome/free-solid-svg-icons';
@@ -23,6 +23,7 @@ export default function TableauAvancement() {
     const [equation, setEquation] = useState<Equation | null>(null)
     const [echelle, setEchelle] = useState<number>(0)
     const [quantity, setQuantity] = useState<number[]>([])
+    const [error, setError] = useState<EquationError>(null)
 
     const reactifs = equation?.sides[0].data
     const produits = equation?.sides[1].data
@@ -30,11 +31,22 @@ export default function TableauAvancement() {
     const equationInput = useRef<HTMLInputElement>(null)
     function changeEquation(e: React.FormEvent){
         const input = (e.target as HTMLInputElement).value
-        const newEquation = Equation.parseString(input)
-        setEquation(newEquation)
-
-        const reactifs = newEquation?.sides[0].data
-        setQuantity([...quantity, ...(new Array(reactifs.length).fill(10))].slice(0, reactifs.length))
+        try {
+            const newEquation = Equation.parseString(input)
+        
+            setEquation(newEquation)
+    
+            const reactifs = newEquation?.sides[0].data
+            setQuantity([...quantity, ...(new Array(reactifs.length).fill(10))].slice(0, reactifs.length))
+        
+            setError(null)
+        } catch (err) {
+            if(err instanceof EquationError){
+                setError(err)
+            }else{
+                throw err
+            }
+        }
     }
 
     const elements = equation?.sides.flat(1).map(s => s.data).flat(1) ?? []
@@ -42,6 +54,7 @@ export default function TableauAvancement() {
     const xf = Math.min(...quantity.map((q, i) => q/reactifs[i].count))
 
     return (<>
+    {error ? <p className='error'>{error.message}</p> : ""}
     <h1><FontAwesomeIcon icon={faFlaskVial}/> Tableau d'avancement <FontAwesomeIcon icon={faTable}/> :</h1>
     <table id="avancement-reaction">
         <thead>
