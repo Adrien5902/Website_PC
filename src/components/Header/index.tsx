@@ -24,11 +24,11 @@ function Header() {
 
                 <HeaderDropDown name="Chimie">
                     <HeaderLink id="atom" name="Atomes" icon={faAtom}/>
+                    <HeaderLink id="reactions" name="Réactions chimique" icon={faFlaskVial}/>
                     {
                         experiments ?
                         <>
                         <HeaderLink id="molecules" name="Molécules" icon={faDna}/>
-                        <HeaderLink id="reactions" name="Réactions chimique" icon={faFlaskVial}/>
                         </>
                         : <></>
                     }
