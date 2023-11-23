@@ -20,7 +20,7 @@ export class Molécule{
             const element = elements.find(a => symbol == a.symbol)
 
             if(!element){
-                throw new EquationError(`Élément introuvable vérifier que le symbole ${symbol} existe bien sur le tableau périodique.`)
+                throw new EquationError(`Élément introuvable vérifier que le symbole "${symbol}" existe bien sur le tableau périodique.`)
             }
 
             const atome = new Isotope(element.Z)

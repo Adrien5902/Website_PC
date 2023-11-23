@@ -21,6 +21,8 @@ type EquationSide = {
 
 export class Equation{
     sides: EquationSide[]
+    reactifs: EquationSideData
+    produits: EquationSideData
 
     constructor(sides: EquationSideData[]){
         if(sides.length != 2){
@@ -45,10 +47,18 @@ export class Equation{
                 }, [])
         } as EquationSide))
 
-        for(const mol of this.sides[0].counts){
-            const produit = this.sides[1].counts.find(m => m.atome.Z == mol.atome.Z)
-            if(!produit){
-                throw new EquationError(`Aucun produit trouvé pour l'élément ${produit.atome.name} (${produit.atome.symbol})`)
+        this.reactifs = this.sides[0].data ?? []
+        this.produits = this.sides[1].data ?? []
+
+        const types = ["réactif", "produit"]
+        for(const i in types){
+            const nextI = (Number(i) + 1) % types.length
+            const type = types[nextI]
+            for(const mol of this.sides[i].counts){
+                const other = (this.sides[nextI] as EquationSide).counts.find(m => m.atome.Z == mol.atome.Z)
+                if(!other){
+                    throw new EquationError(`Aucun ${type} trouvé pour l'élément ${mol.atome.name} (${mol.atome.symbol})`)
+                }
             }
         }
     }
@@ -58,8 +68,9 @@ export class Equation{
 
         const data = sides.map(
             side => side
-            .split(" + ")
-            .filter(m => m.replaceAll(" ", ""))
+            .split("+")
+            .map(m => m.replaceAll(" ", ""))
+            .filter(m => m)
             .map(m => ({
                 mol: Molécule.parseString(m.replace(m.match(/^\d+/)?.[0] ?? "", "").replaceAll(" ", "")), 
                 count: m.match(/^\d+/)?.[0] ?? 1
@@ -67,6 +78,17 @@ export class Equation{
         )
 
         return new this(data)
+    }
+
+    checkForBalance(){
+        const réactifs = this.sides[0].counts
+        const produits = this.sides[1].counts
+
+        return réactifs
+            .map((atome) => 
+                (produits.find((a) => a.atome.Z == atome.atome.Z)?.count ?? 0) == atome.count
+            )
+            .reduce((prev, curr) => prev && curr, true)
     }
 
     toJSX(){

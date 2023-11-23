@@ -1,13 +1,23 @@
 #avancement-reaction{
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     border-radius: .5em;
     margin: auto;
 
     font-size: clamp(.8em, 1.8vw, 1.6em);
 
     & td{
-        border: solid .2em var(--primary);
+        border-bottom: solid .2em var(--primary);
+        border-right: solid .2em var(--primary);
         padding: .2em;
+    }
+
+    & tr:not(.rowspan) td:first-child{
+        border-left: solid .2em var(--primary);
+    }
+
+    & thead tr:first-child td{
+        border-top: solid .2em var(--primary);
     }
 
     & input{
@@ -35,6 +45,22 @@
         outline: 0;
         padding: .1em;
     }
+
+    & thead tr:first-child td:first-child{
+        border-top-left-radius: .5em;
+    }
+
+    & thead tr:first-child td:last-child{
+        border-top-right-radius: .5em;
+    }
+
+    & tbody tr:last-child td:first-child{
+        border-bottom-left-radius: .5em;
+    }
+
+    & tbody tr:last-child td:last-child{
+        border-bottom-right-radius: .5em;
+    }
 }
 
 td:has(#equation-input){
@@ -45,10 +71,11 @@ td:has(#equation-input){
         position: absolute;
         display: inline-flex;
         align-items: center;
-        left: 0.2em;
+        left: 0;
+        top: 0;
         justify-content: space-evenly;
         width: 100%;
-        top: -0.1em;
+        top: -.1em;
     }
 }
 
@@ -113,4 +140,10 @@ td:has(#equation-input:focus), #equation-input:focus{
     display: inline-flex;
     flex-direction: row;
     text-wrap: nowrap;
+}
+
+#equation-input-message{
+    color: red;
+    top: .25em;
+    position: absolute;
 }

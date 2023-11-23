@@ -23,25 +23,19 @@ export default function TableauAvancement() {
     const [equation, setEquation] = useState<Equation | null>(null) //Equation de la réaction
     const [echelle, setEchelle] = useState<number>(0) //Ordre de grandeur mol
     const [quantity, setQuantity] = useState<number[]>([]) //Quantités initiales des réactifs    const [error, setError] = useState<EquationError>(null)
-    const [error, setError] = useState<EquationError>(null)
+    const [error, setError] = useState<Error | null>(null)
     const [intermediaires, setIntermediaires] = useState<number[]>([]) //Valeur de x des états intermédiaires
 
     const equationInput = useRef<HTMLInputElement>(null)
 
-    const reactifs = equation?.sides[0].data ?? []
-    const produits = equation?.sides[1].data ?? []
+    const reactifs = equation?.reactifs ?? []
+    const produits = equation?.produits ?? []
 
     function changeEquation(e: React.FormEvent){
         const input = (e.target as HTMLInputElement).value
+        let newEquation: Equation | undefined
         try {
-            const newEquation = Equation.parseString(input)
-        
-            setEquation(newEquation)
-    
-            const reactifs = newEquation?.sides[0].data
-            setQuantity([...quantity, ...(new Array(reactifs.length).fill(10))].slice(0, reactifs.length))
-        
-            setError(null)
+            newEquation = Equation.parseString(input)
         } catch (err) {
             if(err instanceof EquationError){
                 setError(err)
@@ -49,14 +43,28 @@ export default function TableauAvancement() {
                 throw err
             }
         }
+        
+        setEquation(newEquation)
+
+        if(newEquation){
+            const newReactifs = newEquation?.reactifs
+            setQuantity([...quantity, ...(new Array(newReactifs.length).fill(10))].slice(0, newReactifs.length))
+        
+            setError(
+                newEquation?.checkForBalance() ? 
+                null
+                :new EquationError("L'équation ne semble pas être équilibrée") 
+            )
+        }else if(!input){
+            setError(null)
+        }
     }
 
     const elements = equation?.sides.flat(1).map(s => s.data).flat(1) ?? []
 
-    const xf = Math.min(...quantity.map((q, i) => q/reactifs[i].count))
+    const xf = Math.min(...reactifs.map((r, i) => quantity[i]/r.count))
     const reactisLimitants = reactifs.filter((mol, i) => quantity[i] - mol.count * xf == 0) ?? []
     const stoechiometrique = reactisLimitants.length == reactifs.length
-
 
     return (<>
     {error ? <p className='error'>{error.message}</p> : ""}
@@ -67,7 +75,7 @@ export default function TableauAvancement() {
                 <td colSpan={2}>Equation de la réaction</td>
                 <td colSpan={elements.length} onClick={()=> equationInput.current.focus()}>
                     <input ref={equationInput} type="text" id='equation-input' onChange={changeEquation}/>
-                    <div id='equation'>{equation?.toJSX()}</div>
+                    <div id='equation'>{equation?.toJSX() ?? <span id='equation-input-message'>Veuillez saisir l'équation !</span>}</div>
                 </td>
             </tr>
             <tr>
@@ -89,9 +97,13 @@ export default function TableauAvancement() {
                 {
                     reactifs.map((_mol, i) => <td key={i} className='reaction-quantity'>
                         <input type="number" defaultValue={10} onChange={(e) => {
+                            const newQuant = Number(e.target.value)
                             setQuantity(q => {
                                 const quant = [...q]
-                                quant[i] = Number(e.target.value)
+                                quant[i] = newQuant
+                                if(newQuant > xf || newQuant < 0){
+                                    setError(new EquationError("La quantité de "))
+                                }
                                 return quant
                             })
                         }}/>
@@ -116,13 +128,14 @@ export default function TableauAvancement() {
                 }
             </tr>
             {
-                intermediaires.map((x, i) => <tr key={i}>
+                intermediaires.map((x, i) => <tr className='rowspan' key={i}>
                     <td>
                         <span>x = </span>
-                        <input type="number" defaultValue={x} onInput={(e) => {
+                        <input type="number" value={x} onChange={(e) => {
                             setIntermediaires(inter => {
+                                const input = (e.target as HTMLInputElement)
                                 const newI = [...inter]
-                                newI[i] = Number((e.target as HTMLInputElement).value)
+                                newI[i] = Number(input.value)
                                 return newI
                             })
                         }}/>
@@ -130,7 +143,7 @@ export default function TableauAvancement() {
                             setIntermediaires(inter => {
                                 const newI = [...inter]
                                 newI.splice(i, 1)
-                                return newI
+                                return [...newI]
                             })
                         }}/>
                     </td>
@@ -146,7 +159,7 @@ export default function TableauAvancement() {
                     }
                 </tr>)
             }
-            <tr>
+            <tr className='rowspan'>
                 <td colSpan={elements.length + 1} className="add-state" onClick={() => {
                     setIntermediaires(i => [...i, 0])
                 }}>
