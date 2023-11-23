@@ -1,33 +1,42 @@
-# Physique Chimie
-Un site dédié sur la physique chimie pour M.Humbert.
+# 🧪 Physique Chimie
+Un site dédié sur la physique chimie codé par [Adrien5902](https://github.com/Adrien5902)
 
-[Lien](https://adrien5902.github.io/Website_PC/) du site : https://adrien5902.github.io/Website_PC/
+[🔗Lien](https://adrien5902.github.io/Website_PC/) du site : https://adrien5902.github.io/Website_PC/
 
-Créé avec [React](https://github.com/facebook/react) et [TypeScript](https://www.typescriptlang.org/)
+Créé avec ⚛️[React](https://github.com/facebook/react) et [TypeScript](https://www.typescriptlang.org/)
 
 # Pages :
-# - Physique
-## Électricité
+# Physique
+## Électricité ⚡
 Simulation de circuit électrique
 
-## Forces
+## Forces 💪
 Calculer les forces d'attraction gravitationnelles
 
-## Lentilles
+## Lentilles 👁️
 Schémas des lentilles convergentes et divergentes
 
-# - Chimie
-## Atomes
+## Synthèse des couleurs 🔦
+Synthèse additive et soustractive des couleurs des spectres lumineux
+
+# Chimie
+## Atomes ⚛️
 Tableau périodique et description de tous les éléments
 
-## Molécules
-Équilibrer des équations
+# Pages expérimentales :
+## Tableau d'avancement 
+Tableau d'avancement de réactions totales où l'on peut saisir n'importe quelle réaction chimique 
 
 
+# Pour les développeurs 🤓
 
-# Pour les développeurs
+> Requis: [Node.js](https://nodejs.org/)
 
-Installer les dépendances avec
+Installer les dépendances avec :
 ```npm i```
 
-```npm build``` pour build le site sous forme d'extension, output un fichier build.crx
+Pour lancer la version de développement :
+```npm run dev```
+
+Pour build :
+```npm run build```
