@@ -8,10 +8,10 @@ import Molecules from "../Molecules";
 import Graph from "../Graph";
 import ReactionsChimique from "../Reactions";
 import Lumiere from "../Lumiere";
+import Sounds from "../Sounds";
 
 function App() {
-    return ( 
-        <>
+    return <>
         <Header></Header>
 
         <div className="content">
@@ -22,12 +22,12 @@ function App() {
                 <Route path="/forces/*" element={<Forces></Forces>}></Route>
                 <Route path="/molecules/*" element={<Molecules></Molecules>}></Route>
                 <Route path="/graph/*" element={<Graph></Graph>}></Route>
-                <Route path="/lumiere/*" element={<Lumiere/>}></Route>
-                <Route path="/reactions/*" element={<ReactionsChimique/>}></Route>
+                <Route path="/lumiere/*" element={<Lumiere />}></Route>
+                <Route path="/reactions/*" element={<ReactionsChimique />}></Route>
+                <Route path="/sounds/*" element={<Sounds />}></Route>
             </Routes>
         </div>
-        </>
-    );
+    </>;
 }
 
 export default App;

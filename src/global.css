@@ -1,4 +1,4 @@
-:root{
+:root {
     /*Color palette */
 
     --background: #FFF;
@@ -11,8 +11,7 @@
 }
 
 
-body
-{
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     /*Change la police d'écriture*/
     font-size: 20px;
@@ -20,7 +19,7 @@ body
 }
 
 /*Retire l'effet bleu ou violet et sous-ligné par défaut des liens avec la classe unlink*/
-.unlink{
+.unlink {
     text-decoration: none;
     color: unset;
 }
@@ -85,7 +84,7 @@ a:hover {
 .error {
     display: inline-block;
     margin: auto;
-    
+
     padding: .5em;
     font-size: 1.1em;
     border-radius: 3em;
@@ -173,14 +172,14 @@ input[type="color"] {
     padding: 0;
 }
 
-.align-between{
+.align-between {
     display: inline-flex;
     justify-content: space-between;
     width: 90vw;
     align-items: center
 }
 
-button{
+button {
     outline: 0;
     border-radius: .2em;
     font-size: 1em;
@@ -193,15 +192,21 @@ button{
     box-shadow: .1em .1em 0 .2em var(--gray);
     transition: 100ms all;
 
-    &:active{
+    &:active {
         box-shadow: 0 0 0 .1em var(--gray);
         transform: translate(.1em, .1em);
     }
 }
 
-.accent-hover{
+.accent-hover {
     cursor: pointer;
-    &:hover{
+
+    &:hover {
         color: var(--accent);
     }
+}
+
+input[type="range"] {
+    appearance: none;
+
 }
