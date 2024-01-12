@@ -1,4 +1,11 @@
-#isotope-schema-canvas{
-    height: 60vh;
+#isotope-schema-canvas {
+    height: 90vh;
     aspect-ratio: 1;
+    margin-top: 0 !important;
+}
+
+.pause-button {
+    cursor: pointer;
+    font-size: 1.5em;
+    margin: 0 .25em;
 }
