@@ -17,7 +17,7 @@ function Home() {
             <Page href="/forces" text="Calcul des forces" img="./assets/pages/forces.jpg"></Page>
             <Page href="/lumiere/lentilles" text={<span><FontAwesomeIcon icon={faCameraRetro} /> Lentilles convergentes</span>} img="./assets/pages/lentilles_convergentes.png"></Page>
             <Page href="/lumiere/synthese" text={<span><FontAwesomeIcon icon={faFillDrip} /> Synthèse des couleurs</span>} img="./assets/pages/synthese.png"></Page>
-            <Page href="/reaction/tableau-avancement" img="./assets/pages/tableau_avancement.png" text="Tableau d'Avancement"></Page>
+            <Page href="/reactions/tableau-avancement" img="./assets/pages/tableau_avancement.png" text="Tableau d'Avancement"></Page>
         </div>
 
         <a
