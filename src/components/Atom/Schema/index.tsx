@@ -1,6 +1,6 @@
 import useCanvas from "../../../hooks/Canvas";
 import { Isotope } from "../isotope";
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './style.css'
 import { Pos, drawDot, drawLine, setColor } from "../../../types/canvas";
 import { Bloc, couchesLimit } from "../funct";
@@ -71,7 +71,7 @@ export default function AtomeSchema({ atome }: Props) {
                 }
 
                 const { x, y } = origin
-                const radius = ((canvas.width / 10) * (circleIndex / circleMax))
+                const radius = ((canvas.width / 10) * (circleIndex / circleMax)) - (size * 2)
                 const angle = (i / 2 ** circleIndex) * Math.PI * 2
 
                 this.data.push(new Nucléon(isProton ? "proton" : "neutron", { x: x + radius * Math.cos(angle), y: y + radius * Math.sin(angle) }))
@@ -86,7 +86,7 @@ export default function AtomeSchema({ atome }: Props) {
         }
     }
 
-    function drawCanvas(noyau: Noyau) {
+    function drawCanvas() {
         const canvas = canvasRef.current
         const { width, height } = canvas
         const origin: Pos = { x: width / 2, y: height / 2 }
@@ -125,19 +125,19 @@ export default function AtomeSchema({ atome }: Props) {
         })
 
         //Noyau
-        noyau?.draw(ctx)
+        noyau.current?.draw(ctx)
     }
 
     useEffect(() => {
         if (!noyau.current) noyau.current = new Noyau(atome)
         const intervalId = setInterval(() => {
             if (!paused) {
-                drawCanvas(noyau.current)
+                drawCanvas()
                 angleRef.current += 1 / frameRate
             }
         }, 1000 / frameRate)
 
-        drawCanvas(noyau.current)
+        drawCanvas()
 
         return () => clearInterval(intervalId);
     }, [paused])
