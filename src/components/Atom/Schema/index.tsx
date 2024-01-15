@@ -1,24 +1,31 @@
 import useCanvas from "../../../hooks/Canvas";
 import { Isotope } from "../isotope";
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import './style.css'
 import { Pos, drawDot, drawLine, setColor } from "../../../types/canvas";
 import { Bloc, couchesLimit } from "../funct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { ExperimentsContext } from "../../App";
 
 interface Props {
     atome: Isotope
 }
 
 export default function AtomeSchema({ atome }: Props) {
+    const [size, setSize] = useState<number>(12)
+
     const sizeCoef = 2
     const canvasRef = useCanvas(null, sizeCoef)
-    const [size, setSize] = useState<number>(12)
+
     const frameRate = 30
+
     const angleRef = useRef<number>(0)
     const noyau = useRef<Noyau>(null)
+
     const [paused, setPaused] = useState(true)
+
+    const experiments = useContext(ExperimentsContext)
 
     class Nucléon {
         type: "proton" | "neutron"
@@ -125,7 +132,7 @@ export default function AtomeSchema({ atome }: Props) {
         })
 
         //Noyau
-        noyau.current?.draw(ctx)
+        experiments && noyau.current?.draw(ctx)
     }
 
     useEffect(() => {
