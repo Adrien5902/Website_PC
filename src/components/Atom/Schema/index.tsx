@@ -1,9 +1,9 @@
 import useCanvas from "../../../hooks/Canvas";
 import { Isotope } from "../isotope";
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import './style.css'
 import { Pos, drawDot, drawLine, setColor } from "../../../types/canvas";
-import { Bloc, colorByBloc, couchesLimit } from "../funct";
+import { Bloc, couchesLimit } from "../funct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 
@@ -17,6 +17,7 @@ export default function AtomeSchema({ atome }: Props) {
     const [size, setSize] = useState<number>(12)
     const frameRate = 30
     const angleRef = useRef<number>(0)
+    const noyau = useRef<Noyau>(null)
     const [paused, setPaused] = useState(true)
 
     class Nucléon {
@@ -29,8 +30,13 @@ export default function AtomeSchema({ atome }: Props) {
         }
 
         draw(ctx: CanvasRenderingContext2D) {
-            setColor(ctx, this.type == "proton" ? "red" : "green")
-            drawDot(ctx, this.pos, size);
+            const { x, y } = this.pos
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 1.3)
+            gradient.addColorStop(0, "white")
+            gradient.addColorStop(1, this.type == "proton" ? "red" : "green")
+
+            ctx.fillStyle = gradient
+            drawDot(ctx, this.pos, size * 1.3);
         }
     }
 
@@ -38,34 +44,39 @@ export default function AtomeSchema({ atome }: Props) {
         data: Nucléon[]
 
         constructor(atome: Isotope) {
-            let remainingZ = atome.Z
-            let remainingN = atome.getN()
+            let remainingProton = atome.Z
+            let remainingNeutron = atome.getN()
 
             const canvas = canvasRef.current
             const { width, height } = canvas
             const origin: Pos = { x: width / 2, y: height / 2 }
 
-            this.data = []/* Array.from({ length: atome.période }, (_, p) => {
-                const totalAinCouche = atome.getElectronsInCouche(p) * 2
-                return Array.from({ length: totalAinCouche }, (_, i) => {
-                    let isProton = Math.random() - .5 > 0
+            this.data = []
+            const circleMax = Math.floor(Math.log2(atome.A + 4))
+            for (let i = 0; i < atome.A; i++) {
+                const circleIndex = Math.floor(Math.log2(i + 4))
 
-                    isProton = remainingZ > 0 ? isProton : !isProton
-                    isProton = remainingN > 0 ? !isProton : isProton
+                let isProton = Math.random() - .5 > 0
 
-                    if (isProton) {
-                        remainingZ -= 1
-                    } else {
-                        remainingN -= 1
-                    }
+                if (isProton) {
+                    isProton = remainingProton > 0
+                } else {
+                    isProton = !(remainingNeutron > 0)
+                }
 
-                    const { x, y } = origin
-                    const radius = (canvas.width / 10) * (p / atome.période)
-                    const angle = (i / totalAinCouche) * Math.PI * 2
+                if (isProton) {
+                    remainingProton -= 1
+                } else {
+                    remainingNeutron -= 1
+                }
 
-                    return new Nucléon(isProton ? "proton" : "neutron", { x: x + radius * Math.cos(angle), y: y + radius * Math.sin(angle) })
-                })
-            }).flat()*/
+                const { x, y } = origin
+                const radius = ((canvas.width / 10) * (circleIndex / circleMax))
+                const angle = (i / 2 ** circleIndex) * Math.PI * 2
+
+                this.data.push(new Nucléon(isProton ? "proton" : "neutron", { x: x + radius * Math.cos(angle), y: y + radius * Math.sin(angle) }))
+            }
+
         }
 
         draw(ctx: CanvasRenderingContext2D) {
@@ -75,7 +86,7 @@ export default function AtomeSchema({ atome }: Props) {
         }
     }
 
-    function drawCanvas(noyau: { draw: (ctx: CanvasRenderingContext2D) => void, data: Nucléon[] }) {
+    function drawCanvas(noyau: Noyau) {
         const canvas = canvasRef.current
         const { width, height } = canvas
         const origin: Pos = { x: width / 2, y: height / 2 }
@@ -99,7 +110,7 @@ export default function AtomeSchema({ atome }: Props) {
             setColor(ctx, `hwb(${period / atome.période * 360} 0% 0%)`)
 
             ctx.beginPath()
-            const radius = canvas.width * (period + sousCoucheIndex / 4) / (atome.période + 1) / sizeCoef
+            const radius = canvas.width * (period + sousCoucheIndex / 4) / (atome.période + .5) / sizeCoef
             ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
             ctx.stroke()
 
@@ -118,15 +129,15 @@ export default function AtomeSchema({ atome }: Props) {
     }
 
     useEffect(() => {
-        const noyau = new Noyau(atome)
+        if (!noyau.current) noyau.current = new Noyau(atome)
         const intervalId = setInterval(() => {
             if (!paused) {
-                drawCanvas(noyau)
+                drawCanvas(noyau.current)
                 angleRef.current += 1 / frameRate
             }
         }, 1000 / frameRate)
 
-        drawCanvas(noyau)
+        drawCanvas(noyau.current)
 
         return () => clearInterval(intervalId);
     }, [paused])
