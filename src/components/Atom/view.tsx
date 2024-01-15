@@ -3,14 +3,11 @@ import { Atome } from "./funct";
 import AtomeCouches from "./couches";
 import AtomCell from "./cell";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAddressCard, faArrowDown19, faAtom, faCircleLeft, faCircleNodes, faCubes, faEye, faEyeSlash, faHashtag, faObjectGroup, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
+import { faAddressCard, faArrowDown19, faAtom, faCircleLeft, faCircleNodes, faCubes, faHashtag, faObjectGroup, faWeightHanging } from "@fortawesome/free-solid-svg-icons";
 import AtomeSchema from "./Schema";
 import { Isotope } from "./isotope";
-import { useState } from "react";
 
 function ViewAtom() {
-    const [SchemaShown, ToogleSchema] = useState(false)
-
     let atome: Atome
     const Z = Number(useParams().Z)
 
