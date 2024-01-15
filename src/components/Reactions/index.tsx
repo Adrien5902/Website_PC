@@ -1,15 +1,16 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import TableauAvancement from "./TableauAvancement";
+import Page from "../Page";
 
-export default function ReactionsChimique({}) {
+export default function ReactionsChimique({ }) {
     return (<>
         <Routes>
             <Route path="/" element={
-                <>
-                <Link className="cyan" to={"tableau-avancement"}>Tableau d'avancement</Link>
-                </>
-            }/>
-            <Route path="tableau-avancement" element={<TableauAvancement/>}></Route>
-        </Routes>
+                <div id="pages">
+                    <Page href="/reactions/tableau-avancement" img="./assets/pages/tableau_avancement.png" text="Tableau d'Avancement"></Page>
+                </div >
+            } />
+            <Route path="tableau-avancement" element={< TableauAvancement />} />
+        </Routes >
     </>);
 }
