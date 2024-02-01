@@ -79,7 +79,7 @@ export default function AtomeSchema({ atome }: Props) {
 
                 const { x, y } = origin
                 const radius = ((canvas.width / 10) * (circleIndex / circleMax)) - (size * 2)
-                const angle = (i / 2 ** circleIndex) * Math.PI * 2
+                const angle = (circleIndex == circleMax ? i / (atome.A - i / 2 ** circleIndex) : (i / 2 ** circleIndex)) * Math.PI * 2
 
                 this.data.push(new Nucléon(isProton ? "proton" : "neutron", { x: x + radius * Math.cos(angle), y: y + radius * Math.sin(angle) }))
             }
