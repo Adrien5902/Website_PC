@@ -34,7 +34,7 @@ export default class Générateur implements PowerSource{
 
     properties = () => [
         <ComponentProperty label="Activé : " property="on" component={this} key={1}/>,
-        <ComponentProperty label="Voltage : " type="range" suffix="V" property="volt" component={this} key={2}/>
+        <ComponentProperty label="Force électromotrice (E) : " type="range" suffix="V" property="volt" component={this} key={2}/>
     ]
 
     getVoltage = () => this.on && this.volt
