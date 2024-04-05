@@ -1,164 +1,199 @@
-import useCanvas from "../../../hooks/Canvas";
-import { Isotope } from "../isotope";
-import { useContext, useEffect, useRef, useState } from 'react';
-import './style.css'
-import { Pos, drawDot, drawLine, setColor } from "../../../types/canvas";
-import { Bloc, couchesLimit } from "../funct";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useContext, useEffect, useRef, useState } from "react";
+import useCanvas from "../../../hooks/Canvas";
+import { type Pos, drawDot, drawLine, setColor } from "../../../types/canvas";
 import { ExperimentsContext } from "../../App";
+import { type Bloc, couchesLimit } from "../funct";
+import type { Isotope } from "../isotope";
+import "./style.css";
 
 interface Props {
-    atome: Isotope
+	atome: Isotope;
 }
 
 export default function AtomeSchema({ atome }: Props) {
-    const [size, setSize] = useState<number>(12)
+	const [size, setSize] = useState<number>(12);
 
-    const sizeCoef = 2
-    const canvasRef = useCanvas(null, sizeCoef)
+	const sizeCoef = 2;
+	const canvasRef = useCanvas(null, sizeCoef);
 
-    const frameRate = 30
+	const frameRate = 30;
 
-    const angleRef = useRef<number>(0)
-    const noyau = useRef<Noyau>(null)
+	const angleRef = useRef<number>(0);
+	const noyau = useRef<Noyau>(null);
 
-    const [paused, setPaused] = useState(true)
+	const [paused, setPaused] = useState(true);
 
-    const experiments = useContext(ExperimentsContext)
+	const experiments = useContext(ExperimentsContext);
 
-    class Nucléon {
-        type: "proton" | "neutron"
-        pos: Pos
+	class Nucléon {
+		type: "proton" | "neutron";
+		pos: Pos;
 
-        constructor(type: "proton" | "neutron", pos: Pos) {
-            this.type = type
-            this.pos = pos
-        }
+		constructor(type: "proton" | "neutron", pos: Pos) {
+			this.type = type;
+			this.pos = pos;
+		}
 
-        draw(ctx: CanvasRenderingContext2D) {
-            const { x, y } = this.pos
-            const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 1.3)
-            gradient.addColorStop(0, "white")
-            gradient.addColorStop(1, this.type == "proton" ? "red" : "green")
+		draw(ctx: CanvasRenderingContext2D) {
+			const { x, y } = this.pos;
+			const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 1.3);
+			gradient.addColorStop(0, "white");
+			gradient.addColorStop(1, this.type === "proton" ? "red" : "green");
 
-            ctx.fillStyle = gradient
-            drawDot(ctx, this.pos, size * 1.3);
-        }
-    }
+			ctx.fillStyle = gradient;
+			drawDot(ctx, this.pos, size * 1.3);
+		}
+	}
 
-    class Noyau {
-        data: Nucléon[]
+	class Noyau {
+		data: Nucléon[];
 
-        constructor(atome: Isotope) {
-            let remainingProton = atome.Z
-            let remainingNeutron = atome.getN()
+		constructor(atome: Isotope) {
+			let remainingProton = atome.Z;
+			let remainingNeutron = atome.getN();
 
-            const canvas = canvasRef.current
-            const { width, height } = canvas
-            const origin: Pos = { x: width / 2, y: height / 2 }
+			const canvas = canvasRef.current;
+			const { width, height } = canvas;
+			const origin: Pos = { x: width / 2, y: height / 2 };
 
-            this.data = []
-            const circleMax = Math.floor(Math.log2(atome.A + 4))
-            for (let i = 0; i < atome.A; i++) {
-                const circleIndex = Math.floor(Math.log2(i + 4))
+			this.data = [];
+			const circleMax = Math.floor(Math.log2(atome.A + 4));
+			for (let i = 0; i < atome.A; i++) {
+				const circleIndex = Math.floor(Math.log2(i + 4));
 
-                let isProton = Math.random() - .5 > 0
+				let isProton = Math.random() - 0.5 > 0;
 
-                if (isProton) {
-                    isProton = remainingProton > 0
-                } else {
-                    isProton = !(remainingNeutron > 0)
-                }
+				if (isProton) {
+					isProton = remainingProton > 0;
+				} else {
+					isProton = !(remainingNeutron > 0);
+				}
 
-                if (isProton) {
-                    remainingProton -= 1
-                } else {
-                    remainingNeutron -= 1
-                }
+				if (isProton) {
+					remainingProton -= 1;
+				} else {
+					remainingNeutron -= 1;
+				}
 
-                const { x, y } = origin
-                const radius = ((canvas.width / 10) * (circleIndex / circleMax)) - (size * 2)
-                const angle = (circleIndex == circleMax ? i / (atome.A - i / 2 ** circleIndex) : (i / 2 ** circleIndex)) * Math.PI * 2
+				const { x, y } = origin;
+				const radius =
+					(canvas.width / 10) * (circleIndex / circleMax) - size * 2;
+				const angle =
+					(circleIndex === circleMax
+						? i / (atome.A - i / 2 ** circleIndex)
+						: i / 2 ** circleIndex) *
+					Math.PI *
+					2;
 
-                this.data.push(new Nucléon(isProton ? "proton" : "neutron", { x: x + radius * Math.cos(angle), y: y + radius * Math.sin(angle) }))
-            }
+				this.data.push(
+					new Nucléon(isProton ? "proton" : "neutron", {
+						x: x + radius * Math.cos(angle),
+						y: y + radius * Math.sin(angle),
+					}),
+				);
+			}
+		}
 
-        }
+		draw(ctx: CanvasRenderingContext2D) {
+			for (const n of this.data) {
+				n.draw(ctx);
+			}
+		}
+	}
 
-        draw(ctx: CanvasRenderingContext2D) {
-            this.data.forEach(n => {
-                n.draw(ctx)
-            });
-        }
-    }
+	function drawCanvas() {
+		const canvas = canvasRef.current;
+		const { width, height } = canvas;
+		const origin: Pos = { x: width / 2, y: height / 2 };
+		const angle = angleRef.current;
 
-    function drawCanvas() {
-        const canvas = canvasRef.current
-        const { width, height } = canvas
-        const origin: Pos = { x: width / 2, y: height / 2 }
-        const angle = angleRef.current
+		const ctx = canvas.getContext("2d");
 
-        const ctx = canvas.getContext("2d")
+		//Clear
+		ctx.lineWidth = size / 3;
+		ctx.clearRect(0, 0, width, height);
 
-        //Clear
-        ctx.lineWidth = size / 3
-        ctx.clearRect(0, 0, width, height)
+		setColor(ctx, "black");
 
-        setColor(ctx, "black")
+		//Électrons
+		Object.keys(atome.couches).forEach((souscouche, i) => {
+			const electrons: number = atome.couches[souscouche];
+			const period = Number(souscouche[0]);
+			const sousCoucheId = souscouche[1] as Bloc;
+			const sousCoucheIndex = Object.keys(couchesLimit).findIndex(
+				(sc) => sc === sousCoucheId,
+			);
 
-        //Électrons
-        Object.keys(atome.couches).forEach((souscouche, i) => {
-            const electrons: number = atome.couches[souscouche]
-            const period = Number(souscouche[0])
-            const sousCoucheId = souscouche[1] as Bloc
-            const sousCoucheIndex = Object.keys(couchesLimit).findIndex(sc => sc == sousCoucheId)
+			setColor(ctx, `hwb(${(period / atome.période) * 360} 0% 0%)`);
 
-            setColor(ctx, `hwb(${period / atome.période * 360} 0% 0%)`)
+			ctx.beginPath();
+			const radius =
+				(canvas.width * (period + sousCoucheIndex / 4)) /
+				(atome.période + 0.5) /
+				sizeCoef;
+			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
+			ctx.stroke();
 
-            ctx.beginPath()
-            const radius = canvas.width * (period + sousCoucheIndex / 4) / (atome.période + .5) / sizeCoef
-            ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
-            ctx.stroke()
+			for (let e = electrons; e > 0; e--) {
+				const eangle =
+					(i % 2 === 0 ? 1 : -1) *
+					(angle +
+						Math.PI * 2 * (e / electrons) +
+						(Math.PI * sousCoucheIndex) / 4);
+				setColor(ctx, "blue");
+				const ePos = {
+					x: origin.x + radius * Math.cos(eangle),
+					y: origin.y + radius * Math.sin(eangle),
+				};
+				drawDot(ctx, ePos, size);
+				setColor(ctx, "white");
+				drawLine(
+					ctx,
+					{ x: ePos.x - size / 2, y: ePos.y },
+					{ x: ePos.x + size / 2, y: ePos.y },
+				);
+			}
+		});
 
-            for (let e = electrons; e > 0; e--) {
-                const eangle = ((i % 2) == 0 ? 1 : -1) * (angle + Math.PI * 2 * (e / electrons) + Math.PI * sousCoucheIndex / 4)
-                setColor(ctx, "blue")
-                const ePos = { x: origin.x + radius * Math.cos(eangle), y: origin.y + radius * Math.sin(eangle) }
-                drawDot(ctx, ePos, size)
-                setColor(ctx, "white")
-                drawLine(ctx, { x: ePos.x - size / 2, y: ePos.y }, { x: ePos.x + size / 2, y: ePos.y })
-            }
-        })
+		//Noyau
+		experiments && noyau.current?.draw(ctx);
+	}
 
-        //Noyau
-        experiments && noyau.current?.draw(ctx)
-    }
+	useEffect(() => {
+		if (!noyau.current) noyau.current = new Noyau(atome);
+		const intervalId = setInterval(() => {
+			if (!paused) {
+				drawCanvas();
+				angleRef.current += 1 / frameRate;
+			}
+		}, 1000 / frameRate);
 
-    useEffect(() => {
-        if (!noyau.current) noyau.current = new Noyau(atome)
-        const intervalId = setInterval(() => {
-            if (!paused) {
-                drawCanvas()
-                angleRef.current += 1 / frameRate
-            }
-        }, 1000 / frameRate)
+		drawCanvas();
 
-        drawCanvas()
+		return () => clearInterval(intervalId);
+	}, [paused, atome]);
 
-        return () => clearInterval(intervalId);
-    }, [paused])
-
-    return (<div>
-        <p>
-            <FontAwesomeIcon
-                icon={paused ? faPlay : faPause}
-                onClick={() => setPaused(p => !p)}
-                className="pause-button"
-            />
-            <span>Schéma d'un atome de <sup>{atome.A}</sup><sub>{atome.Z}</sub>{atome.symbol}</span>
-        </p>
-        <canvas ref={canvasRef} style={{ margin: "1em" }} id="isotope-schema-canvas"></canvas>
-    </div>);
-
+	return (
+		<div>
+			<p>
+				<FontAwesomeIcon
+					icon={paused ? faPlay : faPause}
+					onClick={() => setPaused((p) => !p)}
+					className="pause-button"
+				/>
+				<span>
+					Schéma d'un atome de <sup>{atome.A}</sup>
+					<sub>{atome.Z}</sub>
+					{atome.symbol}
+				</span>
+			</p>
+			<canvas
+				ref={canvasRef}
+				style={{ margin: "1em" }}
+				id="isotope-schema-canvas"
+			/>
+		</div>
+	);
 }

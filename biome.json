@@ -1,0 +1,16 @@
+{
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"suspicious": {
+				"noArrayIndexKey": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "off"
+			}
+		}
+	},
+	"formatter": {
+		"ignore": ["elements.json", "*.js"]
+	}
+}

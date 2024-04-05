@@ -1,16 +1,26 @@
-import * as React from 'react';
+import type * as React from "react";
 
-function ComponentDrag({img, name}) {
-    function handleDragStart(e: React.DragEvent<HTMLImageElement>){
-        e.dataTransfer.setData("text/plain", name)
-    }
+type Props = {
+	img: string;
+	name: string;
+};
 
-    return ( 
-        <div className="componentBox">
-            <img onDragStart={handleDragStart} src={img} draggable="true"/>
-            <span>{name}</span>
-        </div>
-    );
+function ComponentDrag({ img, name }: Props) {
+	function handleDragStart(e: React.DragEvent<HTMLImageElement>) {
+		e.dataTransfer.setData("text/plain", name);
+	}
+
+	return (
+		<div className="componentBox">
+			<img
+				alt={name}
+				onDragStart={handleDragStart}
+				src={img}
+				draggable="true"
+			/>
+			<span>{name}</span>
+		</div>
+	);
 }
 
 export default ComponentDrag;

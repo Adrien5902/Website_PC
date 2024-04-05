@@ -1,40 +1,40 @@
-import { Route, Routes } from "react-router-dom"
-import Home from "../Home";
-import Header from "../Header";
+import { createContext, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import Atom from "../Atom";
 import Electricity from "../Elec";
 import Forces from "../Forces";
-import Molecules from "../Molecules";
 import Graph from "../Graph";
-import ReactionsChimique from "../Reactions";
+import Header from "../Header";
+import Home from "../Home";
 import Lumiere from "../Lumiere";
-import { createContext, useState } from "react";
+import Molecules from "../Molecules";
+import ReactionsChimique from "../Reactions";
 
-export const ExperimentsContext = createContext(import.meta.env.DEV)
+export const ExperimentsContext = createContext(import.meta.env.DEV);
 
 function App() {
-    const [experiments, setExperiments] = useState<boolean>(import.meta.env.DEV)
+	const [experiments, setExperiments] = useState<boolean>(import.meta.env.DEV);
 
-    return (
-        <>
-            <Header {...{ experiments, setExperiments }}></Header>
+	return (
+		<>
+			<Header {...{ experiments, setExperiments }} />
 
-            <ExperimentsContext.Provider value={experiments}>
-                <div className="content">
-                    <Routes>
-                        <Route path="/" element={<Home></Home>}></Route>
-                        <Route path="/atom/*" element={<Atom></Atom>}></Route>
-                        <Route path="/elec/*" element={<Electricity></Electricity>}></Route>
-                        <Route path="/forces/*" element={<Forces></Forces>}></Route>
-                        <Route path="/molecules/*" element={<Molecules></Molecules>}></Route>
-                        <Route path="/graph/*" element={<Graph></Graph>}></Route>
-                        <Route path="/lumiere/*" element={<Lumiere />}></Route>
-                        <Route path="/reactions/*" element={<ReactionsChimique />}></Route>
-                    </Routes>
-                </div>
-            </ExperimentsContext.Provider>
-        </>
-    );
+			<ExperimentsContext.Provider value={experiments}>
+				<div className="content">
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/atom/*" element={<Atom />} />
+						<Route path="/elec/*" element={<Electricity />} />
+						<Route path="/forces/*" element={<Forces />} />
+						<Route path="/molecules/*" element={<Molecules />} />
+						<Route path="/graph/*" element={<Graph />} />
+						<Route path="/lumiere/*" element={<Lumiere />} />
+						<Route path="/reactions/*" element={<ReactionsChimique />} />
+					</Routes>
+				</div>
+			</ExperimentsContext.Provider>
+		</>
+	);
 }
 
 export default App;

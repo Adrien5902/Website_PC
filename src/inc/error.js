@@ -1,4 +1,4 @@
-let errorBox = document.createElement("p")
+const errorBox = document.createElement("p")
 errorBox.id = "errorBox"
 errorBox.classList.add("hide")
 

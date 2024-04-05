@@ -1,63 +1,90 @@
-import { Récepteur } from "../types";
+import { type Pos, drawImage } from "../../../../../types/canvas";
 import ImageBank from "../../img/bank";
-import {ComponentProperty} from "../properties";
-import { Pos, drawImage } from "../../../../../types/canvas";
+import { ComponentProperty } from "../properties";
+import type { Récepteur } from "../types";
 
-export default class Lampe implements Récepteur{
-    id: number;
-    pos: Pos
-    name: string;
-    R: number
-    I: number
-    P: number
-    U: number;
+export default class Lampe implements Récepteur {
+	id: number;
+	pos: Pos;
+	name: string;
+	R: number;
+	I: number;
+	P: number;
+	U: number;
 
-    static nom = "Lampe"
-    static defaultImage = ImageBank.LampeOff
+	static nom = "Lampe";
+	static defaultImage = ImageBank.LampeOff;
 
-    constructor(id, pos, resistance?: number){
-        this.id = id
-        this.pos = pos
-        this.name = Lampe.nom
-        this.R = resistance ?? 3
-        this.I = 0
-        this.P = 0
-        this.U = 0
-    }
+	constructor(id, pos, resistance?: number) {
+		this.id = id;
+		this.pos = pos;
+		this.name = Lampe.nom;
+		this.R = resistance ?? 3;
+		this.I = 0;
+		this.P = 0;
+		this.U = 0;
+	}
 
-    draw = (ctx: CanvasRenderingContext2D, size: number) => {
-        this.U = this.R * this.I
-        this.P = this.U * this.I
+	draw = (ctx: CanvasRenderingContext2D, size: number) => {
+		this.U = this.R * this.I;
+		this.P = this.U * this.I;
 
-        const lightnessRatio = this.P/50
-        const lightness = lightnessRatio > 1 ? 1 : lightnessRatio < 0 ? 0 : lightnessRatio
+		const lightnessRatio = this.P / 50;
+		const lightness =
+			lightnessRatio > 1 ? 1 : lightnessRatio < 0 ? 0 : lightnessRatio;
 
-        if(lightness > 0){
-            if(lightnessRatio > 1){
-                ctx.beginPath()
-                ctx.fillStyle = `rgba(255, 255, 0, 0.5)`
-                ctx.arc(this.pos.x, this.pos.y, size/2 + ((lightnessRatio-1) * size/2), 0, Math.PI * 2)
-                ctx.fill()
-            }
-    
-            ctx.fillStyle = `rgba(255,255,0, ${lightness})`
-            ctx.beginPath()
-            ctx.arc(this.pos.x, this.pos.y, size/2, 0, Math.PI * 2)
-            ctx.fill()
-        }
+		if (lightness > 0) {
+			if (lightnessRatio > 1) {
+				ctx.beginPath();
+				ctx.fillStyle = "rgba(255, 255, 0, 0.5)";
+				ctx.arc(
+					this.pos.x,
+					this.pos.y,
+					size / 2 + ((lightnessRatio - 1) * size) / 2,
+					0,
+					Math.PI * 2,
+				);
+				ctx.fill();
+			}
 
-        ctx.fillStyle = "black"
+			ctx.fillStyle = `rgba(255,255,0, ${lightness})`;
+			ctx.beginPath();
+			ctx.arc(this.pos.x, this.pos.y, size / 2, 0, Math.PI * 2);
+			ctx.fill();
+		}
 
-        ctx.save()
-        drawImage(ctx, ImageBank.LampeOff, this.pos, size)
-        ctx.fillText(this.name, this.pos.x + size/2, this.pos.y + size/2)
-    };
+		ctx.fillStyle = "black";
 
-    properties = () => [
-        <ComponentProperty label="Allumée : " component={this} property="P" key={1} readonly={true} type="boolean"/>,
-        <ComponentProperty label="Résistance : " suffix=" Ω" component={this} property="R" key={2}/>,
-        <ComponentProperty label="Puissance : " suffix=" W" component={this} property="P" key={3} readonly={true}/>,
-        // <ComponentProperty label="Tension : " suffix=" V" component={this} property="U" key={4} readonly={true}/>,
-        // <ComponentProperty label="Intensité : " suffix=" A" component={this} property="I" key={5} readonly={true}/>,
-    ];
+		ctx.save();
+		drawImage(ctx, ImageBank.LampeOff, this.pos, size);
+		ctx.fillText(this.name, this.pos.x + size / 2, this.pos.y + size / 2);
+	};
+
+	properties = () => [
+		<ComponentProperty
+			label="Allumée : "
+			component={this}
+			property="P"
+			key={1}
+			readonly={true}
+			type="boolean"
+		/>,
+		<ComponentProperty
+			label="Résistance : "
+			suffix=" Ω"
+			component={this}
+			property="R"
+			key={2}
+		/>,
+		<ComponentProperty
+			label="Puissance : "
+			suffix=" W"
+			component={this}
+			property="P"
+			key={3}
+			readonly={true}
+		/>,
+		// <ComponentProperty label="Tension : " suffix=" V" component={this} property="U" key={4} readonly={true}/>,
+		// <ComponentProperty label="Intensité : " suffix=" A" component={this} property="I" key={5} readonly={true}/>,
+	];
 }

@@ -1,43 +1,43 @@
 import { useEffect, useRef } from "react";
-import { Pos } from "../../types/canvas";
+import type { Pos } from "../../types/canvas";
 
 export default function useCanvas(
-    onResize?: (size: Pos) => unknown,
-    sizeCoef: number = 2,
+	onResize?: (size: Pos) => unknown,
+	sizeCoef = 2,
 ) {
-    const canvasRef = useRef<HTMLCanvasElement>(null)
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    useEffect(() => {
-        const canvas = canvasRef.current;
+	useEffect(() => {
+		const canvas = canvasRef.current;
 
-        if(!canvas) return
+		if (!canvas) return;
 
-        canvas.ondragover = (event) => {
-            event.preventDefault();
+		canvas.ondragover = (event) => {
+			event.preventDefault();
 
-            canvasRef.current.classList.add("draghover");
-        };
+			canvasRef.current.classList.add("draghover");
+		};
 
-        canvas.ondragleave = () => canvasRef.current.classList.remove("draghover");
+		canvas.ondragleave = () => canvasRef.current.classList.remove("draghover");
 
-        function resizeCanvas() {
-            canvas.width = 0
-            canvas.height = 0
+		function resizeCanvas() {
+			canvas.width = 0;
+			canvas.height = 0;
 
-            canvas.width = canvas.offsetWidth * sizeCoef;
-            canvas.height = canvas.offsetHeight * sizeCoef;
+			canvas.width = canvas.offsetWidth * sizeCoef;
+			canvas.height = canvas.offsetHeight * sizeCoef;
 
-            onResize && onResize({ x: canvas.width, y: canvas.height });
-        }
+			onResize?.({ x: canvas.width, y: canvas.height });
+		}
 
-        resizeCanvas();
-        window.addEventListener("resize", resizeCanvas);
+		resizeCanvas();
+		window.addEventListener("resize", resizeCanvas);
 
-        return () => {
-            // Cleanup event listener when the component unmounts
-            window.removeEventListener("resize", resizeCanvas);
-        };
-    }, []);
+		return () => {
+			// Cleanup event listener when the component unmounts
+			window.removeEventListener("resize", resizeCanvas);
+		};
+	}, [sizeCoef, onResize]);
 
-    return canvasRef
+	return canvasRef;
 }
