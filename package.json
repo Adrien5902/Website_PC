@@ -1,47 +1,47 @@
 {
-    "name": "website-pc",
-    "private": true,
-    "version": "2.2.0",
-    "type": "module",
-    "description": "Un site web sur la physique chimie codé par Adrien5902 avec React",
-    "author": {
-        "name": "Adrien5902",
-        "url": "https://github.com/Adrien5902/",
-        "email": "adrien.m5902@gmail.com"
-    },
-    "repository": {
-        "url": "https://github.com/Adrien5902/Website_PC",
-        "type": "github"
-    },
-    "bugs": {
-        "url": "https://github.com/Adrien5902/Website_PC/issues",
-        "email": "adrien.m5902@gmail.com"
-    },
-    "license": "MIT",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
-    },
-    "dependencies": {
-        "@fortawesome/free-brands-svg-icons": "^6.4.2",
-        "@fortawesome/free-solid-svg-icons": "^6.4.2",
-        "@fortawesome/react-fontawesome": "^0.2.0",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
-    },
-    "devDependencies": {
-        "@types/react": "^18.2.15",
-        "@types/react-dom": "^18.2.7",
-        "@typescript-eslint/eslint-plugin": "^6.0.0",
-        "@typescript-eslint/parser": "^6.0.0",
-        "@vitejs/plugin-react": "^4.0.3",
-        "eslint": "^8.45.0",
-        "eslint-plugin-react-hooks": "^4.6.0",
-        "eslint-plugin-react-refresh": "^0.4.3",
-        "react-router-dom": "^6.16.0",
-        "typescript": "^5.0.2",
-        "vite": "^4.4.12"
-    }
+	"name": "website-pc",
+	"private": true,
+	"version": "2.2.0",
+	"type": "module",
+	"description": "Un site web sur la physique chimie codé par Adrien5902 avec React",
+	"author": {
+		"name": "Adrien5902",
+		"url": "https://github.com/Adrien5902/",
+		"email": "adrien.m5902@gmail.com"
+	},
+	"repository": {
+		"url": "https://github.com/Adrien5902/Website_PC",
+		"type": "github"
+	},
+	"bugs": {
+		"url": "https://github.com/Adrien5902/Website_PC/issues",
+		"email": "adrien.m5902@gmail.com"
+	},
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+	},
+	"dependencies": {
+		"@fortawesome/free-brands-svg-icons": "^6.4.2",
+		"@fortawesome/free-solid-svg-icons": "^6.4.2",
+		"@fortawesome/react-fontawesome": "^0.2.0",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@types/react": "^18.2.15",
+		"@types/react-dom": "^18.2.7",
+		"@typescript-eslint/eslint-plugin": "^8.5.0",
+		"@typescript-eslint/parser": "^8.5.0",
+		"@vitejs/plugin-react": "^4.0.3",
+		"eslint": "^8.0.0",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-react-refresh": "^0.4.3",
+		"react-router-dom": "^6.16.0",
+		"typescript": "^5.0.2",
+		"vite": "^5.4.4"
+	}
 }
