@@ -6,6 +6,7 @@ import LampeOff from "../components/Lampe/off.png";
 import Moteur from "../components/Moteur/img.png";
 import PileOff from "../components/Pile/off.png";
 import PileOn from "../components/Pile/on.png";
+import Multimetre from "../components/Mutltimetre/Multimetre.png";
 
 const ImageBank = {
 	GénérateurOff,
@@ -16,6 +17,7 @@ const ImageBank = {
 	PileOff,
 	LampeOff,
 	Moteur,
+	Multimetre,
 };
 
 export default ImageBank;
