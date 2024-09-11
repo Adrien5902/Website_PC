@@ -38,7 +38,7 @@ function Header({ experiments, setExperiments }: Props) {
 					<HeaderLink id="atom" name="Atomes" icon={faAtom} />
 					<HeaderLink
 						id="reactions"
-						name="Réactions chimique"
+						name="Réactions chimiques"
 						icon={faFlaskVial}
 					/>
 					{experiments ? (
