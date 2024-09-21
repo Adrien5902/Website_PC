@@ -1,6 +1,12 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef, useState } from "react";
+import {
+	type MouseEvent,
+	type TouchEvent,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import useCanvas from "../../../hooks/Canvas";
 import useFullscreen from "../../../hooks/Fullscreen";
 import {
@@ -58,7 +64,8 @@ export default function Lentilles() {
 		drawCanvas(canvasRef.current);
 	});
 
-	function handleMouseMove(e) {
+	function handleMouseMove(e: MouseEvent | TouchEvent) {
+		e.preventDefault();
 		mousePosRef.current = getMousePos(canvasRef.current, e);
 
 		if (moving.current) {
@@ -84,7 +91,8 @@ export default function Lentilles() {
 		drawCanvas(canvasRef.current);
 	}
 
-	function handleMouseDown() {
+	function handleMouseDown(e: React.MouseEvent | React.TouchEvent) {
+		e.preventDefault();
 		if (
 			isMouseNear({
 				x: originPos.current.x + object.current.x,
@@ -352,6 +360,9 @@ export default function Lentilles() {
 					onMouseMove={handleMouseMove}
 					onMouseUp={handleMouseUp}
 					onMouseDown={handleMouseDown}
+					onTouchMove={handleMouseMove}
+					onTouchEnd={handleMouseUp}
+					onTouchStart={handleMouseDown}
 				/>
 
 				<div className="shadow-box" id="lentilles-inputs">

@@ -1,53 +1,92 @@
-table td {
-    text-align: center;
+table {
+    margin: 24px auto;
+    table-layout: fixed;
+    width: clamp(50vw, 95vw, 80em);
+
+    & td {
+        text-align: center;
+    }
+
+    & .atom-cell {
+        font-size: clamp(0.5vw, 1vw, 1rem);
+        width: calc(100% - 1vw) !important;
+        height: unset;
+    }
 }
 
-tfoot tr{
+tfoot tr {
     cursor: pointer;
 }
 
 #legende {
-    top: 10px;
-    position: relative;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background: var(--secondary);
+    color: var(--background);
+    width: fit-content;
+    padding: .4em;
+    border-radius: .2em;
+
+    >* {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border: 2px solid transparent;
+        padding: .2em;
+        border-radius: .2em;
+
+        &:hover {
+            border-color: var(--accent);
+        }
+    }
+
+    & .block {
+        width: 1em;
+        height: 1em;
+        margin-right: 0.2em;
+
+    }
 }
 
 /*Cases du tableau périodique*/
 .atom-cell {
-    border: solid 2px var(--text);
+    border: solid 0.1em var(--text);
     padding: .5em;
-    width: clamp(3em, 3.5vw, 9em);
-    height: clamp(3em, 3.5vw, 9em);
+    width: clamp(5em, 6vw, 6em);
+    height: clamp(5em, 6vw, 6em);
     aspect-ratio: 1;
-    margin: auto;
+    margin: 0;
     background: white;
     display: inline-block;
     text-align: center;
-    font-size: clamp(0.5em, 1vw, 1.5em);
     transition: all 200ms;
     overflow: hidden;
     text-decoration: none !important;
 
-    & > .Z {
+    &>.Z {
         font-size: 1em;
     }
 
-    & > .symbol {
+    &>.symbol {
         font-size: 1.4em;
         font-weight: bold;
     }
 }
 
-td .atom-cell:hover, .atom-cell.hover {
+td .atom-cell:hover,
+.atom-cell.hover {
     transform: scale(1.8);
-    font-size: calc(clamp(0.5em, 1vw, 1.5em)/1.8);
-
-    & > .symbol {
-        font-size: 2em;
-    }
+    font-size: 0.5em;
 }
 
 .atom-cell.selected {
-    box-shadow: var(--cyan) 0 0 24px;
+    box-shadow: var(--accent) 0 0 24px;
+}
+
+#search {
+    margin: 0.5em;
 }
 
 .atom-search-result {
@@ -55,28 +94,33 @@ td .atom-cell:hover, .atom-cell.hover {
     margin: 24px auto;
     border: 2px solid var(--text);
     padding: 12px;
+
+    &>.atom-cell {
+        font-size: 1em;
+        transform: unset !important;
+    }
 }
 
-#search-result{
+#search-results {
     display: flex;
     flex-direction: column;
 }
 
-.atome-properties{
+.atome-properties {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-#atome-name{
+#atome-name {
     font-weight: bold;
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
     margin: 1em;
 
-    & > span {
-        font-size: 3em;
+    &>span {
+        font-size: 2em;
         margin: 0 1em;
     }
 

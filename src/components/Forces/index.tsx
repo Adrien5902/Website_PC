@@ -53,21 +53,30 @@ function Forces() {
 		setResult(calcPoidsSurAstre(getInputNumber(mObj), g));
 	}
 
+	const values = [
+		{ value: 9.807, name: "Terre", emoji: "🌍" },
+		{ value: 1.62, name: "Lune", emoji: "🌕" },
+		{ value: 274, name: "Soleil", emoji: "☀️" },
+		{ value: 3.721, name: "Mars", emoji: "☄️" },
+		{ value: 10.44, name: "Saturne", emoji: "🪐" },
+	];
+
 	return (
 		<>
 			<div className="formulas">
-				<form id="forceGrav">
+				<form>
 					<h2>
 						<FontAwesomeIcon icon={faDownLeftAndUpRightToCenter} /> Calculer la
 						force d'interaction gravitationelle entre 2 objets :
 					</h2>
 
-					<label>
+					<label htmlFor="1objm">
 						<FontAwesomeIcon icon={faWeightHanging} /> Masse du 1<sup>er</sup>{" "}
 						objet (en kg) :
 					</label>
 					<div>
 						<input
+							id="1objm"
 							type="number"
 							ref={mA}
 							onInput={handleForceGrav}
@@ -85,12 +94,13 @@ function Forces() {
 
 					<br />
 
-					<label>
+					<label htmlFor="2objm">
 						<FontAwesomeIcon icon={faWeightHanging} /> Masse du 2<sup>ème</sup>{" "}
 						objet (en kg) :
 					</label>
 					<div>
 						<input
+							id="2objm"
 							type="number"
 							ref={mB}
 							onInput={handleForceGrav}
@@ -108,12 +118,13 @@ function Forces() {
 
 					<br />
 
-					<label>
+					<label htmlFor="distance">
 						<FontAwesomeIcon icon={faArrowsLeftRight} /> Distance entre les deux
 						objets (en m) :
 					</label>
 					<div>
 						<input
+							id="distance"
 							type="number"
 							ref={d}
 							onInput={handleForceGrav}
@@ -140,7 +151,7 @@ function Forces() {
 						objet sur un astre :
 					</h2>
 
-					<label>
+					<label htmlFor="poids-sur-astre">
 						<FontAwesomeIcon icon={faWeightHanging} /> Masse de l'objet (en kg)
 						:
 					</label>
@@ -149,19 +160,21 @@ function Forces() {
 						onInput={handlePoidsSurAstre}
 						ref={mObj}
 						placeholder="ex. 20kg..."
+						id="poids-sur-astre"
 					/>
 
 					<br />
 
-					<label>
+					<label htmlFor="select-astre">
 						<FontAwesomeIcon icon={faEarth} /> Astre :
 					</label>
-					<select onInput={handlePoidsSurAstre} ref={gAstre}>
-						<option value="9.807">Terre 🌍</option>
-						<option value="1.62">Lune 🌕</option>
-						<option value="274">Soleil ☀️</option>
-						<option value="3.721">Mars ☄️</option>
-						<option value="10.44">Saturne 🪐</option>
+					<select id="select-astre" onInput={handlePoidsSurAstre} ref={gAstre}>
+						{values.map((v, i) => (
+							<option value={v.value} key={i}>
+								{`${v.name} ${v.emoji}`}
+							</option>
+						))}
+
 						<option value="other">Autre...</option>
 					</select>
 					<input
@@ -176,6 +189,19 @@ function Forces() {
 						<FontAwesomeIcon icon={faSquareRootVariable} /> Formule : P
 						<sub>objet</sub> = m<sub>objet</sub> x g<sub>astre</sub>
 					</p>
+
+					<span>Valeurs :</span>
+					<ul>
+						<li>
+							G = 6.67 x 10<sup>-11</sup> N • m<sup>2</sup> • kg <sup>-2</sup>
+						</li>
+
+						{values.map((v) => (
+							<li key={v.name}>
+								g<sub>{v.name}</sub> = {v.value} N • kg<sup>-1</sup>
+							</li>
+						))}
+					</ul>
 				</form>
 			</div>
 
@@ -186,30 +212,6 @@ function Forces() {
 			) : (
 				""
 			)}
-
-			<br />
-
-			<label htmlFor="valeurs">Valeurs :</label>
-			<ul>
-				<li>
-					G = 6.67 x 10<sup>-11</sup> N • m<sup>2</sup> • kg <sup>-2</sup>
-				</li>
-				<li>
-					g<sub>Terre</sub> = 9.807 N • kg<sup>-1</sup>
-				</li>
-				<li>
-					g<sub>Lune</sub> = 1.62 N • kg<sup>-1</sup>
-				</li>
-				<li>
-					g<sub>Soleil</sub> = 274 N • kg<sup>-1</sup>
-				</li>
-				<li>
-					g<sub>Mars</sub> = 3.721 N • kg<sup>-1</sup>
-				</li>
-				<li>
-					g<sub>Saturne</sub> = 10.44 N • kg<sup>-1</sup>
-				</li>
-			</ul>
 		</>
 	);
 }

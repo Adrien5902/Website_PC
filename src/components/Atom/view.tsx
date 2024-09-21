@@ -33,6 +33,7 @@ function ViewAtom() {
 				display: "flex",
 				flexDirection: "row",
 				justifyContent: "center",
+				flexWrap: "wrap",
 			}}
 		>
 			<div

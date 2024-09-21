@@ -18,12 +18,16 @@ export default function AtomeSchema({ atome }: Props) {
 	const sizeCoef = 2;
 	const canvasRef = useCanvas(null, sizeCoef);
 
-	const frameRate = 30;
+	let frameRate = 60;
+	let lastFrameTime = performance.now();
+	const targetFrameDuration = 1000 / frameRate;
 
 	const angleRef = useRef<number>(0);
 	const noyau = useRef<Noyau>(null);
 
 	const [paused, setPaused] = useState(true);
+	const pausedRef = useRef(false);
+	const calledRef = useRef(false);
 
 	const experiments = useContext(ExperimentsContext);
 
@@ -161,19 +165,42 @@ export default function AtomeSchema({ atome }: Props) {
 		experiments && noyau.current?.draw(ctx);
 	}
 
-	useEffect(() => {
-		if (!noyau.current) noyau.current = new Noyau(atome);
-		const intervalId = setInterval(() => {
-			if (!paused) {
+	function animate(currentTime: number) {
+		const timeElapsed = currentTime - lastFrameTime;
+
+		// If enough time has passed, draw the next frame
+		if (timeElapsed >= targetFrameDuration) {
+			if (!pausedRef.current) {
 				drawCanvas();
-				angleRef.current += 1 / frameRate;
+				angleRef.current += timeElapsed / 1000; // Angle change based on real time
 			}
-		}, 1000 / frameRate);
+			lastFrameTime = currentTime; // Reset last frame time
+		}
 
+		// Measure frame time and adjust frame rate if necessary
+		if (timeElapsed > targetFrameDuration * 1.5) {
+			frameRate = Math.max(10, frameRate - 5); // Decrease frame rate if frames take too long
+		} else if (timeElapsed < targetFrameDuration * 0.5 && frameRate < 60) {
+			frameRate += 5; // Increase frame rate if frames are rendering quickly
+		}
+
+		angleRef.current += 1 / (frameRate * 2);
+
+		requestAnimationFrame(animate);
+	}
+
+	useEffect(() => {
+		if (!calledRef.current) {
+			if (!noyau.current) noyau.current = new Noyau(atome);
+			requestAnimationFrame(animate);
+			calledRef.current = true;
+		}
 		drawCanvas();
+	}, []);
 
-		return () => clearInterval(intervalId);
-	}, [paused, atome]);
+	useEffect(() => {
+		pausedRef.current = paused;
+	}, [paused]);
 
 	return (
 		<div>

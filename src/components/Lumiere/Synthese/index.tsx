@@ -79,7 +79,8 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 		onResize({ x, y });
 	}, []);
 
-	function handleMove(e: React.MouseEvent) {
+	function handleMove(e: React.MouseEvent | React.TouchEvent) {
+		e.preventDefault();
 		if (moving.current) {
 			const { canvas, circle, x, y } = moving.current;
 			const pos = getMousePos(canvas, e);
@@ -102,7 +103,7 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 		}
 	}
 
-	function mouseDown(evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
+	function mouseDown(evt: React.MouseEvent | React.TouchEvent) {
 		const canvas = canvasRef.current;
 		const mousePos = getMousePos(canvas, evt);
 
@@ -157,6 +158,8 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 				id="sythese"
 				onMouseMove={handleMove}
 				onMouseDown={mouseDown}
+				onTouchMove={handleMove}
+				onTouchStart={mouseDown}
 				ref={canvasRef}
 				style={{ background: sythese === "additive" ? "#000" : "#FFF" }}
 			/>

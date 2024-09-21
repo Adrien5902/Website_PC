@@ -14,6 +14,7 @@ function AtomSearchResult({ atome, setSelectedAtomZ }: Props) {
 				setSelectedAtomZ={setSelectedAtomZ}
 				atome={atome}
 				canBeHovered={false}
+				defaultHover={true}
 			/>
 
 			<div style={{ display: "grid", margin: "auto 20px" }}>

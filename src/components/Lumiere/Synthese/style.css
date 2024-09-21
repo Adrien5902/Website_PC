@@ -1,21 +1,21 @@
-.sythese-couleur canvas{
+.sythese-couleur canvas {
     aspect-ratio: 2;
 }
 
-.alpha-slider{
+.alpha-slider {
     display: flex;
     align-items: center;
     flex-direction: row;
     justify-content: center;
 }
 
-.round-label{
+.round-label {
     width: 1em;
     height: 1em;
     border-radius: 100%;
 }
 
-.sythese-couleur{
+.sythese-couleur {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
@@ -27,7 +27,7 @@
     width: clamp(28em, 45vw, 100em);
 }
 
-.sythese-label{
+.sythese-label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -35,7 +35,8 @@
     padding: 0 2em;
 }
 
-#sythese-couleurs{
+#sythese-couleurs {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
 }

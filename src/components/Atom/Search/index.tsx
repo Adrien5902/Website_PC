@@ -39,7 +39,7 @@ function SearchAtom({ setSelectedAtomZ, setSearch, search }: Props) {
 				defaultValue={search}
 			/>
 
-			<div id="search-result">
+			<div id="search-results">
 				{search
 					? atomes
 							.filter((atome) => {

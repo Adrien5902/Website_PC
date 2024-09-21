@@ -60,6 +60,7 @@ function TableauPeriodique({ selectedAtomZ }) {
 					key={cells.length}
 					style={{ background: color ? colorByBloc(color, période) : "" }}
 					colSpan={spaceCount}
+					className={color && "atom-cell"}
 				/>,
 			);
 		}
@@ -68,33 +69,38 @@ function TableauPeriodique({ selectedAtomZ }) {
 	};
 
 	return (
-		<table style={{ margin: "24px auto" }}>
-			<tbody>
-				{gazNobles
-					.map((Z) => new Atome(Z))
-					.map((gaz, i) => (
-						<tr key={i}>{atomCells(gaz.période)}</tr>
-					))}
-				<tr>
-					<td colSpan={2} />
-					<td>↓</td>
-				</tr>
-				<tr>{atomCells(6, "f")}</tr>
-				<tr>{atomCells(7, "f")}</tr>
-			</tbody>
-			<tfoot id="legende">
+		<>
+			<table>
+				<tbody>
+					{gazNobles
+						.map((Z) => new Atome(Z))
+						.map((gaz, i) => (
+							<tr key={i}>{atomCells(gaz.période)}</tr>
+						))}
+					<tr>
+						<td colSpan={2} />
+						<td>↓</td>
+					</tr>
+					<tr>{atomCells(6, "f")}</tr>
+					<tr>{atomCells(7, "f")}</tr>
+				</tbody>
+			</table>
+			<div id="legende">
 				{(Object.keys(couchesLimit) as Bloc[]).map((bloc, i) => (
-					<tr
+					<div
 						key={i}
 						onMouseEnter={() => setSelectedBloc(bloc)}
 						onMouseLeave={() => setSelectedBloc(null)}
 					>
-						<td style={{ backgroundColor: colorByBloc(bloc, 7) }} />
-						<td>Bloc {bloc.toUpperCase()}</td>
-					</tr>
+						<div
+							style={{ backgroundColor: colorByBloc(bloc, 7) }}
+							className="block"
+						/>
+						<div>Bloc {bloc.toUpperCase()}</div>
+					</div>
 				))}
-			</tfoot>
-		</table>
+			</div>
+		</>
 	);
 }
 
