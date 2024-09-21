@@ -41,6 +41,7 @@ select {
     margin: auto;
     overflow: hidden;
     margin-bottom: 1em;
+    width: 100vw;
 }
 
 /*Message quand on passse la souris dessus*/
