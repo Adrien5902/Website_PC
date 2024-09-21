@@ -11,14 +11,15 @@
 }
 
 
-body,
-#root {
+body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /*Change la police d'écriture*/
     font-size: 20px;
     background: var(--background);
-    width: 100vw;
     margin: 0;
+    width: 100vw;
+}
+
+#root {
     display: flex;
     flex-direction: column;
 }
@@ -38,7 +39,6 @@ select {
 .content {
     text-align: center;
     margin: auto;
-    width: 100vw;
     overflow: hidden;
     margin-bottom: 1em;
 }
