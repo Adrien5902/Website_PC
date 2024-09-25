@@ -16,6 +16,7 @@ import AtomCell from "./cell";
 import AtomeCouches from "./couches";
 import { Atome } from "./funct";
 import { Isotope } from "./isotope";
+import BoltMinus from "/public/assets/icons/bolt-minus-solid.svg";
 
 function ViewAtom() {
 	let atome: Atome;
@@ -77,11 +78,15 @@ function ViewAtom() {
 						<FontAwesomeIcon icon={faCubes} /> Bloc : {atome.bloc.toUpperCase()}
 					</span>
 					<span>
+						<FontAwesomeIcon icon={faObjectGroup} /> Famille : {atome.family}
+					</span>
+					<span>
 						<FontAwesomeIcon icon={faWeightHanging} /> Masse Molaire : {atome.M}{" "}
 						g/mol
 					</span>
 					<span>
-						<FontAwesomeIcon icon={faObjectGroup} /> Famille : {atome.family}
+						<img src={BoltMinus} style={{ height: "1em" }} alt="" />{" "}
+						Électronégativité : {atome.electronegativite}
 					</span>
 				</div>
 

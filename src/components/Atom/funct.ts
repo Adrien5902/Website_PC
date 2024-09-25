@@ -67,6 +67,7 @@ export class Atome {
 	symbol: string;
 	name: string;
 	M: number;
+	electronegativite: number;
 	période: number;
 	bloc: Bloc;
 	groupe: string;
@@ -114,6 +115,7 @@ export class Atome {
 		this.name = elements[i].name; //Set nom de l'atome
 		this.M = elements[i].M; //Set Masse molaire
 		this.family = elements[i].family;
+		this.electronegativite = elements[i].electronegativite;
 
 		this.couches = this.getCouches(); //Récupère les couches électroniques de l'atome
 
@@ -122,7 +124,7 @@ export class Atome {
 		);
 		this.groupe =
 			this.couches[
-				Object.keys(this.couches)[Object.keys(this.couches).length - 1]
+			Object.keys(this.couches)[Object.keys(this.couches).length - 1]
 			];
 		this.bloc = Object.keys(this.couches)[
 			Object.keys(this.couches).length - 1
@@ -154,6 +156,14 @@ export class Atome {
 }
 
 export const atomes = elements.map((element) => new Atome(element.Z));
+
+
+export function getColorByElectronegativite(e: number | null) {
+	if (!e) {
+		return "var(--gray)"
+	}
+	return `hsl(${-e * 230 / atomes[9 - 1].electronegativite - 140}, 100%, 50%)`;
+}
 
 export function colorByBloc(bloc: Bloc, period: number) {
 	//Change la couleur de la cellule en fcnt de la période et du bloc de l'atome

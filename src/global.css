@@ -36,7 +36,7 @@ select {
 }
 
 /*Contenu de la page sans l'en-tête*/
-.content {
+#content {
     text-align: center;
     margin: auto;
     overflow: hidden;
