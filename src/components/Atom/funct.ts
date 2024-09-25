@@ -157,6 +157,14 @@ export class Atome {
 
 export const atomes = elements.map((element) => new Atome(element.Z));
 
+
+export function getColorByElectronegativite(e: number | null) {
+	if (!e) {
+		return "var(--gray)"
+	}
+	return `hsl(${-e * 230 / atomes[9 - 1].electronegativite - 140}, 100%, 50%)`;
+}
+
 export function colorByBloc(bloc: Bloc, period: number) {
 	//Change la couleur de la cellule en fcnt de la période et du bloc de l'atome
 	let rgb: string = null;

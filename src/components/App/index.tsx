@@ -20,7 +20,7 @@ function App() {
 			<Header {...{ experiments, setExperiments }} />
 
 			<ExperimentsContext.Provider value={experiments}>
-				<div className="content">
+				<div id="content">
 					<Routes>
 						<Route path="/" element={<Home />} />
 						<Route path="/atom/*" element={<Atom />} />
