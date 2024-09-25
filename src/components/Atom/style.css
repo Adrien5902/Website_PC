@@ -21,7 +21,7 @@ tfoot tr {
 #legende {
     background: var(--secondary);
     color: var(--background);
-    padding: .4em;
+    padding: .8em;
     border-radius: .2em;
 
     & .block {
