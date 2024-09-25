@@ -122,7 +122,21 @@ function TableauPeriodique({ selectedAtomZ }) {
 				0,
 				<td
 					key={cells.length}
-					style={{ background: color ? colorByBloc(color, période) : "" }}
+					style={{
+						background: color
+							? (() => {
+									switch (selectedSection) {
+										case "Blocs":
+											return colorByBloc(color, période);
+										case "Électronégativité":
+											return getColorByElectronegativite(null);
+
+										default:
+											break;
+									}
+								})()
+							: "",
+					}}
 					colSpan={spaceCount}
 					className={color && "atom-cell"}
 				/>,
