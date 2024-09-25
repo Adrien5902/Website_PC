@@ -2,6 +2,7 @@ import {
 	faAddressCard,
 	faArrowDown19,
 	faAtom,
+	faBolt,
 	faCircleLeft,
 	faCircleNodes,
 	faCubes,
@@ -77,11 +78,15 @@ function ViewAtom() {
 						<FontAwesomeIcon icon={faCubes} /> Bloc : {atome.bloc.toUpperCase()}
 					</span>
 					<span>
+						<FontAwesomeIcon icon={faObjectGroup} /> Famille : {atome.family}
+					</span>
+					<span>
 						<FontAwesomeIcon icon={faWeightHanging} /> Masse Molaire : {atome.M}{" "}
 						g/mol
 					</span>
 					<span>
-						<FontAwesomeIcon icon={faObjectGroup} /> Famille : {atome.family}
+						<FontAwesomeIcon icon={faBolt} /> Électronégativité :{" "}
+						{atome.electronegativite}
 					</span>
 				</div>
 

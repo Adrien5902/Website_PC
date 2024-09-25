@@ -67,6 +67,7 @@ export class Atome {
 	symbol: string;
 	name: string;
 	M: number;
+	electronegativite: number;
 	période: number;
 	bloc: Bloc;
 	groupe: string;
@@ -114,6 +115,7 @@ export class Atome {
 		this.name = elements[i].name; //Set nom de l'atome
 		this.M = elements[i].M; //Set Masse molaire
 		this.family = elements[i].family;
+		this.electronegativite = elements[i].electronegativite;
 
 		this.couches = this.getCouches(); //Récupère les couches électroniques de l'atome
 
@@ -122,7 +124,7 @@ export class Atome {
 		);
 		this.groupe =
 			this.couches[
-				Object.keys(this.couches)[Object.keys(this.couches).length - 1]
+			Object.keys(this.couches)[Object.keys(this.couches).length - 1]
 			];
 		this.bloc = Object.keys(this.couches)[
 			Object.keys(this.couches).length - 1
