@@ -85,7 +85,7 @@ function ViewAtom() {
 					</span>
 					<span>
 						<img
-							src={"/public/assets/icons/bolt-minus-solid.svg"}
+							src={"/assets/icons/bolt-minus-solid.svg"}
 							style={{ height: "1em" }}
 							alt=""
 						/>{" "}
