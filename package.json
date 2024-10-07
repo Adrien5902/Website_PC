@@ -1,7 +1,7 @@
 {
 	"name": "website-pc",
 	"private": true,
-	"version": "2.3.0",
+	"version": "2.3.1",
 	"type": "module",
 	"description": "Un site web sur la physique chimie codé par Adrien5902 avec React",
 	"author": {
