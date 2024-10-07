@@ -80,7 +80,6 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 	}, []);
 
 	function handleMove(e: React.MouseEvent | React.TouchEvent) {
-		e.preventDefault();
 		if (moving.current) {
 			const { canvas, circle, x, y } = moving.current;
 			const pos = getMousePos(canvas, e);

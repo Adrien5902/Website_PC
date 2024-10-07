@@ -65,7 +65,6 @@ export default function Lentilles() {
 	});
 
 	function handleMouseMove(e: MouseEvent | TouchEvent) {
-		e.preventDefault();
 		mousePosRef.current = getMousePos(canvasRef.current, e);
 
 		if (moving.current) {

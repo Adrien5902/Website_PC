@@ -212,3 +212,7 @@ button {
         color: var(--accent);
     }
 }
+
+canvas {
+    touch-action: none;
+}
