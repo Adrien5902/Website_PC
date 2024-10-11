@@ -1,4 +1,4 @@
-#app{
+#app {
     background: white;
     user-select: none;
     display: flex;
@@ -6,7 +6,7 @@
     align-items: center;
 }
 
-#app-main{
+#app-main {
     width: 90vw;
     height: 100vh;
     display: flex;
@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: space-between;
 
-    & > * {
+    &>* {
         width: 100%;
     }
 }
@@ -25,11 +25,11 @@
     flex: 1;
 }
 
-#workspace > canvas {
+#workspace>canvas {
     flex: 1;
 }
 
-#properties{
+#properties {
     height: 25%;
     position: relative;
     user-select: text;
@@ -39,7 +39,7 @@
     margin: 1em;
     width: calc(100% - 1em);
 
-    & input:not([type="checkbox"]):not([type="range"]){
+    & input:not([type="checkbox"]):not([type="range"]) {
         border-radius: .5em;
         outline: none;
         padding: .2em;
@@ -48,8 +48,8 @@
         box-shadow: gray 0 0 1em;
         width: clamp(15em, 20vw, 20em);
     }
-    
-    & > div{
+
+    &>div {
         display: inline-flex;
         align-items: center;
         margin: .2em .5em;
@@ -57,47 +57,48 @@
     }
 }
 
-canvas#result{
-    &.draghover{
-        box-shadow: var(--cyan) 0 0 1em;
+canvas#result {
+    &.draghover {
+        box-shadow: var(--accent) 0 0 1em;
     }
 }
 
-#components{
+#components {
     display: inline-table;
     text-align: center;
     vertical-align: top;
     user-select: none;
 }
 
-#components .componentBox{
+#components .componentBox {
     margin: 12px;
     display: flex;
     flex-direction: column;
 
-    &:not(:last-child){
+    &:not(:last-child) {
         border-bottom: solid gray;
     }
 }
 
-#components img{
+#components img {
     margin: auto;
     height: 5vh;
     cursor: pointer;
 }
 
-.cable{
+.cable {
     cursor: url(img/cable32.png) 0 0, pointer !important;
 }
 
-#disconnect, #bin{
+#disconnect,
+#bin {
     cursor: pointer;
     font-size: 2.5em;
     margin: .2em 0;
     margin-left: .5em;
 }
 
-#right-props{
+#right-props {
     position: absolute;
     right: 0;
     display: flex !important;
@@ -107,21 +108,21 @@ canvas#result{
     align-items: flex-end !important;
     font-size: clamp(.6em, 2.5vh, 1em);
 
-    & > *{
+    &>* {
         display: inline-flex;
         align-items: center;
     }
 }
 
-#size{
+#size {
     display: flex;
     flex-direction: column;
 }
 
-#toogle-fullscreen{
+#toogle-fullscreen {
     cursor: pointer;
 }
 
-#preview{
+#preview {
     height: 3em;
 }
