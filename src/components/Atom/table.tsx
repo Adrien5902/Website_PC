@@ -6,6 +6,7 @@ import {
 	atomes,
 	colorByBloc,
 	couchesLimit,
+	familles,
 	gazNobles,
 	getColorByElectronegativite,
 } from "./funct";
@@ -52,7 +53,11 @@ function TableauPeriodique({ selectedAtomZ }) {
 						style={{
 							width: "100%",
 							height: "1.5em",
-							background: `linear-gradient(90deg, ${getColorByElectronegativite(0.7)} 0%, ${getColorByElectronegativite(2.3)} 50%, ${getColorByElectronegativite(4)} 100%)`,
+							background: `linear-gradient(90deg, ${getColorByElectronegativite(
+								0.7,
+							)} 0%, ${getColorByElectronegativite(
+								2.3,
+							)} 50%, ${getColorByElectronegativite(4)} 100%)`,
 						}}
 					/>
 					<div
@@ -68,6 +73,41 @@ function TableauPeriodique({ selectedAtomZ }) {
 				</div>
 			),
 		},
+		{
+			label: "Famille",
+			content: (
+				<div
+					style={{
+						display: "grid",
+						gridTemplateColumns: "1fr 1fr",
+					}}
+				>
+					{familles.map((famille, i) => (
+						<div
+							key={famille}
+							style={{
+								flex: 1,
+								display: "flex",
+								flexDirection: "row",
+								margin: ".3em 0",
+							}}
+						>
+							<div
+								style={{
+									height: "1.5em",
+									marginRight: ".3em",
+									aspectRatio: 1,
+									background: `hsl(${
+										(360 / familles.length) * i
+									}deg, 100%, 50%)`,
+								}}
+							/>
+							<span>{famille}</span>
+						</div>
+					))}
+				</div>
+			),
+		},
 	];
 
 	const [selectedSection, setSelectedSection] = useState(
@@ -80,7 +120,10 @@ function TableauPeriodique({ selectedAtomZ }) {
 				return colorByBloc(atome.bloc, atome.période);
 			case "Électronégativité":
 				return getColorByElectronegativite(atome.electronegativite);
-
+			case "Famille":
+				return `hsl(${
+					(360 / familles.length) * familles.indexOf(atome.family)
+				}deg, 100%, 50%)`;
 			default:
 				break;
 		}
@@ -130,7 +173,8 @@ function TableauPeriodique({ selectedAtomZ }) {
 											return colorByBloc(color, période);
 										case "Électronégativité":
 											return getColorByElectronegativite(null);
-
+										case "Famille":
+											return "var(--gray)";
 										default:
 											break;
 									}

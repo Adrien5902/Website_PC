@@ -190,3 +190,10 @@ export function colorByBloc(bloc: Bloc, period: number) {
 
 	return rgb;
 }
+
+export const familles = []
+for (const atome of atomes) {
+	if (!familles.includes(atome.family)) {
+		familles.push(atome.family)
+	}
+}

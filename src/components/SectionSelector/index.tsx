@@ -45,7 +45,9 @@ const SectionSelector = ({
 				{sections.map((section) => (
 					<div
 						key={section.label}
-						className={`option ${activeSection === section.label ? "active" : ""}`}
+						className={`option ${
+							activeSection === section.label ? "active" : ""
+						}`}
 						onClick={() => {
 							if (onSelection) {
 								onSelection(section.label);
