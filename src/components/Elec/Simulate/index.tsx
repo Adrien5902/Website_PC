@@ -35,8 +35,16 @@ import useCanvas from "../../../hooks/Canvas";
 import { Moteur } from "./components/Moteur";
 //Img import
 import cableImg from "./img/cable.png";
+import Multimetre from "./components/Mutltimetre";
 
-const componentTypes = [Générateur, Lampe, Interupteur, Pile, Moteur];
+const componentTypes = [
+	Générateur,
+	Lampe,
+	Interupteur,
+	Pile,
+	Moteur,
+	Multimetre,
+];
 
 function ElecSimulate() {
 	const [cableMouse, setCableMouse] = useState(false);
