@@ -36,7 +36,7 @@ export function drawDashedLine(
 	ctx: CanvasRenderingContext2D,
 	from: Pos,
 	to: Pos,
-	dashLength = 5,
+	dashLength = 20,
 ) {
 	ctx.beginPath();
 	ctx.moveTo(from.x, from.y);

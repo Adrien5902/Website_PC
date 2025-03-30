@@ -10,12 +10,12 @@ const SectionSelector = ({
 	id,
 	sections,
 	onSelection,
-	defaultSection,
+	defaultSection = 0,
 }: {
 	id: string;
 	sections: Section[];
 	onSelection?: (label: string) => void;
-	defaultSection: number;
+	defaultSection?: number;
 }) => {
 	const [activeSection, setActiveSection] = useState(
 		sections[defaultSection].label,
