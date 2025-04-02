@@ -58,7 +58,7 @@ export default function Lentilles() {
 	} | null>(null);
 
 	const [infiniteObject, setInfiniteObject] = useState(false);
-	const infiniteObjectAngle = useRef(Math.PI / 12);
+	const infiniteObjectAngle = useRef(0.3);
 
 	const lentilles = useRef<Lentille[]>([]);
 
