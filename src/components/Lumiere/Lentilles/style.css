@@ -6,6 +6,10 @@
     justify-content: space-between;
     padding-bottom: 2em;
 
+    input:not([type="color"]):not([type="checkbox"]) {
+        width: 100%;
+    }
+
     &>* {
         padding: .2em;
     }
@@ -17,10 +21,13 @@
 }
 
 #lentilles-section-selector {
-    width: 100%;
     box-shadow: var(--gray) 0 0 1em 0.1em;
     border-radius: .5em;
     margin: 0.5em;
+
+    .indicator {
+        background: var(--gray);
+    }
 
     .content {
         width: calc(100% - .8em);
@@ -49,4 +56,9 @@
     & input {
         aspect-ratio: 1 !important;
     }
+}
+
+.lentilles-controls {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }

@@ -1,4 +1,5 @@
 .fullscreened {
+    overflow-y: scroll;
     background: var(--background);
 }
 

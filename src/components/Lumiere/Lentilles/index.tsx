@@ -81,12 +81,12 @@ export default function Lentilles() {
 	const controls = useRef<LentilleControlsRef>(null);
 
 	return (
-		<div id="lentilles-app">
-			<div
-				ref={fullscreenAble}
-				onTouchEnd={handleMouseUp}
-				onMouseUp={handleMouseUp}
-			>
+		<div
+			ref={fullscreenAble}
+			onTouchEnd={handleMouseUp}
+			onMouseUp={handleMouseUp}
+		>
+			<div id="lentilles-app">
 				<h1 style={{ width: "90vw" }} className="align-between">
 					<div />
 					<span>
@@ -95,29 +95,31 @@ export default function Lentilles() {
 					<span>{fullscreenButton}</span>
 				</h1>
 
-				<LentillesCanvas
-					ref={canvas}
-					{...{
-						infiniteObject,
-						infiniteObjectAngle,
-						lentilles,
-						moving,
-						objectPos,
-					}}
-					rayons={rayons.current}
-					controlsRef={controls}
-				/>
-				<LentilleControls
-					ref={controls}
-					{...{
-						infiniteObjectAngle,
-						lentilles,
-						objectPos,
-						rayons,
-						setInfiniteObject,
-					}}
-					canvasRef={canvas}
-				/>
+				<div>
+					<LentillesCanvas
+						ref={canvas}
+						{...{
+							infiniteObject,
+							infiniteObjectAngle,
+							lentilles,
+							moving,
+							objectPos,
+						}}
+						rayons={rayons.current}
+						controlsRef={controls}
+					/>
+					<LentilleControls
+						ref={controls}
+						{...{
+							infiniteObjectAngle,
+							lentilles,
+							objectPos,
+							rayons,
+							setInfiniteObject,
+						}}
+						canvasRef={canvas}
+					/>
+				</div>
 			</div>
 		</div>
 	);

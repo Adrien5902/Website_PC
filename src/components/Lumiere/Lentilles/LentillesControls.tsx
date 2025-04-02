@@ -42,102 +42,105 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 
 		return (
 			<div>
-				<SectionSelector
-					id="lentilles-section-selector"
-					onSelection={(selection) => {
-						setInfiniteObject(selection !== "Objet Proche");
-						canvasRef.current.refresh();
-					}}
-					sections={[
-						{
-							label: "Objet Proche",
-							content: (
-								<div className="lentilles-inputs">
-									<div>
+				<div className="lentilles-controls">
+					<SectionSelector
+						id="lentilles-section-selector"
+						onSelection={(selection) => {
+							setInfiniteObject(selection !== "Objet Proche");
+							canvasRef.current.refresh();
+						}}
+						sections={[
+							{
+								label: "Objet Proche",
+								content: (
+									<div className="lentilles-inputs">
 										<div>
-											<span>OA (position de l'objet) : </span>
+											<div>
+												<span>OA (position de l'objet) : </span>
+												<input
+													type="number"
+													value={objectPos.current.x - canvasRef.current?.size}
+													onChange={(e) => {
+														objectPos.current.x =
+															Number(e.target.value) + canvasRef.current.size;
+														canvasRef.current.refresh();
+													}}
+												/>
+											</div>
+
+											<div>
+												<span>AB (taille de l'objet) : </span>
+												<input
+													type="number"
+													value={objectPos.current.y}
+													onChange={(e) => {
+														objectPos.current.y = Number(e.target.value);
+														canvasRef.current.refresh();
+													}}
+												/>
+											</div>
+										</div>
+										<div>
+											{[
+												rayons.current.F,
+												rayons.current.O,
+												rayons.current.delta,
+											].map((rayon, i) => (
+												<SpecialRayonInput
+													key={i}
+													canvasRef={canvasRef}
+													rayon={rayon}
+												/>
+											))}
+										</div>
+									</div>
+								),
+							},
+							{
+								label: "Objet à l'infini",
+								content: (
+									<div className="lentilles-inputs">
+										<div>
+											<span>Angle des rayons (radians) : </span>
 											<input
 												type="number"
-												value={objectPos.current.x}
 												onChange={(e) => {
-													objectPos.current.x = Number(e.target.value);
+													infiniteObjectAngle.current = Number(e.target.value);
 													canvasRef.current.refresh();
 												}}
+												value={infiniteObjectAngle.current}
 											/>
 										</div>
 
 										<div>
-											<span>AB (taille de l'objet) : </span>
-											<input
-												type="number"
-												value={objectPos.current.y}
-												onChange={(e) => {
-													objectPos.current.y = Number(e.target.value);
-													canvasRef.current.refresh();
-												}}
-											/>
+											{[rayons.current.F, rayons.current.O].map((rayon, i) => (
+												<SpecialRayonInput
+													key={i}
+													canvasRef={canvasRef}
+													rayon={rayon}
+												/>
+											))}
 										</div>
 									</div>
-									<div>
-										{[
-											rayons.current.F,
-											rayons.current.O,
-											rayons.current.delta,
-										].map((rayon, i) => (
-											<SpecialRayonInput
-												key={i}
-												canvasRef={canvasRef}
-												rayon={rayon}
-											/>
-										))}
-									</div>
-								</div>
-							),
-						},
-						{
-							label: "Objet à l'infini",
-							content: (
-								<div className="lentilles-inputs">
-									<div>
-										<span>Angle des rayons : </span>
-										<input
-											type="number"
-											onChange={(e) => {
-												infiniteObjectAngle.current = Number(e.target.value);
-												canvasRef.current.refresh();
-											}}
-											value={infiniteObjectAngle.current}
-										/>
-									</div>
+								),
+							},
+						]}
+					/>
 
-									<div>
-										{[rayons.current.F, rayons.current.O].map((rayon, i) => (
-											<SpecialRayonInput
-												key={i}
-												canvasRef={canvasRef}
-												rayon={rayon}
-											/>
-										))}
-									</div>
-								</div>
-							),
-						},
-					]}
-				/>
-
-				{lentilles.current
-					.sort((a, b) => a.id - b.id)
-					.map((lentille, i) => (
-						<LentilleSettings
-							removeLentille={() => {
-								lentilles.current.splice(i, 1);
-								canvasRef.current.refresh();
-							}}
-							canvasRef={canvasRef}
-							key={lentille.id}
-							lentille={lentille}
-						/>
-					))}
+					{lentilles.current
+						.sort((a, b) => a.id - b.id)
+						.map((lentille, i) => (
+							<LentilleSettings
+								removeLentille={() => {
+									lentilles.current.splice(i, 1);
+									canvasRef.current.refresh();
+								}}
+								canvasRef={canvasRef}
+								key={lentille.id}
+								lentille={lentille}
+							/>
+						))}
+				</div>
 
 				<button
 					type="button"
