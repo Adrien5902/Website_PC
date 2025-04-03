@@ -27,6 +27,11 @@
 
 #workspace>canvas {
     flex: 1;
+    width: 100%;
+
+    &.draghover {
+        box-shadow: var(--accent) 0 0 1em;
+    }
 }
 
 #properties {
@@ -54,12 +59,6 @@
         align-items: center;
         margin: .2em .5em;
         white-space: pre;
-    }
-}
-
-canvas#result {
-    &.draghover {
-        box-shadow: var(--accent) 0 0 1em;
     }
 }
 
