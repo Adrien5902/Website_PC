@@ -3,6 +3,7 @@ import type { Pos } from "../../types/canvas";
 
 export default function useCanvas(
 	onResize?: (size: Pos) => unknown,
+	onFirstResize?: () => void,
 	sizeCoef = 2,
 ) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -31,13 +32,15 @@ export default function useCanvas(
 		}
 
 		resizeCanvas();
+
 		window.addEventListener("resize", resizeCanvas);
 
+		onFirstResize();
 		return () => {
 			// Cleanup event listener when the component unmounts
 			window.removeEventListener("resize", resizeCanvas);
 		};
-	}, [sizeCoef, onResize]);
+	}, [sizeCoef, onResize, onFirstResize]);
 
 	return canvasRef;
 }

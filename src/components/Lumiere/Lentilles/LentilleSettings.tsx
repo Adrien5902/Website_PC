@@ -71,7 +71,7 @@ export function LentilleSettings({
 					</span>
 					<span>
 						OA<sub>{lentille.id}</sub> (position de l'image) ={" "}
-						{lentille.imagePoint.x - canvasRef.current?.size}
+						{lentille.imagePoint?.x - canvasRef.current?.size}
 					</span>
 					<span>
 						A<sub>{lentille.id}</sub>B<sub>{lentille.id}</sub> (taille de

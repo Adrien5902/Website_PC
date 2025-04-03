@@ -15,8 +15,7 @@ interface Props {
 export default function AtomeSchema({ atome }: Props) {
 	const [size, setSize] = useState<number>(12);
 
-	const sizeCoef = 2;
-	const canvasRef = useCanvas(null, sizeCoef);
+	const canvasRef = useCanvas();
 
 	let frameRate = 60;
 	let lastFrameTime = performance.now();
@@ -136,7 +135,7 @@ export default function AtomeSchema({ atome }: Props) {
 			const radius =
 				(canvas.width * (period + sousCoucheIndex / 4)) /
 				(atome.période + 0.5) /
-				sizeCoef;
+				2;
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
 

@@ -66,19 +66,19 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 		const arrowSize = size / 2;
 		const mousePosRef = useRef<Pos>({ x: 0, y: 0 });
 
-		useEffect(() => {
-			lentilles.current = [
-				new Lentille(1, canvasRef.current.width / 2, size * 4),
-			];
-		}, [lentilles]);
+		const canvasRef = useCanvas(
+			(_canvasSize) => {
+				originY = canvasRef.current ? canvasRef.current.height / 2 : size;
+				drawCanvas();
+			},
+			() => {
+				objectPos.current = { x: size, y: canvasRef.current?.height / 4 };
 
-		const canvasRef = useCanvas((_canvasSize) => {
-			objectPos.current = { x: size, y: canvasRef.current?.height / 4 };
-
-			originY = canvasRef.current ? canvasRef.current.height / 2 : size;
-
-			drawCanvas();
-		});
+				lentilles.current = [
+					new Lentille(1, canvasRef.current.width / 2, size * 4),
+				];
+			},
+		);
 
 		let originY = canvasRef.current ? canvasRef.current.height / 2 : size;
 
