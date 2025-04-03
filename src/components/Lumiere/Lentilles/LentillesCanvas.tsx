@@ -99,18 +99,18 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				pos1.y += size;
 				pos2.y -= size;
 
-				const coef = side === "left" ? 1 : -1;
+				const sign = side === "left" ? 1 : -1;
 
-				pos1.x += size * coef;
-				pos2.x += size * coef;
+				pos1.x += size * sign;
+				pos2.x += size * sign;
 			} else {
 				pos1.x += size;
 				pos2.x -= size;
 
-				const coef = side === "up" ? 1 : -1;
+				const sign = side === "up" ? 1 : -1;
 
-				pos1.y += size * coef;
-				pos2.y += size * coef;
+				pos1.y += size * sign;
+				pos2.y += size * sign;
 			}
 
 			drawLine(ctx, pos1, origin);
@@ -128,7 +128,11 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 			ctx.font = `${(size / 5) * 4}px sans-serif`;
 		}
 
-		function drawCircleAround(ctx, x, y) {
+		function drawCircleAround(
+			ctx: CanvasRenderingContext2D,
+			x: number,
+			y: number,
+		) {
 			ctx.beginPath();
 			ctx.arc(x, y, size / 2, 0, 360);
 			ctx.stroke();
@@ -182,7 +186,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				infiniteObjectAngle.current,
 			);
 
-			const Bpos = infiniteObject
+			const BPos = infiniteObject
 				? BInfinitePos
 				: { x: Apos.x, y: originY - objectPos.current.y };
 
@@ -193,8 +197,8 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 			);
 			ctx.fillText(
 				`B${infiniteObject ? "∞" : ""}`,
-				Bpos.x + size,
-				Bpos.y + size * BInfinitePos.sign,
+				BPos.x + size,
+				BPos.y + size * BInfinitePos.sign,
 			);
 
 			if (!infiniteObject) {
@@ -202,15 +206,15 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 				drawDot(ctx, Apos, size / 10);
 
-				drawLine(ctx, Apos, Bpos);
-				drawArrow(ctx, Bpos, Bpos.y < Apos.y ? "up" : "down");
+				drawLine(ctx, Apos, BPos);
+				drawArrow(ctx, BPos, BPos.y < Apos.y ? "up" : "down");
 
 				if (
-					(isMouseNear(Bpos) && !moving.current) ||
+					(isMouseNear(BPos) && !moving.current) ||
 					moving.current?.object === null
 				) {
 					ctx.beginPath();
-					ctx.arc(Bpos.x, Bpos.y, size / 2, 0, 360);
+					ctx.arc(BPos.x, BPos.y, size / 2, 0, 360);
 					ctx.stroke();
 				}
 			}
@@ -226,20 +230,20 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 					originY + size * 1.2,
 				);
 
-				const Fpos = { x: lentille.pos - lentille.focalLength, y: originY };
-				const _Fpos = { x: lentille.pos + lentille.focalLength, y: originY }; //_F = F'
+				const FPos = { x: lentille.pos - lentille.focalLength, y: originY };
+				const _FPos = { x: lentille.pos + lentille.focalLength, y: originY }; //_F = F'
 
 				if (moving.current?.object === lentille) {
 					drawCircleAround(
 						ctx,
-						moving.current.type === "focalLength" ? _Fpos.x : lentille.pos,
+						moving.current.type === "focalLength" ? _FPos.x : lentille.pos,
 						originY,
 					);
 				}
 
 				if (!moving.current) {
-					if (isMouseNear(_Fpos)) {
-						drawCircleAround(ctx, _Fpos.x, originY);
+					if (isMouseNear(_FPos)) {
+						drawCircleAround(ctx, _FPos.x, originY);
 					} else if (isMouseNear({ x: lentille.pos, y: originY })) {
 						drawCircleAround(ctx, lentille.pos, originY);
 					}
@@ -247,41 +251,41 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 				drawLine(
 					ctx,
-					{ x: Fpos.x, y: Fpos.y - size / 5 },
-					{ x: Fpos.x, y: Fpos.y + size / 5 },
+					{ x: FPos.x, y: FPos.y - size / 5 },
+					{ x: FPos.x, y: FPos.y + size / 5 },
 				);
-				ctx.fillText("F", Fpos.x, Fpos.y + size);
+				ctx.fillText("F", FPos.x, FPos.y + size);
 				drawIndiceText(
 					ctx,
 					lentille.id.toString(),
-					Fpos.x + size * 0.5,
-					Fpos.y + size * 1.2,
+					FPos.x + size * 0.5,
+					FPos.y + size * 1.2,
 				);
 				drawLine(
 					ctx,
-					{ x: _Fpos.x, y: _Fpos.y - size / 5 },
-					{ x: _Fpos.x, y: _Fpos.y + size / 5 },
+					{ x: _FPos.x, y: _FPos.y - size / 5 },
+					{ x: _FPos.x, y: _FPos.y + size / 5 },
 				);
-				ctx.fillText("F'", _Fpos.x, _Fpos.y + size);
+				ctx.fillText("F'", _FPos.x, _FPos.y + size);
 				drawIndiceText(
 					ctx,
 					lentille.id.toString(),
-					_Fpos.x + size * 0.5,
-					_Fpos.y + size * 1.2,
+					_FPos.x + size * 0.5,
+					_FPos.y + size * 1.2,
 				);
 
-				const Lsize = Math.max(
+				const LSize = Math.max(
 					Math.abs(objectPos.current.y),
 					lentille.imagePoint ? Math.abs(lentille.imagePoint.y - originY) : 0,
 					size,
 				);
 
-				const Ltop = { x: lentille.pos, y: originY - Lsize - size };
-				const Lbottom = { x: lentille.pos, y: originY + Lsize + size };
+				const LTop = { x: lentille.pos, y: originY - LSize - size };
+				const LBottom = { x: lentille.pos, y: originY + LSize + size };
 
-				drawLine(ctx, Ltop, Lbottom);
-				drawArrow(ctx, Ltop, lentille.focalLength > 0 ? "up" : "down");
-				drawArrow(ctx, Lbottom, lentille.focalLength < 0 ? "up" : "down");
+				drawLine(ctx, LTop, LBottom);
+				drawArrow(ctx, LTop, lentille.focalLength > 0 ? "up" : "down");
+				drawArrow(ctx, LBottom, lentille.focalLength < 0 ? "up" : "down");
 			}
 
 			const tempLentilles = lentilles.current
@@ -293,7 +297,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 			).length;
 
 			let lastPosA = Apos;
-			let lastPosB = Bpos;
+			let lastPosB = BPos;
 			for (const i in tempLentilles) {
 				const lentille = tempLentilles[i];
 				lentille.focalRayonHitPoint = {
@@ -419,7 +423,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 								);
 							}
 
-							if (initialPos === Bpos) {
+							if (initialPos === BPos) {
 								ctx.fillText(
 									"B'∞",
 									canvasRef.current.width - size * 1.3,
@@ -433,18 +437,18 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 			if (!infiniteObject && rayons.delta.enabled && tempLentilles[0]) {
 				setColor(ctx, rayons.delta.color);
-				drawRayon(Bpos, { x: tempLentilles[0].pos, y: Bpos.y });
+				drawRayon(BPos, { x: tempLentilles[0].pos, y: BPos.y });
 			}
 
 			if (rayons.O.enabled && tempLentilles[0]) {
 				setColor(ctx, rayons.O.color);
-				drawRayon(Bpos, { x: tempLentilles[0].pos, y: originY });
+				drawRayon(BPos, { x: tempLentilles[0].pos, y: originY });
 			}
 
 			if (rayons.F.enabled && tempLentilles[0]) {
 				setColor(ctx, rayons.F.color);
 				drawRayon(
-					infiniteObject ? Apos : Bpos,
+					infiniteObject ? Apos : BPos,
 					tempLentilles[0].focalRayonHitPoint,
 				);
 			}

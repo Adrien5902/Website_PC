@@ -49,7 +49,7 @@ select {
     flex: 1;
 }
 
-/*Message quand on passse la souris dessus*/
+/*Message quand on passe la souris dessus*/
 .tooltip-text {
     display: inline-block;
     position: absolute;
