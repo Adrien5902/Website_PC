@@ -14,9 +14,13 @@ function Graph() {
 		canvasRef.current.getContext("2d");
 	}
 
-	const canvasRef = useCanvas(() => {
-		drawCanvas();
-	}, 1);
+	const canvasRef = useCanvas(
+		() => {
+			drawCanvas();
+		},
+		null,
+		1,
+	);
 
 	function InputKeyDown(e: React.KeyboardEvent, i: number, j: number) {
 		const { key, target } = e;

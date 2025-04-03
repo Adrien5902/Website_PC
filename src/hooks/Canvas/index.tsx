@@ -35,7 +35,10 @@ export default function useCanvas(
 
 		window.addEventListener("resize", resizeCanvas);
 
-		onFirstResize();
+		if (onFirstResize) {
+			onFirstResize();
+		}
+
 		return () => {
 			// Cleanup event listener when the component unmounts
 			window.removeEventListener("resize", resizeCanvas);

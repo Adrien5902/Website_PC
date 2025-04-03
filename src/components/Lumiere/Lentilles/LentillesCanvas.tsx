@@ -2,7 +2,6 @@ import {
 	forwardRef,
 	type MouseEvent,
 	type TouchEvent,
-	useEffect,
 	useImperativeHandle,
 	useRef,
 } from "react";
@@ -72,11 +71,12 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				drawCanvas();
 			},
 			() => {
-				objectPos.current = { x: size, y: canvasRef.current?.height / 4 };
-
-				lentilles.current = [
-					new Lentille(1, canvasRef.current.width / 2, size * 4),
-				];
+				if (!lentilles.current.length) {
+					objectPos.current = { x: size, y: canvasRef.current?.height / 4 };
+					lentilles.current = [
+						new Lentille(1, canvasRef.current.width / 2, size * 4),
+					];
+				}
 			},
 		);
 
