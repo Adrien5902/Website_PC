@@ -151,28 +151,51 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 			ctx.fillText("Δ", xEnd.x, xEnd.y + size);
 
+			function calculateInfinitePointObjectPos(
+				XPos: number,
+				angle: number,
+			): Pos & { sign: number } {
+				const Height = originY - XPos * Math.tan(angle);
+
+				const sign = Height > canvas.height ? -1 : 1;
+
+				const X = XPos - (originY * sign) / Math.tan(angle);
+
+				return {
+					x: Height > canvas.height ? X : Height > 0 ? 0 : X,
+					y: Height > canvas.height ? canvas.height : Height > 0 ? Height : 0,
+					sign,
+				};
+			}
+
+			const AInfinitePos = calculateInfinitePointObjectPos(
+				lentilles.current[0]?.pos - lentilles.current[0]?.focalLength,
+				infiniteObjectAngle.current,
+			);
+
 			const Apos = infiniteObject
-				? {
-						x: 0,
-						y:
-							originY -
-							((lentilles.current[0]?.pos ?? 0) -
-								(lentilles.current[0]?.focalLength ?? 0)) *
-								Math.tan(infiniteObjectAngle.current),
-					}
+				? AInfinitePos
 				: { x: objectPos.current.x, y: originY };
+
+			const BInfinitePos = calculateInfinitePointObjectPos(
+				lentilles.current[0]?.pos,
+				infiniteObjectAngle.current,
+			);
+
 			const Bpos = infiniteObject
-				? {
-						x: 0,
-						y:
-							originY -
-							(lentilles.current[0]?.pos ?? 0) *
-								Math.tan(infiniteObjectAngle.current),
-					}
+				? BInfinitePos
 				: { x: Apos.x, y: originY - objectPos.current.y };
 
-			ctx.fillText(`A${infiniteObject ? "∞" : ""}`, Apos.x, Apos.y + size);
-			ctx.fillText(`B${infiniteObject ? "∞" : ""}`, Bpos.x + size / 3, Bpos.y);
+			ctx.fillText(
+				`A${infiniteObject ? "∞" : ""}`,
+				Apos.x,
+				Apos.y + size * 1.3 * AInfinitePos.sign,
+			);
+			ctx.fillText(
+				`B${infiniteObject ? "∞" : ""}`,
+				Bpos.x + size,
+				Bpos.y + size * BInfinitePos.sign,
+			);
 
 			if (!infiniteObject) {
 				setColor(ctx, "#FF0000");
