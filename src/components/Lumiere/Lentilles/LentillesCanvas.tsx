@@ -413,16 +413,16 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 							setColor(ctx, "#000000");
 							if (initialPos === Apos) {
 								ctx.fillText(
-									"A∞",
-									canvasRef.current.width - size,
+									"A'∞",
+									canvasRef.current.width - size * 1.3,
 									endingY + size * 1.4,
 								);
 							}
 
 							if (initialPos === Bpos) {
 								ctx.fillText(
-									"B∞",
-									canvasRef.current.width - size,
+									"B'∞",
+									canvasRef.current.width - size * 1.3,
 									endingY - size * 0.9,
 								);
 							}
