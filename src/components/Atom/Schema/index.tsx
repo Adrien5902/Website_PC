@@ -85,7 +85,7 @@ export default function AtomeSchema({ atome }: Props) {
 					(canvas.width / 10) * (circleIndex / circleMax) - size * 2;
 				const angle =
 					(circleIndex === circleMax
-						? i / (atome.A - i / 2 ** circleIndex)
+						? i / (2 ** circleMax - atome.A)
 						: i / 2 ** circleIndex) *
 					Math.PI *
 					2;
@@ -188,6 +188,7 @@ export default function AtomeSchema({ atome }: Props) {
 		requestAnimationFrame(animate);
 	}
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!calledRef.current) {
 			if (!noyau.current) noyau.current = new Noyau(atome);

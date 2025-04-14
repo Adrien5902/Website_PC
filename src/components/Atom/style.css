@@ -76,7 +76,7 @@ td .atom-cell:hover,
 }
 
 .atom-cell.selected {
-    box-shadow: var(--accent) 0 0 24px;
+    box-shadow: var(--accent) 0 0 1em 0.3em;
 }
 
 #search {

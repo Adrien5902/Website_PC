@@ -14,6 +14,7 @@ import SectionSelector from "../SectionSelector";
 
 function TableauPeriodique({ selectedAtomZ }) {
 	const [selectedBloc, setSelectedBloc] = useState<Bloc>(null);
+	const [selectedFamily, setSelectedFamily] = useState<string>(null);
 
 	const spaces: [number, number, Bloc?][] = [
 		[17, 1],
@@ -85,18 +86,12 @@ function TableauPeriodique({ selectedAtomZ }) {
 					{familles.map((famille, i) => (
 						<div
 							key={famille}
-							style={{
-								flex: 1,
-								display: "flex",
-								flexDirection: "row",
-								margin: ".3em 0",
-							}}
+							onMouseEnter={() => setSelectedFamily(famille)}
+							onMouseLeave={() => setSelectedFamily(null)}
+							className="block"
 						>
 							<div
 								style={{
-									height: "1.5em",
-									marginRight: ".3em",
-									aspectRatio: 1,
 									background: `hsl(${
 										(360 / familles.length) * i
 									}deg, 100%, 50%)`,
@@ -146,7 +141,9 @@ function TableauPeriodique({ selectedAtomZ }) {
 							atome={atome}
 							color={color(atome)}
 							selected={
-								selectedBloc === atome.bloc || selectedAtomZ === atome.Z
+								selectedBloc === atome.bloc ||
+								selectedAtomZ === atome.Z ||
+								selectedFamily === atome.family
 							}
 							defaultHover={selectedAtomZ === atome.Z}
 							canBeHovered={true}
@@ -157,20 +154,21 @@ function TableauPeriodique({ selectedAtomZ }) {
 				</td>
 			));
 
+		// Empty spaces pointing to table overflow for last two rows
 		if (spaces[période - 1] && bloc !== "f") {
 			const space = spaces[période - 1];
-			const [spaceCount, index, color] = space;
+			const [spaceCount, index, bloc] = space;
 			cells.splice(
 				index,
 				0,
 				<td
 					key={cells.length}
 					style={{
-						background: color
+						background: bloc
 							? (() => {
 									switch (selectedSection) {
 										case "Blocs":
-											return colorByBloc(color, période);
+											return colorByBloc(bloc, période);
 										case "Électronégativité":
 											return getColorByElectronegativite(null);
 										case "Famille":
@@ -182,7 +180,7 @@ function TableauPeriodique({ selectedAtomZ }) {
 							: "",
 					}}
 					colSpan={spaceCount}
-					className={color && "atom-cell"}
+					className={bloc && "atom-cell"}
 				/>,
 			);
 		}
