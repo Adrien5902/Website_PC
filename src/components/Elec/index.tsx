@@ -16,7 +16,7 @@ function Electricity() {
 								<Page
 									href="/elec/simulate"
 									text="Simulation de circuit électrique"
-									img="./assets/pages/elecSchema.png"
+									img="/assets/pages/elecSchema.png"
 								/>
 							</div>
 						</>

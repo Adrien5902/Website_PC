@@ -12,7 +12,7 @@ export default function ReactionsChimique() {
 						<div id="pages">
 							<Page
 								href="/reactions/tableau-avancement"
-								img="./assets/pages/tableau_avancement.png"
+								img="/assets/pages/tableau_avancement.png"
 								text="Tableau d'Avancement"
 							/>
 						</div>

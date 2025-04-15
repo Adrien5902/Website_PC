@@ -24,7 +24,7 @@ function Header({ experiments, setExperiments }: Props) {
 	return (
 		<header>
 			<Link className="unlink" to="/">
-				<img src="./assets/logo.png" alt="[Nom du site]" />
+				<img src="/assets/logo.png" alt="[Nom du site]" />
 			</Link>
 
 			<div id="links">

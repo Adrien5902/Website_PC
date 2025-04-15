@@ -27,7 +27,7 @@ function Lumiere() {
 										<FontAwesomeIcon icon={faCameraRetro} /> Lentilles optiques
 									</span>
 								}
-								img="./assets/pages/lentilles_convergentes.png"
+								img="/assets/pages/lentilles_convergentes.png"
 							/>
 							<Page
 								href="/lumiere/synthese"
@@ -36,7 +36,7 @@ function Lumiere() {
 										<FontAwesomeIcon icon={faFillDrip} /> Synthèse des couleurs
 									</span>
 								}
-								img="./assets/pages/synthese.png"
+								img="/assets/pages/synthese.png"
 							/>
 						</div>
 					</>

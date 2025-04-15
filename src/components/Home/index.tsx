@@ -13,17 +13,17 @@ function Home() {
 				<Page
 					href="/atom"
 					text="Tableau périodique"
-					img="./assets/pages/periodicTable.png"
+					img="/assets/pages/periodicTable.png"
 				/>
 				<Page
 					href="/elec/simulate"
 					text="Simulation de circuits électriques"
-					img="./assets/pages/elecSchema.png"
+					img="/assets/pages/elecSchema.png"
 				/>
 				<Page
 					href="/forces"
 					text="Calcul des forces"
-					img="./assets/pages/forces.jpg"
+					img="/assets/pages/forces.jpg"
 				/>
 				<Page
 					href="/lumiere/lentilles"
@@ -32,7 +32,7 @@ function Home() {
 							<FontAwesomeIcon icon={faCameraRetro} /> Lentilles optiques
 						</span>
 					}
-					img="./assets/pages/lentilles_convergentes.png"
+					img="/assets/pages/lentilles_convergentes.png"
 				/>
 				<Page
 					href="/lumiere/synthese"
@@ -41,11 +41,11 @@ function Home() {
 							<FontAwesomeIcon icon={faFillDrip} /> Synthèse des couleurs
 						</span>
 					}
-					img="./assets/pages/synthese.png"
+					img="/assets/pages/synthese.png"
 				/>
 				<Page
 					href="/reactions/tableau-avancement"
-					img="./assets/pages/tableau_avancement.png"
+					img="/assets/pages/tableau_avancement.png"
 					text="Tableau d'Avancement"
 				/>
 			</div>
