@@ -24,8 +24,7 @@ function Lumiere() {
 								href="/lumiere/lentilles"
 								text={
 									<span>
-										<FontAwesomeIcon icon={faCameraRetro} /> Lentilles
-										convergentes
+										<FontAwesomeIcon icon={faCameraRetro} /> Lentilles optiques
 									</span>
 								}
 								img="./assets/pages/lentilles_convergentes.png"

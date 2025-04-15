@@ -6,11 +6,7 @@ import Page from "../Page";
 function Home() {
 	return (
 		<>
-			<p>
-				Bonjour et bienvenue sur le site web de Adrien.
-				<br />
-				Un site dédié sur la physique chimie pour M.Humbert.
-			</p>
+			<p>Bonjour et bienvenue sur le site web de Adrien Monneret.</p>
 
 			<h3>Pages intéressantes : </h3>
 			<div id="pages">
@@ -33,7 +29,7 @@ function Home() {
 					href="/lumiere/lentilles"
 					text={
 						<span>
-							<FontAwesomeIcon icon={faCameraRetro} /> Lentilles convergentes
+							<FontAwesomeIcon icon={faCameraRetro} /> Lentilles optiques
 						</span>
 					}
 					img="./assets/pages/lentilles_convergentes.png"
