@@ -17,7 +17,7 @@ import {
 
 //Component types
 import Générateur from "./components/Générateur";
-import Interupteur from "./components/Interrupteur";
+import Interrupteur from "./components/Interrupteur";
 import Lampe from "./components/Lampe";
 import Pile from "./components/Pile";
 
@@ -36,7 +36,7 @@ import { Moteur } from "./components/Moteur";
 //Img import
 import cableImg from "./img/cable.png";
 
-const componentTypes = [Générateur, Lampe, Interupteur, Pile, Moteur];
+const componentTypes = [Générateur, Lampe, Interrupteur, Pile, Moteur];
 
 function ElecSimulate() {
 	const [cableMouse, setCableMouse] = useState(false);

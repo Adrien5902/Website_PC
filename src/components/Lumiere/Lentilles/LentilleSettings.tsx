@@ -67,7 +67,7 @@ export function LentilleSettings({
 						{lentille.virtualImage ? "Image virtuelle" : "Image réelle"}
 					</span>
 					<span>
-						γ<sub>{lentille.id}</sub> (grandissment) = {lentille.gamma}
+						γ<sub>{lentille.id}</sub> (grandissement) = {lentille.gamma}
 					</span>
 					<span>
 						OA<sub>{lentille.id}</sub> (position de l'image) ={" "}

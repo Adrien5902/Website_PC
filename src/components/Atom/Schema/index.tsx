@@ -126,10 +126,10 @@ export default function AtomeSchema({ atome }: Props) {
 		setColor(ctx, "black");
 
 		//Électrons
-		Object.keys(atome.couches).forEach((souscouche, i) => {
-			const electrons: number = atome.couches[souscouche];
-			const period = Number(souscouche[0]);
-			const sousCoucheId = souscouche[1] as Bloc;
+		Object.keys(atome.couches).forEach((sousCouche, i) => {
+			const electrons: number = atome.couches[sousCouche];
+			const period = Number(sousCouche[0]);
+			const sousCoucheId = sousCouche[1] as Bloc;
 			const sousCoucheIndex = Object.keys(couchesLimit).findIndex(
 				(sc) => sc === sousCoucheId,
 			);
