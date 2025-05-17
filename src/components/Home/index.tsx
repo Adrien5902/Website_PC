@@ -6,7 +6,10 @@ import Page from "../Page";
 function Home() {
 	return (
 		<>
-			<p>Bonjour et bienvenue sur le site web de Adrien Monneret.</p>
+			<p>
+				Bonjour et bienvenue sur le site web de physique-chimie de Adrien
+				Monneret.
+			</p>
 
 			<h3>Pages intéressantes : </h3>
 			<div id="pages">
