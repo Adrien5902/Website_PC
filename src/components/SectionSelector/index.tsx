@@ -1,22 +1,24 @@
 import { useEffect, useRef, useState } from "react";
 import "./style.css";
 
-interface Section {
-	label: string;
+export interface Section<T extends string> {
+	label: T;
 	content: JSX.Element;
 }
 
-const SectionSelector = ({
+export interface Props<T extends string> {
+	id: string;
+	sections: Section<T>[];
+	onSelection?: (label: string) => void;
+	defaultSection?: number;
+}
+
+const SectionSelector = <T extends string>({
 	id,
 	sections,
 	onSelection,
 	defaultSection = 0,
-}: {
-	id: string;
-	sections: Section[];
-	onSelection?: (label: string) => void;
-	defaultSection?: number;
-}) => {
+}: Props<T>) => {
 	const [activeSection, setActiveSection] = useState(
 		sections[defaultSection].label,
 	);
