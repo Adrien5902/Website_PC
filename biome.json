@@ -1,4 +1,5 @@
 {
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -7,8 +8,12 @@
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "info"
 			}
-		}
+		},
+		"ignore": ["node_modules"]
 	},
 	"formatter": {
 		"ignore": ["elements.json", "*.js"]

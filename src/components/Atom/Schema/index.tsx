@@ -192,7 +192,6 @@ export default function AtomeSchema({ atome }: Props) {
 		requestAnimationFrame(animate);
 	}
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!calledRef.current) {
 			if (!noyau.current) noyau.current = new Noyau(atome);

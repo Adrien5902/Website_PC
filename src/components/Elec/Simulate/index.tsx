@@ -242,7 +242,6 @@ function ElecSimulate() {
 		}
 	}
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		const intervalId = setInterval(() => {
 			drawCanvas(

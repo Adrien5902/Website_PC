@@ -25,7 +25,6 @@ const SectionSelector = <T extends string>({
 
 	const selector = useRef<HTMLDivElement>(null);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		const indicator = selector.current.querySelector(
 			".indicator",
