@@ -1,9 +1,8 @@
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useCanvas from "../../../hooks/Canvas";
 import { type Pos, drawDot, drawLine, setColor } from "../../../types/canvas";
-import { ExperimentsContext } from "../../App";
 import { type Bloc, couchesLimit } from "../funct";
 import type { Isotope } from "../isotope";
 import "./style.css";
@@ -27,8 +26,6 @@ export default function AtomeSchema({ atome }: Props) {
 	const [paused, setPaused] = useState(true);
 	const pausedRef = useRef(false);
 	const calledRef = useRef(false);
-
-	const experiments = useContext(ExperimentsContext);
 
 	class Nucléon {
 		type: "proton" | "neutron";
@@ -62,9 +59,9 @@ export default function AtomeSchema({ atome }: Props) {
 			const origin: Pos = { x: width / 2, y: height / 2 };
 
 			this.data = [];
-			const circleMax = Math.floor(Math.log2(atome.A + 4));
+			const circleMax = Math.ceil(Math.sqrt(atome.A / Math.PI));
 			for (let i = 0; i < atome.A; i++) {
-				const circleIndex = Math.floor(Math.log2(i + 4));
+				const circleIndex = Math.ceil(Math.sqrt(i / Math.PI));
 
 				let isProton = Math.random() - 0.5 > 0;
 
@@ -81,27 +78,35 @@ export default function AtomeSchema({ atome }: Props) {
 				}
 
 				const { x, y } = origin;
-				const radius =
-					(canvas.width / 10) * (circleIndex / circleMax) - size * 2;
+				const radius = circleIndex * size * 2;
+				console.log(
+					Math.floor(i - (circleIndex - 1) ** 2 * Math.PI),
+					circleIndex,
+					circleIndex * Math.PI * 2 - 3,
+				);
 				const angle =
-					(circleIndex === circleMax
-						? i / (2 ** circleMax - atome.A)
-						: i / 2 ** circleIndex) *
+					((i - (circleIndex - 1) ** 2 * Math.PI) /
+						(circleIndex === circleMax
+							? circleIndex * Math.PI * 2 -
+								3 -
+								atome.A +
+								(circleIndex - 1) ** 2 * Math.PI
+							: circleIndex * Math.PI * 2 - 3)) *
 					Math.PI *
 					2;
 
 				this.data.push(
 					new Nucléon(isProton ? "proton" : "neutron", {
-						x: x + radius * Math.cos(angle),
-						y: y + radius * Math.sin(angle),
+						x: x + radius * Math.cos(Number.isFinite(angle) ? angle : 0),
+						y: y + radius * Math.sin(Number.isFinite(angle) ? angle : 0),
 					}),
 				);
 			}
 		}
 
 		draw(ctx: CanvasRenderingContext2D) {
-			for (const n of this.data) {
-				n.draw(ctx);
+			for (let i = atome.A - 1; i >= 0; i--) {
+				this.data[i].draw(ctx);
 			}
 		}
 	}
@@ -133,9 +138,8 @@ export default function AtomeSchema({ atome }: Props) {
 
 			ctx.beginPath();
 			const radius =
-				(canvas.width * (period + sousCoucheIndex / 4)) /
-				(atome.période + 0.5) /
-				2;
+				canvas.width * ((period + sousCoucheIndex / 4) / atome.période / 3) +
+				size * 16;
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
 
@@ -161,7 +165,7 @@ export default function AtomeSchema({ atome }: Props) {
 		});
 
 		//Noyau
-		experiments && noyau.current?.draw(ctx);
+		noyau.current?.draw(ctx);
 	}
 
 	function animate(currentTime: number) {
