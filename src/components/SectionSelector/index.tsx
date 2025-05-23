@@ -26,11 +26,11 @@ const SectionSelector = <T extends string>({
 	const selector = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
-		const indicator = selector.current.querySelector(
+		const indicator = selector.current?.querySelector(
 			".indicator",
 		) as HTMLDivElement;
 
-		const activeEl = selector.current.querySelector(
+		const activeEl = selector.current?.querySelector(
 			".option.active",
 		) as HTMLDivElement;
 
@@ -63,7 +63,7 @@ const SectionSelector = <T extends string>({
 				<div className="indicator" />
 			</div>
 			<div className="content">
-				{sections.find((section) => section.label === activeSection).content}
+				{sections.find((section) => section.label === activeSection)?.content}
 			</div>
 		</div>
 	);

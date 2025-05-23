@@ -16,12 +16,13 @@ export default function useCanvas(
 		canvas.ondragover = (event) => {
 			event.preventDefault();
 
-			canvasRef.current.classList.add("draghover");
+			canvasRef.current?.classList.add("draghover");
 		};
 
-		canvas.ondragleave = () => canvasRef.current.classList.remove("draghover");
+		canvas.ondragleave = () => canvasRef.current?.classList.remove("draghover");
 
 		function resizeCanvas() {
+			if (!canvas) return;
 			canvas.width = 0;
 			canvas.height = 0;
 

@@ -1,6 +1,7 @@
+"use client";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import type { Atome } from "./funct";
+import Link from "next/link";
 
 interface Props {
 	atome: Atome;
@@ -8,7 +9,7 @@ interface Props {
 	selected?: boolean;
 	canBeHovered?: boolean;
 	defaultHover?: boolean;
-	setSelectedAtomZ?: React.Dispatch<React.SetStateAction<number>>;
+	setSelectedAtomZ?: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 function AtomCell({
@@ -37,7 +38,7 @@ function AtomCell({
 
 	return (
 		<Link
-			to={`/atom/view/${atome.Z}`}
+			href={`/atom/view/?Z=${atome.Z}`}
 			style={{ background: color }}
 			className={`${
 				(selected ? "selected " : "") + (hover ? "hover " : "")

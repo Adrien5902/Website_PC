@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	faAtom,
 	faBolt,
@@ -10,20 +12,21 @@ import {
 	faSlash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
 import HeaderDropDown from "./dropdown";
 import HeaderLink from "./links";
 import "./style.css";
+import Link from "next/link";
+import { useExperiments } from "../ExperimentsContextProvider";
 
 interface Props {
-	experiments: boolean;
-	setExperiments: React.Dispatch<React.SetStateAction<boolean>>;
+	setExperiments?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Header({ experiments, setExperiments }: Props) {
+function Header({ setExperiments }: Props) {
+	const experiments = useExperiments();
 	return (
 		<header>
-			<Link className="unlink" to="/">
+			<Link className="unlink" href="/">
 				<img src="/assets/logo.png" alt="[Nom du site]" />
 			</Link>
 
@@ -58,7 +61,12 @@ function Header({ experiments, setExperiments }: Props) {
 					""
 				)}
 			</div>
-			<div id="experiments" onClick={() => setExperiments((e) => !e)}>
+			<div
+				id="experiments"
+				onClick={() => {
+					if (setExperiments) setExperiments((e) => !e);
+				}}
+			>
 				<FontAwesomeIcon icon={faFlask} />
 				<FontAwesomeIcon
 					className="slash"
