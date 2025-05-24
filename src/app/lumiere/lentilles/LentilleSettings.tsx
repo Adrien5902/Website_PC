@@ -1,8 +1,8 @@
 "use client";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { Lentille } from "./page";
 import type { LentilleCanvasRef } from "./LentillesCanvas";
+import type { Lentille } from "./types";
 
 export function LentilleSettings({
 	lentille,

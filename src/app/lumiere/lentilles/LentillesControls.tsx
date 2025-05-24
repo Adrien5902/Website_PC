@@ -2,7 +2,7 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { Lentille, type Rayon, type Rayons } from "./page";
+import { Lentille, type Rayon, type Rayons } from "./types";
 import type { LentilleCanvasRef } from "./LentillesCanvas";
 import type { Pos } from "@/types/canvas";
 import SectionSelector from "@/components/SectionSelector";

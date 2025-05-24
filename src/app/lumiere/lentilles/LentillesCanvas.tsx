@@ -15,9 +15,9 @@ import {
 	drawDashedLine,
 	getMousePos,
 } from "@/types/canvas";
-import { Lentille, type Rayons } from "./page";
 import useCanvas from "@/hooks/Canvas";
 import type { LentilleControlsRef } from "./LentillesControls";
+import { Lentille, type Rayons } from "./types";
 
 interface Props {
 	lentilles: React.MutableRefObject<Lentille[]>;
