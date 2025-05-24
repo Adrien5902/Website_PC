@@ -21,7 +21,7 @@ export default function AtomeSchema({ atome }: Props) {
 	const targetFrameDuration = 1000 / frameRate;
 
 	const angleRef = useRef<number>(0);
-	const noyau = useRef<Noyau>(null);
+	const noyau = useRef<Noyau | null>(null);
 
 	const [paused, setPaused] = useState(true);
 	const pausedRef = useRef(false);
@@ -55,10 +55,11 @@ export default function AtomeSchema({ atome }: Props) {
 			let remainingNeutron = atome.getN();
 
 			const canvas = canvasRef.current;
+			this.data = [];
+			if (!canvas) return;
 			const { width, height } = canvas;
 			const origin: Pos = { x: width / 2, y: height / 2 };
 
-			this.data = [];
 			const circleMax = Math.ceil(Math.sqrt(atome.A / Math.PI));
 			for (let i = 0; i < atome.A; i++) {
 				const circleIndex = Math.ceil(Math.sqrt(i / Math.PI));
@@ -113,11 +114,13 @@ export default function AtomeSchema({ atome }: Props) {
 
 	function drawCanvas() {
 		const canvas = canvasRef.current;
+		if (!canvas) return;
 		const { width, height } = canvas;
 		const origin: Pos = { x: width / 2, y: height / 2 };
 		const angle = angleRef.current;
 
 		const ctx = canvas.getContext("2d");
+		if (!ctx) return;
 
 		//Clear
 		ctx.lineWidth = size / 3;
@@ -127,7 +130,8 @@ export default function AtomeSchema({ atome }: Props) {
 
 		//Électrons
 		Object.keys(atome.couches).forEach((sousCouche, i) => {
-			const electrons: number = atome.couches[sousCouche];
+			const electrons: number =
+				atome.couches[sousCouche as keyof typeof atome.couches] ?? 1;
 			const period = Number(sousCouche[0]);
 			const sousCoucheId = sousCouche[1] as Bloc;
 			const sousCoucheIndex = Object.keys(couchesLimit).findIndex(

@@ -67,10 +67,10 @@ export class Atome {
 	symbol: string;
 	name: string;
 	M: number;
-	electronegativite: number;
+	electronegativite?: number;
 	période: number;
 	bloc: Bloc;
-	groupe: string;
+	groupe?: number;
 	lastGazNoble?: Atome;
 	couches: Couches;
 	family: string;
@@ -78,14 +78,14 @@ export class Atome {
 	//Couches électroniques
 	getCouches() {
 		let remaining = this.Z; //Nombre d'e- à répartir
-		const couches = {}; //Initialize la variable couches
+		const couches: Couches = {}; //Initialize la variable couches
 
 		let i = 0; //Initialize la variable couches
 		while (remaining > 0) {
 			//tant qu'il y a des e- a répartir
 			const couche = couchesList[i]; //Définit la couche sur laqulle on va répartir les e-
 
-			const limiteSousCouche = couchesLimit[couche[1]]; //limite sous couche  ex : 2 (pour s), 6 (pour d)...
+			const limiteSousCouche = couchesLimit[couche[1] as keyof typeof couchesLimit]; //limite sous couche  ex : 2 (pour s), 6 (pour d)...
 
 			couches[couche] = limiteSousCouche; //Sature la couche
 			remaining -= limiteSousCouche; //soustrait le nombre d'e- à répartis au nombre d'e- à répartir
@@ -115,7 +115,7 @@ export class Atome {
 		this.name = elements[i].name; //Set nom de l'atome
 		this.M = elements[i].M; //Set Masse molaire
 		this.family = elements[i].family;
-		this.electronegativite = elements[i].electronegativite;
+		this.electronegativite = elements[i].electronegativite ?? undefined;
 
 		this.couches = this.getCouches(); //Récupère les couches électroniques de l'atome
 
@@ -124,7 +124,7 @@ export class Atome {
 		);
 		this.groupe =
 			this.couches[
-			Object.keys(this.couches)[Object.keys(this.couches).length - 1]
+			Object.keys(this.couches)[Object.keys(this.couches).length - 1] as keyof typeof this.couches
 			];
 		this.bloc = Object.keys(this.couches)[
 			Object.keys(this.couches).length - 1
@@ -133,15 +133,15 @@ export class Atome {
 		const lastGazNobleIndex = [...gazNobles]
 			.sort((a, b) => b - a)
 			.find((gazNobleZ) => gazNobleZ < this.Z);
-		this.lastGazNoble = lastGazNobleIndex ? new Atome(lastGazNobleIndex) : null;
+		this.lastGazNoble = lastGazNobleIndex ? new Atome(lastGazNobleIndex) : undefined;
 	}
 
 	valence() {
 		//Calcule le nombre d'électron de valence
 		let n = 0;
-		for (const couche of Object.keys(this.couches)) {
+		for (const couche of Object.keys(this.couches) as (keyof typeof this.couches)[]) {
 			if (couche[0] === this.période.toString()) {
-				n += this.couches[couche];
+				n += this.couches[couche] ?? 0;
 			}
 		}
 		return n;
@@ -150,7 +150,7 @@ export class Atome {
 	getElectronsInCouche(period: number) {
 		return Object.keys(this.couches)
 			.filter((c) => c[0] === period.toString())
-			.map((c) => this.couches[c])
+			.map((c) => this.couches[c as (keyof typeof this.couches)] ?? 0)
 			.reduce((a, b) => a + b, 0);
 	}
 }
@@ -158,16 +158,16 @@ export class Atome {
 export const atomes = elements.map((element) => new Atome(element.Z));
 
 
-export function getColorByElectronegativite(e: number | null) {
+export function getColorByElectronegativite(e: number | undefined) {
 	if (!e) {
 		return "var(--gray)"
 	}
-	return `hsl(${-e * 230 / atomes[9 - 1].electronegativite - 140}, 100%, 50%)`;
+	return `hsl(${-e * 230 / (atomes[9 - 1].electronegativite ?? 0) - 140}, 100%, 50%)`;
 }
 
-export function colorByBloc(bloc: Bloc, period: number) {
+export function colorByBloc(bloc: Bloc, period: number): string {
 	//Change la couleur de la cellule en fcnt de la période et du bloc de l'atome
-	let rgb: string = null;
+	let rgb: string | null = null;
 	let color: number;
 
 	if (bloc === "s") {
@@ -188,10 +188,10 @@ export function colorByBloc(bloc: Bloc, period: number) {
 		rgb = `rgb(255, ${color}, ${color})`;
 	}
 
-	return rgb;
+	return rgb ?? "";
 }
 
-export const familles = []
+export const familles: string[] = []
 for (const atome of atomes) {
 	if (!familles.includes(atome.family)) {
 		familles.push(atome.family)

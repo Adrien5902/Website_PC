@@ -1,22 +1,32 @@
+"use state";
+
 import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 
 export default function useFullscreen(
-	element: React.MutableRefObject<HTMLElement>,
+	element: React.RefObject<HTMLElement>,
 ): [JSX.Element, boolean, () => void] {
 	const [fullscreen, setFullscreen] = useState(false);
 
-	document.addEventListener("fullscreenchange", () => {
-		setFullscreen(!!document.fullscreenElement);
-	});
+	useEffect(() => {
+		const fullscreenchange = () => {
+			setFullscreen(!!document.fullscreenElement);
+		};
+
+		document.addEventListener("fullscreenchange", fullscreenchange);
+
+		() => {
+			document.removeEventListener("fullscreenchange", fullscreenchange);
+		};
+	}, []);
 
 	const toogleFullscreen = () => {
 		setFullscreen(!fullscreen);
-		element.current.classList.toggle("fullscreened");
+		element.current?.classList.toggle("fullscreened");
 		if (!fullscreen) {
-			element.current.requestFullscreen();
+			element.current?.requestFullscreen();
 		} else {
 			document.exitFullscreen();
 		}

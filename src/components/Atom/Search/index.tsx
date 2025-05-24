@@ -3,12 +3,12 @@ import { atomes } from "../funct";
 import AtomSearchResult from "./result";
 
 interface Props {
-	setSelectedAtomZ: React.Dispatch<React.SetStateAction<number>>;
+	setSelectedAtomZ: React.Dispatch<React.SetStateAction<number | null>>;
 	setSearch: React.Dispatch<React.SetStateAction<string>>;
 	search: string;
 }
 
-function SearchAtom({ setSelectedAtomZ, setSearch, search }: Props) {
+function AtomSearch({ setSelectedAtomZ, setSearch, search }: Props) {
 	const stringToSearch = (s: string) =>
 		s
 			.normalize("NFD")
@@ -65,4 +65,4 @@ function SearchAtom({ setSelectedAtomZ, setSearch, search }: Props) {
 	);
 }
 
-export default SearchAtom;
+export default AtomSearch;

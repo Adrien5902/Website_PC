@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { Atome, couchesList } from "./funct";
 
 function AtomeCouches({ atome = new Atome(1), shortened = true }) {
@@ -8,7 +8,7 @@ function AtomeCouches({ atome = new Atome(1), shortened = true }) {
 				<>
 					<span>[</span>
 					<Link
-						to={`/atom/view/${atome.lastGazNoble.Z}`}
+						href={`/atom/view/?Z=${atome.lastGazNoble.Z}`}
 						className="cyan unlink tooltip"
 					>
 						{atome.lastGazNoble.symbol}
