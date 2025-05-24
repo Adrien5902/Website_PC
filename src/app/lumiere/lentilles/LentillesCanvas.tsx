@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	forwardRef,
 	type MouseEvent,
@@ -5,7 +7,6 @@ import {
 	useImperativeHandle,
 	useRef,
 } from "react";
-import useCanvas from "../../../src/hooks/Canvas";
 import {
 	type Pos,
 	drawLine,
@@ -13,8 +14,9 @@ import {
 	drawDot,
 	drawDashedLine,
 	getMousePos,
-} from "../../../src/types/canvas";
-import { Lentille, type Rayons } from ".";
+} from "@/types/canvas";
+import { Lentille, type Rayons } from "./page";
+import useCanvas from "@/hooks/Canvas";
 import type { LentilleControlsRef } from "./LentillesControls";
 
 interface Props {
@@ -23,9 +25,9 @@ interface Props {
 	moving: React.MutableRefObject<{
 		type: "focalLength" | "object";
 		object: Lentille | null;
-	}>;
+	} | null>;
 	rayons: Rayons;
-	controlsRef: React.MutableRefObject<LentilleControlsRef>;
+	controlsRef: React.RefObject<LentilleControlsRef>;
 	infiniteObject: boolean;
 	infiniteObjectAngle: React.MutableRefObject<number>;
 }
@@ -56,8 +58,8 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				drawCanvas();
 			},
 			originY: originY,
-			width: canvasRef.current.width,
-			height: canvasRef.current.height,
+			width: canvasRef.current?.width ?? 0,
+			height: canvasRef.current?.height ?? 0,
 			size,
 		}));
 
@@ -72,9 +74,12 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 			},
 			() => {
 				if (!lentilles.current.length) {
-					objectPos.current = { x: size, y: canvasRef.current?.height / 4 };
+					objectPos.current = {
+						x: size,
+						y: (canvasRef.current?.height ?? 0) / 4,
+					};
 					lentilles.current = [
-						new Lentille(1, canvasRef.current.width / 2, size * 4),
+						new Lentille(1, (canvasRef.current?.width ?? 0) / 2, size * 4),
 					];
 				}
 			},
@@ -140,6 +145,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 		function drawCanvas() {
 			const canvas = canvasRef.current;
+			if (!canvas) return;
 			const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
 			setColor(ctx, "#FFF");
 			ctx.font = `${(size / 5) * 4}px sans-serif`;
@@ -159,15 +165,16 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				XPos: number,
 				angle: number,
 			): Pos & { sign: number } {
+				const canvasHeight = canvas?.height ?? 0;
 				const Height = originY - XPos * Math.tan(angle);
 
-				const sign = Height > canvas.height ? -1 : 1;
+				const sign = Height > canvasHeight ? -1 : 1;
 
 				const X = XPos - (originY * sign) / Math.tan(angle);
 
 				return {
-					x: Height > canvas.height ? X : Height > 0 ? 0 : X,
-					y: Height > canvas.height ? canvas.height : Height > 0 ? Height : 0,
+					x: Height > canvasHeight ? X : Height > 0 ? 0 : X,
+					y: Height > canvasHeight ? canvasHeight : Height > 0 ? Height : 0,
 					sign,
 				};
 			}
@@ -372,6 +379,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 			}
 
 			function drawRayon(initialPos: Pos, endingInitialPos: Pos) {
+				if (!canvas) return;
 				let lastPos = endingInitialPos;
 
 				drawLine(ctx, initialPos, lastPos);
@@ -447,16 +455,18 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 			if (rayons.F.enabled && tempLentilles[0]) {
 				setColor(ctx, rayons.F.color);
-				drawRayon(
-					infiniteObject ? Apos : BPos,
-					tempLentilles[0].focalRayonHitPoint,
-				);
+				if (tempLentilles[0].focalRayonHitPoint)
+					drawRayon(
+						infiniteObject ? Apos : BPos,
+						tempLentilles[0].focalRayonHitPoint,
+					);
 			}
 
-			controlsRef.current.refresh();
+			controlsRef.current?.refresh();
 		}
 
 		function handleMouseMove(e: MouseEvent | TouchEvent) {
+			if (!canvasRef.current) return;
 			mousePosRef.current = getMousePos(canvasRef.current, e);
 
 			if (moving.current) {
@@ -476,8 +486,9 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 							break;
 
 						case "focalLength":
-							moving.current.object.focalLength =
-								mousePosRef.current.x - moving.current.object.pos;
+							if (moving.current.object)
+								moving.current.object.focalLength =
+									mousePosRef.current.x - moving.current.object.pos;
 							break;
 					}
 				}

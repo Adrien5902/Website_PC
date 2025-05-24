@@ -1,13 +1,14 @@
+"use client";
 import "./style.css";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
-import useFullscreen from "../../../src/hooks/Fullscreen";
-import type { Pos } from "../../../src/types/canvas";
 import { type LentilleCanvasRef, LentillesCanvas } from "./LentillesCanvas";
 import LentilleControls, {
 	type LentilleControlsRef,
 } from "./LentillesControls";
+import type { Pos } from "@/types/canvas";
+import useFullscreen from "@/hooks/Fullscreen";
 
 export class Rayon {
 	label: string;
@@ -26,7 +27,7 @@ export class Rayon {
 export class Lentille {
 	pos: number;
 	focalLength: number;
-	imagePoint?: Pos;
+	imagePoint: Pos;
 	virtualImage?: boolean;
 	focalRayonHitPoint?: Pos;
 	gamma: number;
@@ -36,6 +37,8 @@ export class Lentille {
 		this.id = id;
 		this.pos = pos;
 		this.focalLength = focalLength;
+		this.imagePoint = { x: 0, y: 0 };
+		this.gamma = 0;
 	}
 }
 

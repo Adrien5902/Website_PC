@@ -1,3 +1,4 @@
+"use client";
 import {
 	faFillDrip,
 	faMinusCircle,
@@ -5,9 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef } from "react";
-import useCanvas from "../../../src/hooks/Canvas";
-import { type Pos, getMousePos } from "../../../src/types/canvas";
 import "./style.css";
+import useCanvas from "@/hooks/Canvas";
+import { getMousePos, type Pos } from "@/types/canvas";
 
 type Sythese = "additive" | "soustractive";
 
@@ -26,7 +27,7 @@ interface Moving extends Pos {
 interface SytheseProps {
 	colors: string[];
 	sythese: Sythese;
-	moving: React.MutableRefObject<Moving>;
+	moving: React.MutableRefObject<Moving | null>;
 }
 
 function SytheseElement({ colors, sythese, moving }: SytheseProps) {
@@ -34,6 +35,7 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 
 	const circles = colors.reduce(
 		(prev, curr) => [
+			// biome-ignore lint/performance/noAccumulatingSpread: <explanation>
 			...prev,
 			{
 				x: 0,
@@ -49,7 +51,8 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 
 	function drawCanvas() {
 		const canvas = canvasRef.current;
-		const ctx = canvas.getContext("2d");
+		const ctx = canvas?.getContext("2d");
+		if (!ctx) return;
 		ctx.reset();
 		ctx.fillStyle = "white";
 
@@ -71,6 +74,7 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 	}
 
 	useEffect(() => {
+		if (!canvasRef.current) return;
 		const { width: x, height: y } = canvasRef.current;
 		circles.forEach((c, i) => {
 			c.x = (x / 3) * (i + 0.5);
@@ -89,6 +93,7 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 			drawCanvas();
 		} else {
 			const canvas = (e.target as HTMLElement).closest("canvas");
+			if (!canvas) return;
 			const pos = getMousePos(canvas, e);
 			const canMove = circles
 				.map((circle) => {
@@ -98,12 +103,13 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 					return { circle, dist: Math.sqrt(x ** 2 + y ** 2), x, y };
 				})
 				.filter((v) => v.dist <= radius).length;
-			canvas.style.cursor = canMove ? "grab" : "auto";
+			if (canvas) canvas.style.cursor = canMove ? "grab" : "auto";
 		}
 	}
 
 	function mouseDown(evt: React.MouseEvent | React.TouchEvent) {
 		const canvas = canvasRef.current;
+		if (!canvas) return;
 		const mousePos = getMousePos(canvas, evt);
 
 		const checkMovingCicles = circles
@@ -143,9 +149,8 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 								step={0.025}
 								defaultValue={1}
 								onChange={(e) => {
-									circles.find((c) => c.color === color).alpha = Number(
-										e.target.value,
-									);
+									const circle = circles.find((c) => c.color === color);
+									if (circle) circle.alpha = Number(e.target.value);
 									drawCanvas();
 								}}
 							/>
@@ -170,7 +175,7 @@ export default function SpectreCouleur() {
 	const moving = useRef<Moving | null>(null);
 
 	function handleMouseUp() {
-		moving.current.canvas.style.cursor = "";
+		if (moving.current) moving.current.canvas.style.cursor = "";
 		moving.current = null;
 	}
 

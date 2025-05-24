@@ -1,7 +1,8 @@
+"use client";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import type { Lentille } from "./page";
 import type { LentilleCanvasRef } from "./LentillesCanvas";
-import type { Lentille } from ".";
 
 export function LentilleSettings({
 	lentille,
@@ -9,7 +10,7 @@ export function LentilleSettings({
 	removeLentille,
 }: {
 	lentille: Lentille;
-	canvasRef: React.MutableRefObject<LentilleCanvasRef>;
+	canvasRef: React.RefObject<LentilleCanvasRef>;
 	removeLentille: () => void;
 }) {
 	return (
@@ -33,8 +34,8 @@ export function LentilleSettings({
 				Lentille {lentille.id}:
 			</h3>
 
-			<div className="lentilles-inputs">
-				<div>
+			<div className="lentilles-data">
+				<div className="lentilles-inputs">
 					<div>
 						<span>
 							OL<sub>{lentille.id}</sub> (position) :{" "}
@@ -42,10 +43,11 @@ export function LentilleSettings({
 						<input
 							type="number"
 							onChange={(e) => {
-								lentille.pos = Number(e.target.value) + canvasRef.current.size;
-								canvasRef.current.refresh();
+								lentille.pos =
+									Number(e.target.value) + (canvasRef.current?.size ?? 0);
+								canvasRef.current?.refresh();
 							}}
-							value={lentille.pos - canvasRef.current?.size}
+							value={lentille.pos - (canvasRef.current?.size ?? 0)}
 						/>
 					</div>
 
@@ -55,31 +57,46 @@ export function LentilleSettings({
 							type="number"
 							onChange={(e) => {
 								lentille.focalLength = Number(e.target.value);
-								canvasRef.current.refresh();
+								canvasRef.current?.refresh();
 							}}
 							value={lentille.focalLength}
 						/>
 					</div>
 				</div>
 
-				<div>
+				<div className="lentille-values">
 					<span>
 						{lentille.virtualImage ? "Image virtuelle" : "Image réelle"}
 					</span>
-					<span>
-						γ<sub>{lentille.id}</sub> (grandissement) = {lentille.gamma}
-					</span>
-					<span>
-						OA<sub>{lentille.id}</sub> (position de l'image) ={" "}
-						{lentille.imagePoint?.x - canvasRef.current?.size}
-					</span>
-					<span>
-						A<sub>{lentille.id}</sub>B<sub>{lentille.id}</sub> (taille de
-						l'image) ={" "}
-						{lentille.imagePoint?.y !== undefined
-							? canvasRef.current.originY - lentille.imagePoint.y
-							: undefined}{" "}
-					</span>
+					<div>
+						<span>
+							γ<sub>{lentille.id}</sub> (grandissement) =
+						</span>
+						<span>{lentille.gamma.toFixed(5)}</span>
+					</div>
+					<div>
+						<span>
+							OA<sub>{lentille.id}</sub> (position de l'image) =
+						</span>
+						<span>
+							{(
+								lentille.imagePoint?.x - (canvasRef.current?.size ?? 0)
+							).toFixed(5)}
+						</span>
+					</div>
+					<div>
+						<span>
+							A<sub>{lentille.id}</sub>B<sub>{lentille.id}</sub> (taille de
+							l'image) =
+						</span>
+						<span>
+							{lentille.imagePoint?.y !== undefined
+								? (
+										(canvasRef.current?.originY ?? 0) - lentille.imagePoint.y
+									).toFixed(5)
+								: undefined}{" "}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
