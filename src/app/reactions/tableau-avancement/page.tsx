@@ -1,3 +1,5 @@
+"use client";
+
 import {
 	faFlaskVial,
 	faPlus,
@@ -6,11 +8,16 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
-import { Equation, EquationError } from "../../equation";
-import unites from "../../../src/types/unites.json";
+import { Equation, EquationError } from "../../../../inprogress/equation";
+import unites from "../../../types/unites.json";
 import "./style.css";
 
-function SelectEchelle({ echelle, setEchelle }) {
+interface Props {
+	echelle: number;
+	setEchelle: React.Dispatch<React.SetStateAction<number>>;
+}
+
+function SelectEchelle({ echelle, setEchelle }: Props) {
 	return (
 		<select
 			defaultValue={echelle.toString()}
@@ -55,7 +62,7 @@ export default function TableauAvancement() {
 			}
 		}
 
-		setEquation(newEquation);
+		setEquation(newEquation ?? null);
 
 		if (newEquation) {
 			const newReactifs = newEquation?.reactifs;
@@ -96,7 +103,7 @@ export default function TableauAvancement() {
 						<td colSpan={2}>Equation de la réaction</td>
 						<td
 							colSpan={elements.length}
-							onClick={() => equationInput.current.focus()}
+							onClick={() => equationInput.current?.focus()}
 						>
 							<input
 								ref={equationInput}
@@ -136,12 +143,17 @@ export default function TableauAvancement() {
 									defaultValue={10}
 									onChange={(e) => {
 										const newQuant = Number(e.target.value);
+										if (newQuant < 0 || Number.isNaN(newQuant)) {
+											setError(
+												new EquationError(
+													"La quantité de réactif entrée semble invalide",
+												),
+											);
+											return;
+										}
 										setQuantity((q) => {
 											const quant = [...q];
 											quant[i] = newQuant;
-											if (newQuant > xf || newQuant < 0) {
-												setError(new EquationError("La quantité de "));
-											}
 											return quant;
 										});
 									}}
@@ -242,8 +254,9 @@ export default function TableauAvancement() {
 							{reactisLimitants
 								.map((mol, i) => mol.mol.toHTML(i))
 								.reduce(
+									// biome-ignore lint/performance/noAccumulatingSpread: <explanation>
 									(prev, curr) => [...prev, prev.length ? " et " : "", curr],
-									[],
+									[] as React.ReactNode[],
 								)}
 						</>
 					)
