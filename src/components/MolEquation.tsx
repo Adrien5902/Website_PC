@@ -1,7 +1,7 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import type { Isotope } from "../src/components/Atom/isotope";
-import { Molécule } from "./Molecules/molecules";
+import type { Isotope } from "./Atom/isotope";
+import { Molécule } from "./Molecules";
 
 export class EquationError extends Error {}
 
@@ -12,8 +12,13 @@ type EquationSideData = {
 
 type EquationSide = {
 	data: EquationSideData;
-	counts: { atome: Isotope; count: number }[];
+	counts: EquationTypeCount[];
 };
+
+interface EquationTypeCount {
+	atome: Isotope;
+	count: number;
+}
 
 export class Equation {
 	sides: EquationSide[];
@@ -27,29 +32,26 @@ export class Equation {
 			);
 		}
 
-		this.sides = sides.map(
-			(data) =>
-				({
-					data,
-					counts: data
-						.flatMap((mol) =>
-							mol.mol.data.map((a) => ({
-								atome: a.atome,
-								count: a.count * mol.count,
-							})),
-						)
-						.reduce((prev, curr) => {
-							const otherSameAtomIndex = (
-								prev as { atome: Isotope; count: number }[]
-							).findIndex((v) => v.atome.Z === curr.atome.Z);
-							if (otherSameAtomIndex >= 0) {
-								prev[otherSameAtomIndex].count += curr.count;
-								return prev;
-							}
-							return [...prev, curr];
-						}, []),
-				}) as EquationSide,
-		);
+		this.sides = sides.map((data) => ({
+			data,
+			counts: data
+				.flatMap((mol) =>
+					mol.mol.data.map((a) => ({
+						atome: a.atome,
+						count: a.count * mol.count,
+					})),
+				)
+				.reduce((prev, curr) => {
+					const otherSameAtomIndex = (
+						prev as { atome: Isotope; count: number }[]
+					).findIndex((v) => v.atome.Z === curr.atome.Z);
+					if (otherSameAtomIndex >= 0) {
+						prev[otherSameAtomIndex].count += curr.count;
+						return prev;
+					}
+					return [...prev, curr];
+				}, [] as EquationTypeCount[]),
+		}));
 
 		this.reactifs = this.sides[0].data ?? [];
 		this.produits = this.sides[1].data ?? [];
@@ -104,14 +106,14 @@ export class Equation {
 			.reduce((prev, curr) => prev && curr, true);
 	}
 
-	toJSX() {
+	toJSX(): React.ReactNode {
 		return this.sides
 			.map((side, i) =>
 				side.data
 					.map((mol, j) => (
 						<span key={`mol${i}${j}`}>
 							{mol.count > 1 ? mol.count : ""}
-							{mol.mol.toHTML()}
+							{mol.mol.toJSX()}
 						</span>
 					))
 					.reduce(
@@ -120,7 +122,7 @@ export class Equation {
 							prev.length ? <span key={`plus${i}${j}`}> + </span> : "",
 							current,
 						],
-						[],
+						[] as React.ReactNode[],
 					),
 			)
 			.reduce(
@@ -138,6 +140,6 @@ export class Equation {
 					current,
 				],
 				[],
-			) as JSX.Element[];
+			);
 	}
 }

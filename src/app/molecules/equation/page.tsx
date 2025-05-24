@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { Equation, EquationError } from "../../equation";
+"use client";
+
+import { Equation, EquationError } from "@/components/MolEquation";
+import { type ChangeEvent, useState } from "react";
 
 function ppcm(a: number, b: number) {
 	function pgcd(x: number, y: number) {
@@ -13,9 +15,9 @@ function ppcm(a: number, b: number) {
 }
 
 function MoleculesEquation() {
-	const [result, setResult] = useState<JSX.Element[]>();
+	const [result, setResult] = useState<React.ReactNode | null>(null);
 
-	function handleInput(e) {
+	function handleInput(e: ChangeEvent<HTMLInputElement>) {
 		const input = (e.target as HTMLInputElement).value;
 		try {
 			const eq = Equation.parseString(input);

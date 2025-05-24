@@ -35,7 +35,6 @@ function SytheseElement({ colors, sythese, moving }: SytheseProps) {
 
 	const circles = colors.reduce(
 		(prev, curr) => [
-			// biome-ignore lint/performance/noAccumulatingSpread: <explanation>
 			...prev,
 			{
 				x: 0,

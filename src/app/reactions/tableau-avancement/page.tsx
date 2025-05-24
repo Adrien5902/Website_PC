@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
-import { Equation, EquationError } from "../../../../inprogress/equation";
+import { Equation, EquationError } from "@/components/MolEquation";
 import unites from "../../../types/unites.json";
 import "./style.css";
 
@@ -102,6 +102,7 @@ export default function TableauAvancement() {
 					<tr>
 						<td colSpan={2}>Equation de la réaction</td>
 						<td
+							style={{ overflow: "hidden" }}
 							colSpan={elements.length}
 							onClick={() => equationInput.current?.focus()}
 						>
@@ -252,9 +253,8 @@ export default function TableauAvancement() {
 								? "Les réactifs limitant sont "
 								: "Le réactif limitant est "}
 							{reactisLimitants
-								.map((mol, i) => mol.mol.toHTML(i))
+								.map((mol, i) => mol.mol.toJSX(i))
 								.reduce(
-									// biome-ignore lint/performance/noAccumulatingSpread: <explanation>
 									(prev, curr) => [...prev, prev.length ? " et " : "", curr],
 									[] as React.ReactNode[],
 								)}

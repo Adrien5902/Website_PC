@@ -1,6 +1,6 @@
-import { EquationError } from "../equation";
-import elements from "../../src/components/Atom/elements.json";
-import { Isotope } from "../../src/components/Atom/isotope";
+import elements from "./Atom/elements.json";
+import { Isotope } from "./Atom/isotope";
+import { EquationError } from "./MolEquation";
 
 export class Molécule {
 	data: { atome: Isotope; count: number }[];
@@ -9,7 +9,7 @@ export class Molécule {
 		this.data = data;
 	}
 
-	toHTML = (key?: number) => (
+	toJSX = (key?: number) => (
 		<span className="molecule-string" key={key}>
 			{this.data.map((d, i) => (
 				<span key={i}>

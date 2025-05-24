@@ -1,11 +1,11 @@
-#tableur{
-    margin: auto;
+#tableur {
+    margin: 2em;
     border-collapse: collapse;
 
-    & tr{
+    & tr {
         display: table-cell;
 
-        & td{
+        & td {
             border: .15em solid var(--secondary);
             min-width: 7em;
             height: 2em;
@@ -13,7 +13,7 @@
             position: relative;
             text-align: center;
 
-            & > *{
+            &>* {
                 width: inherit;
                 height: inherit;
                 margin: 0;
@@ -22,11 +22,11 @@
                 border: 0;
             }
 
-            &:has(input:focus) .plus{
+            &:has(input:focus) .plus {
                 display: none;
             }
 
-            .plus{
+            .plus {
                 color: var(--accent);
                 cursor: pointer;
                 margin: .5em 0;
@@ -35,7 +35,7 @@
             }
         }
 
-        &:not(:first-child) td{
+        &:not(:first-child) td {
             border-left: 0;
         }
     }
