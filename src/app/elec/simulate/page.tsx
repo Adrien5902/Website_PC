@@ -35,8 +35,16 @@ import { faPlugCircleBolt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCanvas from "../../../hooks/Canvas";
 import { Moteur } from "@/types/elec/Moteur";
+import Multimetre from "@/types/elec/Multimetre";
 
-const componentTypes = [Générateur, Lampe, Interrupteur, Pile, Moteur];
+const componentTypes = [
+	Générateur,
+	Lampe,
+	Interrupteur,
+	Pile,
+	Moteur,
+	Multimetre,
+];
 
 function ElecSimulate() {
 	const [cableMouse, setCableMouse] = useState(false);

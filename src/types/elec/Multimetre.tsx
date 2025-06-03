@@ -1,7 +1,5 @@
-import { type Pos, drawImage } from "../../../../../types/canvas";
-import ImageBank from "../../img/bank";
-import { ComponentProperty } from "../properties";
-import type { Component } from "../types";
+import { type Pos, drawImage } from "../canvas";
+import { type Component, getElecImagePath } from "./types";
 
 export default class Multimetre implements Component {
 	id: number;
@@ -10,9 +8,9 @@ export default class Multimetre implements Component {
 	name: string;
 
 	static nom = "Multimetre";
-	static defaultImage = ImageBank.Multimetre;
+	static defaultImage = getElecImagePath(Multimetre.nom);
 
-	constructor(id, pos) {
+	constructor(id: number, pos: Pos) {
 		this.id = id;
 		this.pos = pos;
 		this.opened = true;
@@ -20,9 +18,13 @@ export default class Multimetre implements Component {
 	}
 
 	draw = (ctx: CanvasRenderingContext2D, size: number) => {
-		drawImage(ctx, ImageBank.Multimetre, this.pos, size);
+		drawImage(ctx, Multimetre.defaultImage, this.pos, size);
 		ctx.fillText(this.name, this.pos.x + size / 2, this.pos.y + size / 2);
 	};
+
+	getDefaultImage(): string {
+		return Multimetre.defaultImage;
+	}
 
 	properties = () => [];
 }
