@@ -1,0 +1,23 @@
+#valeurs {
+    list-style-type: none;
+    padding-left: 1em;
+
+    &> ::before {
+        content: "- ";
+    }
+}
+
+input:not(.e) {
+    width: clamp(5em, 30vw, 30em);
+    position: relative;
+}
+
+input.e {
+    width: clamp(3em, 2vw, 6em);
+}
+
+.formulas {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}

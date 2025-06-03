@@ -1,9 +1,8 @@
 import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useCanvas from "../../../hooks/Canvas";
 import { type Pos, drawDot, drawLine, setColor } from "../../../types/canvas";
-import { ExperimentsContext } from "../../App";
 import { type Bloc, couchesLimit } from "../funct";
 import type { Isotope } from "../isotope";
 import "./style.css";
@@ -15,17 +14,18 @@ interface Props {
 export default function AtomeSchema({ atome }: Props) {
 	const [size, setSize] = useState<number>(12);
 
-	const sizeCoef = 2;
-	const canvasRef = useCanvas(null, sizeCoef);
+	const canvasRef = useCanvas();
 
-	const frameRate = 30;
+	let frameRate = 60;
+	let lastFrameTime = performance.now();
+	const targetFrameDuration = 1000 / frameRate;
 
 	const angleRef = useRef<number>(0);
-	const noyau = useRef<Noyau>(null);
+	const noyau = useRef<Noyau | null>(null);
 
 	const [paused, setPaused] = useState(true);
-
-	const experiments = useContext(ExperimentsContext);
+	const pausedRef = useRef(false);
+	const calledRef = useRef(false);
 
 	class Nucléon {
 		type: "proton" | "neutron";
@@ -55,13 +55,14 @@ export default function AtomeSchema({ atome }: Props) {
 			let remainingNeutron = atome.getN();
 
 			const canvas = canvasRef.current;
+			this.data = [];
+			if (!canvas) return;
 			const { width, height } = canvas;
 			const origin: Pos = { x: width / 2, y: height / 2 };
 
-			this.data = [];
-			const circleMax = Math.floor(Math.log2(atome.A + 4));
+			const circleMax = Math.ceil(Math.sqrt(atome.A / Math.PI));
 			for (let i = 0; i < atome.A; i++) {
-				const circleIndex = Math.floor(Math.log2(i + 4));
+				const circleIndex = Math.ceil(Math.sqrt(i / Math.PI));
 
 				let isProton = Math.random() - 0.5 > 0;
 
@@ -78,38 +79,48 @@ export default function AtomeSchema({ atome }: Props) {
 				}
 
 				const { x, y } = origin;
-				const radius =
-					(canvas.width / 10) * (circleIndex / circleMax) - size * 2;
+				const radius = circleIndex * size * 2;
+				console.log(
+					Math.floor(i - (circleIndex - 1) ** 2 * Math.PI),
+					circleIndex,
+					circleIndex * Math.PI * 2 - 3,
+				);
 				const angle =
-					(circleIndex === circleMax
-						? i / (atome.A - i / 2 ** circleIndex)
-						: i / 2 ** circleIndex) *
+					((i - (circleIndex - 1) ** 2 * Math.PI) /
+						(circleIndex === circleMax
+							? circleIndex * Math.PI * 2 -
+								3 -
+								atome.A +
+								(circleIndex - 1) ** 2 * Math.PI
+							: circleIndex * Math.PI * 2 - 3)) *
 					Math.PI *
 					2;
 
 				this.data.push(
 					new Nucléon(isProton ? "proton" : "neutron", {
-						x: x + radius * Math.cos(angle),
-						y: y + radius * Math.sin(angle),
+						x: x + radius * Math.cos(Number.isFinite(angle) ? angle : 0),
+						y: y + radius * Math.sin(Number.isFinite(angle) ? angle : 0),
 					}),
 				);
 			}
 		}
 
 		draw(ctx: CanvasRenderingContext2D) {
-			for (const n of this.data) {
-				n.draw(ctx);
+			for (let i = atome.A - 1; i >= 0; i--) {
+				this.data[i].draw(ctx);
 			}
 		}
 	}
 
 	function drawCanvas() {
 		const canvas = canvasRef.current;
+		if (!canvas) return;
 		const { width, height } = canvas;
 		const origin: Pos = { x: width / 2, y: height / 2 };
 		const angle = angleRef.current;
 
 		const ctx = canvas.getContext("2d");
+		if (!ctx) return;
 
 		//Clear
 		ctx.lineWidth = size / 3;
@@ -118,10 +129,11 @@ export default function AtomeSchema({ atome }: Props) {
 		setColor(ctx, "black");
 
 		//Électrons
-		Object.keys(atome.couches).forEach((souscouche, i) => {
-			const electrons: number = atome.couches[souscouche];
-			const period = Number(souscouche[0]);
-			const sousCoucheId = souscouche[1] as Bloc;
+		Object.keys(atome.couches).forEach((sousCouche, i) => {
+			const electrons: number =
+				atome.couches[sousCouche as keyof typeof atome.couches] ?? 1;
+			const period = Number(sousCouche[0]);
+			const sousCoucheId = sousCouche[1] as Bloc;
 			const sousCoucheIndex = Object.keys(couchesLimit).findIndex(
 				(sc) => sc === sousCoucheId,
 			);
@@ -130,9 +142,8 @@ export default function AtomeSchema({ atome }: Props) {
 
 			ctx.beginPath();
 			const radius =
-				(canvas.width * (period + sousCoucheIndex / 4)) /
-				(atome.période + 0.5) /
-				sizeCoef;
+				canvas.width * ((period + sousCoucheIndex / 4) / atome.période / 3) +
+				size * 16;
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
 
@@ -158,22 +169,45 @@ export default function AtomeSchema({ atome }: Props) {
 		});
 
 		//Noyau
-		experiments && noyau.current?.draw(ctx);
+		noyau.current?.draw(ctx);
+	}
+
+	function animate(currentTime: number) {
+		const timeElapsed = currentTime - lastFrameTime;
+
+		// If enough time has passed, draw the next frame
+		if (timeElapsed >= targetFrameDuration) {
+			if (!pausedRef.current) {
+				drawCanvas();
+				angleRef.current += timeElapsed / 1000; // Angle change based on real time
+			}
+			lastFrameTime = currentTime; // Reset last frame time
+		}
+
+		// Measure frame time and adjust frame rate if necessary
+		if (timeElapsed > targetFrameDuration * 1.5) {
+			frameRate = Math.max(10, frameRate - 5); // Decrease frame rate if frames take too long
+		} else if (timeElapsed < targetFrameDuration * 0.5 && frameRate < 60) {
+			frameRate += 5; // Increase frame rate if frames are rendering quickly
+		}
+
+		angleRef.current += 1 / (frameRate * 2);
+
+		requestAnimationFrame(animate);
 	}
 
 	useEffect(() => {
-		if (!noyau.current) noyau.current = new Noyau(atome);
-		const intervalId = setInterval(() => {
-			if (!paused) {
-				drawCanvas();
-				angleRef.current += 1 / frameRate;
-			}
-		}, 1000 / frameRate);
-
+		if (!calledRef.current) {
+			if (!noyau.current) noyau.current = new Noyau(atome);
+			requestAnimationFrame(animate);
+			calledRef.current = true;
+		}
 		drawCanvas();
+	}, []);
 
-		return () => clearInterval(intervalId);
-	}, [paused, atome]);
+	useEffect(() => {
+		pausedRef.current = paused;
+	}, [paused]);
 
 	return (
 		<div>

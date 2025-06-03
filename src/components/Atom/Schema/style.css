@@ -1,5 +1,6 @@
 #isotope-schema-canvas {
-    height: 90vh;
+    height: 80vh;
+    max-height: 90vw;
     aspect-ratio: 1;
     margin-top: 0 !important;
 }

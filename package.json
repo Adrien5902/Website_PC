@@ -1,9 +1,9 @@
 {
 	"name": "website-pc",
 	"private": true,
-	"version": "2.2.0",
+	"version": "2.4.0",
 	"type": "module",
-	"description": "Un site web sur la physique chimie codé par Adrien5902 avec React",
+	"description": "Un site web sur la physique-chimie codé par Adrien5902 avec React",
 	"author": {
 		"name": "Adrien5902",
 		"url": "https://github.com/Adrien5902/",
@@ -19,30 +19,26 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"preview": "vite preview",
-		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+		"dev": "next dev --turbopack",
+		"build": "next build",
+		"start": "next start"
 	},
 	"dependencies": {
-		"@fortawesome/free-brands-svg-icons": "^6.4.2",
-		"@fortawesome/free-solid-svg-icons": "^6.4.2",
-		"@fortawesome/react-fontawesome": "^0.2.0",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"@fortawesome/free-brands-svg-icons": "^6.6.0",
+		"@fortawesome/free-solid-svg-icons": "^6.6.0",
+		"@fortawesome/react-fontawesome": "^0.2.2",
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"next": "15.3.2"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.7.2",
-		"@types/react": "^18.2.15",
-		"@types/react-dom": "^18.2.7",
-		"@typescript-eslint/eslint-plugin": "^8.5.0",
-		"@typescript-eslint/parser": "^8.5.0",
-		"@vitejs/plugin-react": "^4.0.3",
-		"eslint": "^8.0.0",
-		"eslint-plugin-react-hooks": "^4.6.0",
-		"eslint-plugin-react-refresh": "^0.4.3",
-		"react-router-dom": "^6.16.0",
-		"typescript": "^5.0.2",
-		"vite": "^5.4.4"
+		"@types/node": "22.15.21",
+		"@biomejs/biome": "1.9.4",
+		"@types/react": "^18.3.8",
+		"@types/react-dom": "^18.3.0",
+		"@typescript-eslint/eslint-plugin": "^8.6.0",
+		"@typescript-eslint/parser": "^8.6.0",
+		"@vitejs/plugin-react": "^4.3.1",
+		"typescript": "^5.6.2"
 	}
 }

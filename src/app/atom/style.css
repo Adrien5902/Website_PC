@@ -1,0 +1,125 @@
+table {
+    margin: 24px auto;
+    table-layout: fixed;
+    width: clamp(50vw, 95vw, 80em);
+
+    & td {
+        text-align: center;
+    }
+
+    & .atom-cell {
+        font-size: clamp(0.5vw, 1vw, 1rem);
+        width: calc(100% - 1vw) !important;
+        height: unset;
+    }
+}
+
+tfoot tr {
+    cursor: pointer;
+}
+
+#legende {
+    background: var(--secondary);
+    color: var(--background);
+    padding: .8em;
+    border-radius: .2em;
+
+    & .block {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        border: 2px solid transparent;
+        padding: .2em;
+        border-radius: .2em;
+
+        &:hover {
+            border-color: var(--accent);
+        }
+
+        >div {
+            width: 1em;
+            height: 1em;
+            margin-right: 0.2em;
+        }
+    }
+}
+
+/*Cases du tableau périodique*/
+.atom-cell {
+    border: solid 0.1em var(--text);
+    padding: .5em;
+    width: clamp(5em, 6vw, 6em);
+    height: clamp(5em, 6vw, 6em);
+    aspect-ratio: 1;
+    margin: 0;
+    background: white;
+    display: inline-block;
+    text-align: center;
+    transition: all 200ms;
+    overflow: hidden;
+    text-decoration: none !important;
+
+    &>.Z {
+        font-size: 1em;
+    }
+
+    &>.symbol {
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+}
+
+td .atom-cell:hover,
+.atom-cell.hover {
+    transform: scale(1.8);
+    font-size: 0.5em;
+}
+
+.atom-cell.selected {
+    box-shadow: var(--accent) 0 0 1em 0.3em;
+}
+
+#search {
+    margin: 0.5em;
+}
+
+.atom-search-result {
+    display: flex;
+    margin: 24px auto;
+    border: 2px solid var(--text);
+    padding: 12px;
+
+    &>.atom-cell {
+        font-size: 1em;
+        transform: unset !important;
+    }
+}
+
+#search-results {
+    display: flex;
+    flex-direction: column;
+}
+
+.atome-properties {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 0 1em;
+}
+
+#atome-name {
+    font-weight: bold;
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1em;
+
+    &>span {
+        font-size: 2em;
+        margin: 0 1em;
+    }
+
+    & .atom-cell {
+        font-weight: normal;
+    }
+}

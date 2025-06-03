@@ -1,13 +1,15 @@
 export type Pos = { x: number; y: number };
 
-export function getMousePos(canvas: HTMLCanvasElement, evt: React.MouseEvent) {
+export function getMousePos(canvas: HTMLCanvasElement, evt: React.MouseEvent | React.TouchEvent) {
 	const rect = canvas.getBoundingClientRect();
 	const scaleX = canvas.width / rect.width;
 	const scaleY = canvas.height / rect.height;
 
+	const { clientX, clientY } = "touches" in evt ? evt.touches[0] : evt;
+
 	return {
-		x: (evt.clientX - rect.left) * scaleX,
-		y: (evt.clientY - rect.top) * scaleY,
+		x: (clientX - rect.left) * scaleX,
+		y: (clientY - rect.top) * scaleY,
 	} as Pos;
 }
 
@@ -34,7 +36,7 @@ export function drawDashedLine(
 	ctx: CanvasRenderingContext2D,
 	from: Pos,
 	to: Pos,
-	dashLength = 5,
+	dashLength = 20,
 ) {
 	ctx.beginPath();
 	ctx.moveTo(from.x, from.y);

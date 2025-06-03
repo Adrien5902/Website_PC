@@ -1,0 +1,42 @@
+.sythese-couleur canvas {
+    aspect-ratio: 2;
+}
+
+.alpha-slider {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.round-label {
+    width: 1em;
+    height: 1em;
+    border-radius: 100%;
+}
+
+.sythese-couleur {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-direction: column;
+    margin: .5em;
+    overflow: hidden;
+    background: var(--secondary);
+    color: var(--background);
+    width: clamp(28em, 45vw, 100em);
+}
+
+.sythese-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2em;
+}
+
+#sythese-couleurs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}

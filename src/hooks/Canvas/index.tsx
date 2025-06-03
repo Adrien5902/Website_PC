@@ -1,8 +1,10 @@
+"use client";
 import { useEffect, useRef } from "react";
 import type { Pos } from "../../types/canvas";
 
 export default function useCanvas(
 	onResize?: (size: Pos) => unknown,
+	onFirstResize?: () => void,
 	sizeCoef = 2,
 ) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -15,12 +17,13 @@ export default function useCanvas(
 		canvas.ondragover = (event) => {
 			event.preventDefault();
 
-			canvasRef.current.classList.add("draghover");
+			canvasRef.current?.classList.add("draghover");
 		};
 
-		canvas.ondragleave = () => canvasRef.current.classList.remove("draghover");
+		canvas.ondragleave = () => canvasRef.current?.classList.remove("draghover");
 
 		function resizeCanvas() {
+			if (!canvas) return;
 			canvas.width = 0;
 			canvas.height = 0;
 
@@ -31,13 +34,18 @@ export default function useCanvas(
 		}
 
 		resizeCanvas();
+
 		window.addEventListener("resize", resizeCanvas);
+
+		if (onFirstResize) {
+			onFirstResize();
+		}
 
 		return () => {
 			// Cleanup event listener when the component unmounts
 			window.removeEventListener("resize", resizeCanvas);
 		};
-	}, [sizeCoef, onResize]);
+	}, [sizeCoef, onResize, onFirstResize]);
 
 	return canvasRef;
 }

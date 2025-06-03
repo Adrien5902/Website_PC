@@ -1,10 +1,10 @@
-import AtomCell from "../cell";
-import AtomeCouches from "../couches";
+import AtomCell from "../Cell";
+import AtomeCouches from "../Couches";
 import type { Atome } from "../funct";
 
 interface Props {
 	atome: Atome;
-	setSelectedAtomZ: React.Dispatch<React.SetStateAction<number>>;
+	setSelectedAtomZ: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 function AtomSearchResult({ atome, setSelectedAtomZ }: Props) {
@@ -14,6 +14,7 @@ function AtomSearchResult({ atome, setSelectedAtomZ }: Props) {
 				setSelectedAtomZ={setSelectedAtomZ}
 				atome={atome}
 				canBeHovered={false}
+				defaultHover={true}
 			/>
 
 			<div style={{ display: "grid", margin: "auto 20px" }}>

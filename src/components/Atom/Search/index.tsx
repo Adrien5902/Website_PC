@@ -3,13 +3,13 @@ import { atomes } from "../funct";
 import AtomSearchResult from "./result";
 
 interface Props {
-	setSelectedAtomZ: React.Dispatch<React.SetStateAction<number>>;
+	setSelectedAtomZ: React.Dispatch<React.SetStateAction<number | null>>;
 	setSearch: React.Dispatch<React.SetStateAction<string>>;
 	search: string;
 }
 
-function SearchAtom({ setSelectedAtomZ, setSearch, search }: Props) {
-	const stringtoSearch = (s: string) =>
+function AtomSearch({ setSelectedAtomZ, setSearch, search }: Props) {
+	const stringToSearch = (s: string) =>
 		s
 			.normalize("NFD")
 			// biome-ignore lint/suspicious/noMisleadingCharacterClass: <explanation>
@@ -18,7 +18,7 @@ function SearchAtom({ setSelectedAtomZ, setSearch, search }: Props) {
 
 	function handleInput(e: React.FormEvent<HTMLInputElement>) {
 		const input = (e.target as HTMLInputElement).value;
-		setSearch(stringtoSearch(input));
+		setSearch(stringToSearch(input));
 		setSelectedAtomZ(null);
 	}
 
@@ -39,17 +39,17 @@ function SearchAtom({ setSelectedAtomZ, setSearch, search }: Props) {
 				defaultValue={search}
 			/>
 
-			<div id="search-result">
+			<div id="search-results">
 				{search
 					? atomes
 							.filter((atome) => {
-								const name = stringtoSearch(atome.name).includes(search);
-								const symbol = stringtoSearch(atome.symbol) === search;
+								const name = stringToSearch(atome.name).includes(search);
+								const symbol = stringToSearch(atome.symbol) === search;
 								const Z = atome.Z === Number(search);
 								return Z || name || symbol;
 							})
 							.sort((atome) =>
-								stringtoSearch(atome.symbol) === search ? -1 : 1,
+								stringToSearch(atome.symbol) === search ? -1 : 1,
 							)
 							.map((atome, i) => (
 								<AtomSearchResult
@@ -65,4 +65,4 @@ function SearchAtom({ setSelectedAtomZ, setSearch, search }: Props) {
 	);
 }
 
-export default SearchAtom;
+export default AtomSearch;

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import "./style.css";
 
 interface Props {
@@ -11,7 +11,7 @@ function Page(props: Props) {
 	return (
 		<Link
 			style={{ backgroundImage: `url(${props.img})` }}
-			to={props.href}
+			href={props.href}
 			className="page"
 		>
 			<div className="page-text">{props.text}</div>

@@ -6,7 +6,7 @@ export class Isotope extends Atome {
 
 	constructor(Z: number, A?: number, electrons?: number) {
 		super(Z);
-		this.A = A ?? Z * 2;
+		this.A = A ?? Math.round(new Atome(Z).M);
 		this.electrons = electrons ?? Z;
 	}
 
