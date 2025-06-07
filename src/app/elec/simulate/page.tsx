@@ -4,16 +4,16 @@ import useFullscreen from "../../../hooks/Fullscreen";
 //React Imports
 import "./style.css";
 
-import { Circuit } from "@/types/elec/circuit";
 import ComponentDrag from "@/types/elec/drag";
 import { ComponentProperties } from "@/types/elec/properties";
 //Elec imports
 import {
+	Circuit,
 	type Component,
 	ComponentSide,
 	Connection,
 	getElecImagePath,
-	type PowerSource,
+	PowerSource,
 	type Side,
 } from "@/types/elec/types";
 
@@ -21,7 +21,8 @@ import {
 import Générateur from "@/types/elec/Générateur";
 import Interrupteur from "@/types/elec/Interrupteur";
 import Lampe from "@/types/elec/Lampe";
-import Pile from "@/types/elec/Pile";
+import { Moteur } from "@/types/elec/Moteur";
+import Multimetre from "@/types/elec/Multimetre";
 
 //Canvas import
 import {
@@ -34,17 +35,8 @@ import {
 import { faPlugCircleBolt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useCanvas from "../../../hooks/Canvas";
-import { Moteur } from "@/types/elec/Moteur";
-import Multimetre from "@/types/elec/Multimetre";
 
-const componentTypes = [
-	Générateur,
-	Lampe,
-	Interrupteur,
-	Pile,
-	Moteur,
-	Multimetre,
-];
+const componentTypes = [Générateur, Lampe, Interrupteur, Moteur, Multimetre];
 
 function ElecSimulate() {
 	const [cableMouse, setCableMouse] = useState(false);
@@ -54,8 +46,7 @@ function ElecSimulate() {
 
 	const [fullscreenButton] = useFullscreen(app);
 
-	const components = useRef<Component[]>([]);
-	const connections = useRef<Connection[]>([]);
+	const circuit = useRef<Circuit>(Circuit.instance);
 
 	const componentSizeRef = useRef<number>(128);
 
@@ -64,11 +55,6 @@ function ElecSimulate() {
 
 	const mousePosRef = useRef<Pos>({ x: 0, y: 0 });
 	const canvasRef = useCanvas();
-
-	const getConnections = (c: Component): Connection[] =>
-		connections.current.filter(
-			(con) => con.a.component === c || con.b.component === c,
-		);
 
 	function handleDrop(e: React.DragEvent<HTMLCanvasElement>) {
 		if (!canvasRef.current) return;
@@ -80,9 +66,9 @@ function ElecSimulate() {
 		if (componentType) {
 			const component = new componentType(idMax, pos);
 
-			components.current.push(component);
+			circuit.current.components.push(component);
 			setIdMax((prevId) => prevId + 1);
-			setSelectedSide(new ComponentSide(component, 0));
+			setSelectedSide(new ComponentSide(component, 1));
 		}
 
 		canvasRef.current.classList.remove("draghover");
@@ -91,7 +77,7 @@ function ElecSimulate() {
 	function selectComponent(mousePos: Pos): ComponentSide | null {
 		const componentSize = componentSizeRef.current;
 		let side = 0 as Side;
-		const component = components.current.find((component) => {
+		const component = circuit.current.components.find((component) => {
 			const x = mousePos.x - component.pos.x;
 			const y = mousePos.y - component.pos.y;
 
@@ -131,7 +117,7 @@ function ElecSimulate() {
 				const a = new ComponentSide(movingComponent.current, selectedSide.side);
 				const b = componentBSide;
 
-				connections.current.push(new Connection(a, b));
+				circuit.current.connections.push(new Connection(a, b));
 			}
 		}
 
@@ -149,123 +135,44 @@ function ElecSimulate() {
 	}
 
 	function drawCanvas(
-		canvas: HTMLCanvasElement,
-		mousePos: Pos,
-		componentSize: number,
+		canvas: React.MutableRefObject<HTMLCanvasElement | null>,
+		mousePos: React.MutableRefObject<Pos>,
+		componentSize: React.MutableRefObject<number>,
 	) {
-		const ctx = canvas.getContext("2d");
+		const ctx = canvas.current?.getContext("2d");
 		if (!(canvasRef.current && ctx)) return;
 
 		ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-		ctx.font = `${componentSize / 3}px sans-serif`;
-		ctx.lineWidth = componentSize / 12;
-
-		for (const component of components.current) {
-			if ("I" in component) {
-				component.I = 0;
-			}
-		}
-
-		for (const c of components.current.filter((c) => "getVoltage" in c)) {
-			const powerSource: PowerSource = c as PowerSource;
-			const connexions = getConnections(powerSource).filter(
-				(c) =>
-					(c.a.component.id === powerSource.id && c.a.side === 1) ||
-					(c.b.component.id === powerSource.id && c.b.side === 1),
-			);
-
-			for (const firstConn of connexions) {
-				const conns: Connection[] = [];
-
-				let conn: Connection = firstConn;
-				let component: Component = powerSource;
-				let broke = false;
-				let i = 0;
-
-				while (conn && !broke) {
-					const { component: c, side } =
-						conn.a.component.id === component.id ? conn.b : conn.a;
-					component = c;
-
-					if ("opened" in component) broke = component.opened as boolean;
-
-					const nextSide = side * -1;
-					conn = connections.current.find((c) => {
-						if (c.a.component === component) {
-							return c.a.side === nextSide;
-						}
-						if (c.b.component === component) {
-							return c.b.side === nextSide;
-						}
-						return false;
-					}) as Connection;
-
-					if (!conn) {
-						broke = true;
-					} else {
-						conns.push(conn);
-					}
-
-					i++;
-
-					if (conn === firstConn || i > 100) {
-						break;
-					}
-				}
-
-				if (!broke && conns.length) {
-					broke = !(
-						conns[conns.length - 1]
-							.getComponents()
-							.findIndex((m) => m.id === powerSource.id) !== -1
-					);
-				}
-
-				if (!broke) {
-					Circuit(conns);
-				}
-			}
-		}
-
-		for (const component of components.current) {
-			component.draw(ctx, componentSize);
-		}
-
-		for (const c of connections.current) {
-			const sidePosA = c.a.getPos(componentSize);
-			const sidePosB = c.b.getPos(componentSize);
-			drawDot(ctx, sidePosA);
-			drawDot(ctx, sidePosB);
-			c.draw(ctx, componentSize);
-		}
+		ctx.font = `${componentSize.current / 3}px sans-serif`;
+		ctx.lineWidth = componentSize.current / 12;
 
 		if (cableMouse) {
-			const componentSide = selectComponent(mousePos);
+			const componentSide = selectComponent(mousePos.current);
 			if (componentSide) {
-				const sidePos = componentSide.getPos(componentSize);
+				const sidePos = componentSide.getPos(componentSize.current);
 				drawDot(ctx, sidePos);
 			}
 
-			if (movingComponent.current && selectedSide?.side) {
-				const sidePos = selectedSide.getPos(componentSize);
+			if (movingComponent && selectedSide?.side) {
+				const sidePos = selectedSide.getPos(componentSize.current);
 				drawDot(ctx, sidePos);
-				drawLine(ctx, sidePos, mousePos);
+				drawLine(ctx, sidePos, mousePos.current);
 			}
 		}
+
+		circuit.current.draw(ctx, componentSize.current);
 	}
 
 	useEffect(() => {
+		const newCircuit = new Circuit();
+		Circuit.instance = newCircuit;
+		circuit.current = newCircuit;
 		const intervalId = setInterval(() => {
-			if (!canvasRef.current) return;
-			drawCanvas(
-				canvasRef.current,
-				mousePosRef.current,
-				componentSizeRef.current,
-			);
+			drawCanvas(canvasRef, mousePosRef, componentSizeRef);
 		}, 1000 / frameRate);
 
 		return () => clearInterval(intervalId);
-	}, [components, mousePosRef.current, componentSizeRef.current]);
+	}, []);
 
 	const nameInput = useRef<HTMLInputElement>(null);
 	useEffect(() => {
@@ -322,8 +229,8 @@ function ElecSimulate() {
 
 					<ComponentProperties
 						c={selectedSide}
-						components={components}
-						conns={connections}
+						components={circuit.current.components}
+						conns={circuit.current.connections}
 						sizeRef={componentSizeRef}
 					/>
 				</div>

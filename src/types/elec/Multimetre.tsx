@@ -1,20 +1,15 @@
 import { type Pos, drawImage } from "../canvas";
-import { type Component, getElecImagePath } from "./types";
+import { Component, getElecImagePath } from "./types";
 
-export default class Multimetre implements Component {
-	id: number;
-	pos: Pos;
+export default class Multimetre extends Component {
 	opened: boolean;
-	name: string;
 
 	static nom = "Multimetre";
 	static defaultImage = getElecImagePath(Multimetre.nom);
 
 	constructor(id: number, pos: Pos) {
-		this.id = id;
-		this.pos = pos;
+		super(0, pos, id, Multimetre.nom);
 		this.opened = true;
-		this.name = Multimetre.nom;
 	}
 
 	draw = (ctx: CanvasRenderingContext2D, size: number) => {

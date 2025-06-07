@@ -1,12 +1,9 @@
 import { type Pos, drawImage } from "@/types/canvas";
 import { ComponentProperty } from "./properties";
-import { getElecImagePath, type Component } from "./types";
+import { getElecImagePath, Component } from "./types";
 
-export default class Interrupteur implements Component {
-	id: number;
-	pos: Pos;
+export default class Interrupteur extends Component {
 	opened: boolean;
-	name: string;
 
 	static nom = "Interrupteur";
 
@@ -15,10 +12,8 @@ export default class Interrupteur implements Component {
 	}
 
 	constructor(id: number, pos: Pos) {
-		this.id = id;
-		this.pos = pos;
+		super(0, pos, id, Interrupteur.nom);
 		this.opened = true;
-		this.name = Interrupteur.nom;
 	}
 
 	draw = (ctx: CanvasRenderingContext2D, size: number) => {
