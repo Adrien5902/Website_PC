@@ -3,10 +3,6 @@ import { ComponentProperty } from "./properties";
 import { getElecImagePath, PowerSource } from "./types";
 
 export default class Générateur extends PowerSource {
-	id: number;
-	pos: Pos;
-	name: string;
-
 	getDefaultImage(): string {
 		return getElecImagePath(`${Générateur.nom}Off`);
 	}
@@ -14,11 +10,8 @@ export default class Générateur extends PowerSource {
 	static nom = "Générateur";
 
 	constructor(id: number, pos: Pos) {
-		super(10);
-		this.id = id;
-		this.pos = pos;
+		super(10, pos, id, Générateur.nom);
 		this.on = true;
-		this.name = Générateur.nom;
 	}
 
 	draw = (ctx: CanvasRenderingContext2D, size: number) => {

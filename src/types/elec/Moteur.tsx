@@ -3,10 +3,7 @@ import { ComponentProperty } from "./properties";
 import { getElecImagePath, Récepteur } from "./types";
 
 export class Moteur extends Récepteur {
-	name: string;
-	pos: Pos;
-	id: number;
-	P: number;
+	P = 0;
 	angle: number;
 
 	getDefaultImage(): string {
@@ -16,17 +13,11 @@ export class Moteur extends Récepteur {
 	static nom = "Moteur";
 
 	constructor(id: number, pos: Pos) {
-		super(3);
-		this.id = id;
-		this.pos = pos;
-		this.name = Moteur.nom;
-		this.P = 0;
+		super(3, pos, id, Moteur.nom);
 		this.angle = 0;
 	}
 
 	draw = (ctx: CanvasRenderingContext2D, size: number) => {
-		this.U = this.R * this.I;
-		this.P = this.U * this.I;
 		this.angle += (this.P * Math.PI) / 360;
 
 		ctx.save();

@@ -121,9 +121,9 @@ export function ComponentProperties({
 	components,
 }: {
 	c: ComponentSide | null;
-	conns: React.MutableRefObject<Connection[]>;
+	conns: Connection[];
+	components: Component[];
 	sizeRef: React.MutableRefObject<number>;
-	components: React.MutableRefObject<Component[]>;
 }) {
 	const [side, setSide] = useState<ComponentSide | null>(c);
 
@@ -164,12 +164,12 @@ export function ComponentProperties({
 								onClick={() => {
 									if (side) {
 										const id = side.component?.id;
-										conns.current = conns.current.filter(
+										conns = conns.filter(
 											(c) =>
 												!(c.a.component.id === id || c.b.component.id === id),
 										);
-										components.current.splice(
-											components.current.findIndex((c) => c.id === id),
+										components.splice(
+											components.findIndex((c) => c.id === id),
 											1,
 										);
 										setSide(null);
@@ -184,7 +184,7 @@ export function ComponentProperties({
 								onClick={() => {
 									if (side) {
 										const id = side.component?.id;
-										conns.current = conns.current.filter(
+										conns = conns.filter(
 											(c) =>
 												!(c.a.component.id === id || c.b.component.id === id),
 										);
