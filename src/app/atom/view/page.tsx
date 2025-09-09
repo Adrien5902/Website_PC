@@ -79,14 +79,19 @@ function AtomView() {
 						<FontAwesomeIcon icon={faWeightHanging} /> Masse Molaire : {atome.M}{" "}
 						g/mol
 					</span>
-					<span>
-						<img
-							src={"/assets/icons/bolt-minus-solid.svg"}
-							style={{ height: "1em" }}
-							alt=""
-						/>{" "}
-						Électronégativité : {atome.electronegativite}
-					</span>
+
+					{atome.electronegativite ? (
+						<span>
+							<img
+								src={"/assets/icons/bolt-minus-solid.svg"}
+								style={{ height: "1em" }}
+								alt=""
+							/>{" "}
+							Électronégativité (Échelle de Pauling) : {atome.electronegativite}
+						</span>
+					) : (
+						""
+					)}
 				</div>
 
 				<br />

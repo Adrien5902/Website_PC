@@ -52,7 +52,7 @@ export function PeriodicTable({ selectedAtomZ }: Props) {
 			),
 		},
 		{
-			label: "Électronégativité",
+			label: "Électronégativité (Pauling)",
 			content: (
 				<div>
 					<div
@@ -118,7 +118,7 @@ export function PeriodicTable({ selectedAtomZ }: Props) {
 		switch (selectedSection) {
 			case "Blocs":
 				return colorByBloc(atome.bloc, atome.période);
-			case "Électronégativité":
+			case "Électronégativité (Pauling)":
 				return getColorByElectronegativite(atome?.electronegativite);
 			case "Famille":
 				return `hsl(${
