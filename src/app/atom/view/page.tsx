@@ -70,7 +70,7 @@ function AtomView() {
 						{atome.valence()}
 					</span>
 					<span>
-						<FontAwesomeIcon icon={faCubes} /> Bloc : {atome.bloc.toUpperCase()}
+						<FontAwesomeIcon icon={faCubes} /> Bloc : {atome.bloc}
 					</span>
 					<span>
 						<FontAwesomeIcon icon={faObjectGroup} /> Famille : {atome.family}

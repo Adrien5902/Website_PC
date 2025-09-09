@@ -45,7 +45,7 @@ export function PeriodicTable({ selectedAtomZ }: Props) {
 							onMouseLeave={() => setSelectedBloc(null)}
 						>
 							<div style={{ backgroundColor: colorByBloc(bloc, 7) }} />
-							<span>Bloc {bloc.toUpperCase()}</span>
+							<span>Bloc {bloc}</span>
 						</div>
 					))}
 				</>
