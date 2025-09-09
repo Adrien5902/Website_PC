@@ -37,13 +37,21 @@ export default function AtomeSchema({ atome }: Props) {
 		}
 
 		draw(ctx: CanvasRenderingContext2D) {
+			const dotSize = size * 1.3;
+			const signSize = dotSize * 0.5;
+
 			const { x, y } = this.pos;
-			const gradient = ctx.createRadialGradient(x, y, 0, x, y, size * 1.3);
+			const gradient = ctx.createRadialGradient(x, y, 0, x, y, dotSize);
 			gradient.addColorStop(0, "white");
 			gradient.addColorStop(1, this.type === "proton" ? "red" : "green");
 
 			ctx.fillStyle = gradient;
-			drawDot(ctx, this.pos, size * 1.3);
+			drawDot(ctx, this.pos, dotSize);
+
+			if (this.type === "proton") {
+				drawLine(ctx, { x: x - signSize, y }, { x: x + signSize, y });
+				drawLine(ctx, { x, y: y - signSize }, { x, y: y + signSize });
+			}
 		}
 	}
 
