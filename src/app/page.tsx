@@ -26,11 +26,6 @@ export default function Home() {
 					img="/assets/pages/elecSchema.png"
 				/>
 				<Page
-					href="/forces"
-					text="Calcul des forces"
-					img="/assets/pages/forces.jpg"
-				/>
-				<Page
 					href="/lumiere/lentilles"
 					text={
 						<span>
@@ -38,6 +33,11 @@ export default function Home() {
 						</span>
 					}
 					img="/assets/pages/lentilles_convergentes.png"
+				/>
+				<Page
+					href="/forces"
+					text="Calcul des forces"
+					img="/assets/pages/forces.jpg"
 				/>
 				<Page
 					href="/lumiere/synthese"
