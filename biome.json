@@ -14,6 +14,9 @@
 			},
 			"correctness": {
 				"useExhaustiveDependencies": "info"
+			},
+			"style": {
+				"noParameterAssign": "warn"
 			}
 		},
 		"ignore": ["node_modules"]

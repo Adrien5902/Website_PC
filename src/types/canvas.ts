@@ -36,34 +36,33 @@ export function drawDashedLine(
 	ctx: CanvasRenderingContext2D,
 	from: Pos,
 	to: Pos,
-	dashLength = 20,
+	dashLength = 20
 ) {
-	ctx.beginPath();
-	ctx.moveTo(from.x, from.y);
+	const canvasWidth = ctx.canvas.width;
+	const canvasHeight = ctx.canvas.height;
 
+	// Prevent extremely dense dashes by capping based on canvas size
 	const dx = to.x - from.x;
 	const dy = to.y - from.y;
 	const distance = Math.sqrt(dx * dx + dy * dy);
-	const numDashes = Math.floor(distance / dashLength);
 
-	const deltaX = dx / numDashes;
-	const deltaY = dy / numDashes;
+	const maxDashes = Math.sqrt(canvasWidth ** 2 + canvasHeight ** 2) / 2;
+	const desiredDashes = Math.floor(distance / dashLength);
 
-	let shouldDraw = true;
-
-	for (let i = 0; i < numDashes; i++) {
-		if (shouldDraw) {
-			ctx.lineTo(from.x + i * deltaX, from.y + i * deltaY);
-		} else {
-			ctx.moveTo(from.x + i * deltaX, from.y + i * deltaY);
-		}
-
-		shouldDraw = !shouldDraw;
+	if (desiredDashes > maxDashes) {
+		dashLength = distance / maxDashes;
 	}
 
+	ctx.save();
+	ctx.beginPath();
+	ctx.setLineDash([dashLength, dashLength]);
+	ctx.moveTo(from.x, from.y);
 	ctx.lineTo(to.x, to.y);
 	ctx.stroke();
+	ctx.setLineDash([]);
+	ctx.restore();
 }
+
 
 export function drawDot(
 	ctx: CanvasRenderingContext2D,
