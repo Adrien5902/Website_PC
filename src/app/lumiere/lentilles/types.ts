@@ -20,6 +20,8 @@ export type Moving = React.MutableRefObject<{
     object: Lentille | Miroir | null;
 } | null>;
 
+export type Direction = 1 | -1
+
 export abstract class System {
     pos: number;
     imagePoint: Pos;
@@ -32,6 +34,8 @@ export abstract class System {
         this.imagePoint = { x: 0, y: 0 };
     }
 
+    abstract getSymbol(): string
+    abstract getOutputDirection(): Direction
     abstract draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.MutableRefObject<Pos>): void
 }
 
@@ -125,6 +129,14 @@ export class Lentille extends System {
         drawArrow(ctx, LTop, this.focalLength > 0 ? Math.PI / 2 : -Math.PI / 2, size);
         drawArrow(ctx, LBottom, this.focalLength < 0 ? Math.PI / 2 : -Math.PI / 2, size);
     }
+
+    getSymbol(): string {
+        return "L";
+    }
+
+    getOutputDirection(): Direction {
+        return 1
+    }
 }
 
 export interface Rayons {
@@ -174,5 +186,13 @@ export class Miroir extends System {
             const step = i * size;
             drawLine(ctx, { x: this.pos + size / 2, y: step }, { x: this.pos, y: step + size / 2 });
         }
+    }
+
+    getSymbol(): string {
+        return "M"
+    }
+
+    getOutputDirection(): Direction {
+        return -1
     }
 }

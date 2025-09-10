@@ -156,8 +156,12 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				BPos.y + size * BInfinitePos.sign,
 			);
 
-			const sortedSystems = [lentilles.current, miroirs.current]
-				.flat()
+			const systems = [lentilles.current, miroirs.current].flat();
+			const sortedSystems = systems
+				.filter(
+					(system) =>
+						system instanceof Lentille || objectPos.current.x < system.pos,
+				)
 				.sort((a, b) => a.pos - b.pos);
 			const firstObjectVirtual =
 				sortedSystems[0] && sortedSystems[0].pos < Apos.x;
@@ -190,7 +194,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				}
 			}
 
-			for (const system of sortedSystems) {
+			for (const system of systems) {
 				system.draw(ctx, size, moving, originY, isMouseNear, objectPos);
 			}
 
@@ -231,8 +235,16 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 						(originY - system.imagePoint.y) / (originY - lastPosB.y);
 
 					system.virtualImage =
-						system.imagePoint.x < system.pos ||
+						(system.imagePoint.x - system.pos) * system.getOutputDirection() <
+							0 ||
 						(nextSystem && system.imagePoint.x > nextSystem.pos);
+				}
+
+				if (system instanceof Miroir) {
+					system.imagePoint = {
+						x: 2 * system.pos - lastPosB.x,
+						y: BPos.y,
+					};
 				}
 
 				if (rayonsEnabled >= 2) {
@@ -257,18 +269,18 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 					ctx.fillText("A", _Apos.x + size / 3, originY + (size / 4) * 3);
 					drawIndiceText(
 						ctx,
-						system.id.toString(),
+						system.getSymbol() + system.id.toString(),
 						{ x: _Apos.x + size * 0.9, y: originY + size },
 						size,
 					);
 					ctx.fillText(
-						"B ",
+						"B",
 						system.imagePoint.x + size / 3,
 						system.imagePoint.y + size / 3,
 					);
 					drawIndiceText(
 						ctx,
-						system.id.toString(),
+						system.getSymbol() + system.id.toString(),
 						{
 							x: system.imagePoint.x + size * 0.9,
 							y: system.imagePoint.y + size * 0.6,
@@ -286,7 +298,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 					return ((B.y - A.y) / (B.x - A.x)) * (x - B.x) + B.y;
 				}
 
-				function midPointArrow(A: Pos, B: Pos) {
+				function midPointArrow(A: Pos, B: Pos, direction: 1 | -1) {
 					const midPointX = (A.x + B.x) / 2;
 					const midPoint = {
 						x: midPointX,
@@ -296,7 +308,8 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 					drawArrow(
 						ctx,
 						midPoint,
-						(B.y - A.y) / (B.x - A.x) + Math.PI,
+						Math.atan((B.y - A.y) / (B.x - A.x)) +
+							(direction >= 0 ? Math.PI : 0),
 						size / 2,
 					);
 				}
@@ -311,15 +324,18 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 					drawDashedLine(ctx, initialPos, lastPos);
 				} else {
 					drawLine(ctx, initialPos, lastPos);
-					midPointArrow(lastPos, initialPos);
+					midPointArrow(lastPos, initialPos, 1);
 				}
 
-				for (const i in sortedSystems) {
+				let i = 0;
+				let iterations = 0;
+				while (sortedSystems[i] && iterations < sortedSystems.length * 3) {
 					const system = sortedSystems[i];
+					const direction = system.getOutputDirection();
 
 					const nextSystem = sortedSystems[Number(i) + 1];
 
-					if (system.imagePoint.x < system.pos && system instanceof Lentille) {
+					if ((system.imagePoint.x - system.pos) * direction < 0) {
 						drawDashedLine(ctx, lastPos, system.imagePoint);
 					}
 
@@ -332,10 +348,14 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 						const nextPos = { x: nextSystem.pos, y: nextLentilleEndingY };
 						drawLine(ctx, lastPos, nextPos);
-						midPointArrow(lastPos, {
-							x: nextSystem.pos,
-							y: nextLentilleEndingY,
-						});
+						midPointArrow(
+							lastPos,
+							{
+								x: nextSystem.pos,
+								y: nextLentilleEndingY,
+							},
+							1,
+						);
 
 						if (system.imagePoint.x > nextPos.x) {
 							drawDashedLine(ctx, nextPos, system.imagePoint);
@@ -343,15 +363,13 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 
 						lastPos = nextPos;
 					} else {
-						const endingY = calcLinearY(
-							lastPos,
-							system.imagePoint,
-							canvas.width,
-						);
+						const endingX = direction < 0 ? 0 : canvas.width;
 
-						drawLine(ctx, lastPos, { x: canvas.width, y: endingY });
+						const endingY = calcLinearY(lastPos, system.imagePoint, endingX);
 
-						midPointArrow(lastPos, { x: canvas.width, y: endingY });
+						drawLine(ctx, lastPos, { x: endingX, y: endingY });
+
+						midPointArrow(lastPos, { x: endingX, y: endingY }, direction);
 
 						if (
 							infiniteObject &&
@@ -376,6 +394,8 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 							}
 						}
 					}
+					i += direction;
+					iterations++;
 				}
 			}
 

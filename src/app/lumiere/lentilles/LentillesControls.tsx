@@ -173,14 +173,10 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 						const lastLentille =
 							lentilles.current[lentilles.current.length - 1];
 
-						const triedPos = lastLentille.pos + 400;
-
 						lentilles.current.push(
 							new Lentille(
 								(lastLentille?.id ?? lentilles.current.length) + 1,
-								triedPos > (canvasRef.current?.width ?? 0)
-									? (canvasRef.current?.width ?? 0) / 2
-									: triedPos,
+								(canvasRef.current?.width ?? 200) / 2,
 								(canvasRef.current?.size ?? 0) * 2,
 							),
 						);
@@ -193,8 +189,13 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 				<button
 					type="button"
 					onClick={() => {
+						const lastMiroir = miroirs.current[miroirs.current.length - 1];
+
 						miroirs.current.push(
-							new Miroir(1, canvasRef.current?.width ?? 0 / 2),
+							new Miroir(
+								(lastMiroir?.id ?? lentilles.current.length) + 1,
+								(canvasRef.current?.width ?? 200) / 2,
+							),
 						);
 						canvasRef.current?.refresh();
 					}}
