@@ -79,3 +79,42 @@ export function setColor(ctx: CanvasRenderingContext2D, color: string) {
 	ctx.fillStyle = color;
 	ctx.strokeStyle = color;
 }
+
+export function drawIndiceText(
+	ctx: CanvasRenderingContext2D,
+	text: string,
+	pos: Pos,
+	size: number
+) {
+	ctx.font = `${size / 2}px sans-serif`;
+	ctx.fillText(text, pos.x, pos.y);
+	ctx.font = `${(size / 5) * 4}px sans-serif`;
+}
+
+export function drawCircleAround(
+	ctx: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	size: number
+) {
+	ctx.beginPath();
+	ctx.arc(x, y, size / 2, 0, 360);
+	ctx.stroke();
+}
+
+export function drawArrow(
+	ctx: CanvasRenderingContext2D,
+	origin: Pos,
+	angle: number,
+	size: number,
+) {
+	const arrowSize = size / 2;
+
+	const leftAngle = angle - Math.PI / 4;
+	const leftWingPos = { x: origin.x + arrowSize * Math.cos(leftAngle), y: origin.y + arrowSize * Math.sin(leftAngle) };
+	const rightAngle = angle + Math.PI / 4;
+	const rightWingPos = { x: origin.x + arrowSize * Math.cos(rightAngle), y: origin.y + arrowSize * Math.sin(rightAngle) };
+
+	drawLine(ctx, leftWingPos, origin);
+	drawLine(ctx, rightWingPos, origin);
+}

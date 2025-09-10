@@ -16,6 +16,8 @@
 				"useExhaustiveDependencies": "info"
 			},
 			"style": {
+				"useSelfClosingElements": "warn",
+				"useImportType": "warn",
 				"noParameterAssign": "warn"
 			}
 		},

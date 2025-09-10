@@ -203,6 +203,7 @@ button {
     box-sizing: border-box;
     box-shadow: .1em .1em 0 .2em var(--secondary);
     transition: 100ms all;
+    margin: 0 .5em;
 
     &:active {
         box-shadow: 0 0 0 .1em var(--secondary);

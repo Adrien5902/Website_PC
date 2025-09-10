@@ -2,13 +2,15 @@
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { Lentille, type Rayon, type Rayons } from "./types";
+import { Lentille, Miroir, type Rayon, type Rayons } from "./types";
 import type { LentilleCanvasRef } from "./LentillesCanvas";
 import type { Pos } from "@/types/canvas";
 import SectionSelector from "@/components/SectionSelector";
 import { LentilleSettings } from "./LentilleSettings";
+import { MiroirSettings } from "./MiroirSettings";
 
 export interface Props {
+	miroirs: React.MutableRefObject<Miroir[]>;
 	lentilles: React.MutableRefObject<Lentille[]>;
 	setInfiniteObject: React.Dispatch<React.SetStateAction<boolean>>;
 	rayons: React.MutableRefObject<Rayons>;
@@ -24,6 +26,7 @@ export interface LentilleControlsRef {
 const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 	(
 		{
+			miroirs,
 			lentilles,
 			setInfiniteObject,
 			rayons,
@@ -128,6 +131,10 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 									</div>
 								),
 							},
+							// {
+							// 	label: "Rayons quelconques",
+							// 	content: <div className="lentilles-data"></div>,
+							// },
 						]}
 					/>
 
@@ -142,6 +149,20 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 								canvasRef={canvasRef}
 								key={lentille.id}
 								lentille={lentille}
+							/>
+						))}
+
+					{miroirs.current
+						.sort((a, b) => a.id - b.id)
+						.map((miroir, i) => (
+							<MiroirSettings
+								removeMiroir={() => {
+									miroirs.current.splice(i, 1);
+									canvasRef.current?.refresh();
+								}}
+								canvasRef={canvasRef}
+								key={miroir.id}
+								miroir={miroir}
 							/>
 						))}
 				</div>
@@ -167,6 +188,18 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 					}}
 				>
 					<FontAwesomeIcon icon={faPlus} /> Ajouter une lentille
+				</button>
+
+				<button
+					type="button"
+					onClick={() => {
+						miroirs.current.push(
+							new Miroir(1, canvasRef.current?.width ?? 0 / 2),
+						);
+						canvasRef.current?.refresh();
+					}}
+				>
+					<FontAwesomeIcon icon={faPlus} /> Ajouter un miroir
 				</button>
 			</div>
 		);
