@@ -14,7 +14,7 @@ interface Props {
 export default function AtomeSchema({ atome }: Props) {
 	const [size, setSize] = useState<number>(12);
 
-	const canvasRef = useCanvas();
+	const canvasRef = useCanvas(() => drawCanvas());
 
 	let frameRate = 60;
 	let lastFrameTime = performance.now();
@@ -88,11 +88,6 @@ export default function AtomeSchema({ atome }: Props) {
 
 				const { x, y } = origin;
 				const radius = circleIndex * size * 2;
-				console.log(
-					Math.floor(i - (circleIndex - 1) ** 2 * Math.PI),
-					circleIndex,
-					circleIndex * Math.PI * 2 - 3,
-				);
 				const angle =
 					((i - (circleIndex - 1) ** 2 * Math.PI) /
 						(circleIndex === circleMax
@@ -123,12 +118,12 @@ export default function AtomeSchema({ atome }: Props) {
 	function drawCanvas() {
 		const canvas = canvasRef.current;
 		if (!canvas) return;
-		const { width, height } = canvas;
-		const origin: Pos = { x: width / 2, y: height / 2 };
-		const angle = angleRef.current;
 
 		const ctx = canvas.getContext("2d");
 		if (!ctx) return;
+		const { width, height } = ctx.canvas;
+		const origin: Pos = { x: width / 2, y: height / 2 };
+		const angle = angleRef.current;
 
 		//Clear
 		ctx.lineWidth = size / 3;
@@ -150,24 +145,36 @@ export default function AtomeSchema({ atome }: Props) {
 
 			ctx.beginPath();
 			const radius =
-				canvas.width * ((period + sousCoucheIndex / 4) / atome.période / 3) +
+				canvas.height * ((period + sousCoucheIndex / 4) / atome.période / 3) +
 				size * 16;
 			ctx.arc(origin.x, origin.y, radius, 0, Math.PI * 2);
 			ctx.stroke();
 
+			setColor(ctx, "white");
 			for (let e = electrons; e > 0; e--) {
 				const eangle =
 					(i % 2 === 0 ? 1 : -1) *
 					(angle +
 						Math.PI * 2 * (e / electrons) +
 						(Math.PI * sousCoucheIndex) / 4);
-				setColor(ctx, "blue");
+
 				const ePos = {
 					x: origin.x + radius * Math.cos(eangle),
 					y: origin.y + radius * Math.sin(eangle),
 				};
+				const gradient = ctx.createRadialGradient(
+					ePos.x,
+					ePos.y,
+					0,
+					ePos.x,
+					ePos.y,
+					size,
+				);
+				gradient.addColorStop(0, "white");
+				gradient.addColorStop(1, "blue");
+				ctx.fillStyle = gradient;
 				drawDot(ctx, ePos, size);
-				setColor(ctx, "white");
+				ctx.fillStyle = "";
 				drawLine(
 					ctx,
 					{ x: ePos.x - size / 2, y: ePos.y },
