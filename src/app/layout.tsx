@@ -44,9 +44,7 @@ export default function RootLayout({
 
 			<body>
 				<ExperimentsContextProvider ref={experimentsContextProvider}>
-					<Header
-						setExperiments={experimentsContextProvider.current?.setExperiments}
-					/>
+					<Header experimentsContextProvider={experimentsContextProvider} />
 					<div id="root">{children}</div>
 				</ExperimentsContextProvider>
 			</body>

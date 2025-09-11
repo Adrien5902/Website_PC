@@ -27,11 +27,9 @@ export default function ExperimentsContextProvider({ children, ref }: Props) {
 
 	useImperativeHandle(
 		ref,
-		() => {
-			return {
-				setExperiments,
-			};
-		},
+		() => ({
+			setExperiments,
+		}),
 		[],
 	);
 

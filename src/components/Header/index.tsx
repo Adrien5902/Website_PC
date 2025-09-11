@@ -16,13 +16,16 @@ import HeaderDropDown from "./dropdown";
 import HeaderLink from "./links";
 import "./style.css";
 import Link from "next/link";
-import { useExperiments } from "../ExperimentsContextProvider";
+import {
+	type ExperimentsContextProviderRef,
+	useExperiments,
+} from "../ExperimentsContextProvider";
 
 interface Props {
-	setExperiments?: React.Dispatch<React.SetStateAction<boolean>>;
+	experimentsContextProvider: React.RefObject<ExperimentsContextProviderRef>;
 }
 
-function Header({ setExperiments }: Props) {
+function Header({ experimentsContextProvider }: Props) {
 	const experiments = useExperiments();
 	return (
 		<header>
@@ -64,7 +67,10 @@ function Header({ setExperiments }: Props) {
 			<div
 				id="experiments"
 				onClick={() => {
-					if (setExperiments) setExperiments((e) => !e);
+					if (experimentsContextProvider.current?.setExperiments)
+						experimentsContextProvider.current.setExperiments((e) => {
+							return !e;
+						});
 				}}
 			>
 				<FontAwesomeIcon icon={faFlask} />
