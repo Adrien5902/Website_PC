@@ -193,7 +193,7 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 
 						miroirs.current.push(
 							new Miroir(
-								(lastMiroir?.id ?? lentilles.current.length) + 1,
+								(lastMiroir?.id ?? miroirs.current.length) + 1,
 								(canvasRef.current?.width ?? 200) / 2,
 							),
 						);

@@ -22,16 +22,22 @@ export type Moving = React.MutableRefObject<{
 
 export type Direction = 1 | -1
 
+export interface Image {
+    pos: Pos,
+    virtual: boolean
+}
+
 export abstract class System {
     pos: number;
-    imagePoint: Pos;
-    virtualImage?: boolean;
+    images: Image[];
+    currentImageNumber: number
     id: number;
 
     constructor(id: number, pos: number) {
         this.id = id;
         this.pos = pos;
-        this.imagePoint = { x: 0, y: 0 };
+        this.images = [];
+        this.currentImageNumber = 0
     }
 
     abstract getSymbol(): string
@@ -47,7 +53,6 @@ export class Lentille extends System {
     constructor(id: number, pos: number, focalLength: number) {
         super(id, pos)
         this.focalLength = focalLength;
-        this.imagePoint = { x: 0, y: 0 };
         this.gamma = 0;
     }
 
@@ -118,7 +123,7 @@ export class Lentille extends System {
 
         const LSize = Math.max(
             Math.abs(objectPos.current.y),
-            this.imagePoint ? Math.abs(this.imagePoint.y - originY) : 0,
+            ...this.images.map(img => Math.abs(img.pos.y - originY)),
             size,
         );
 
@@ -152,7 +157,6 @@ export class Miroir extends System {
 
     constructor(id: number, pos: number) {
         super(id, pos)
-        this.virtualImage = true;
         this.angle = 0;
         this.wrapping = 0;
     }
