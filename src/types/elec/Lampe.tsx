@@ -3,10 +3,7 @@ import { ComponentProperty } from "./properties";
 import { getElecImagePath, Récepteur } from "./types";
 
 export default class Lampe extends Récepteur {
-	id: number;
-	pos: Pos;
-	name: string;
-	P: number;
+	P = 0;
 
 	getDefaultImage(): string {
 		return getElecImagePath(Lampe.nom);
@@ -15,17 +12,10 @@ export default class Lampe extends Récepteur {
 	static nom = "Lampe";
 
 	constructor(id: number, pos: Pos) {
-		super(3);
-		this.id = id;
-		this.pos = pos;
-		this.name = Lampe.nom;
-		this.P = 0;
+		super(3, pos, id, Lampe.nom);
 	}
 
 	draw = (ctx: CanvasRenderingContext2D, size: number) => {
-		this.U = this.R * this.I;
-		this.P = this.U * this.I;
-
 		const lightnessRatio = this.P / 50;
 		const lightness =
 			lightnessRatio > 1 ? 1 : lightnessRatio < 0 ? 0 : lightnessRatio;
