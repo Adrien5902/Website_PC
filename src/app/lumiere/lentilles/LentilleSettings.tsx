@@ -66,7 +66,7 @@ export function LentilleSettings({
 
 				<div className="lentille-values">
 					<span>
-						{lentille.virtualImage ? "Image virtuelle" : "Image réelle"}
+						{lentille.virtualImages ? "Image virtuelle" : "Image réelle"}
 					</span>
 					<div>
 						<span>
@@ -79,9 +79,7 @@ export function LentilleSettings({
 							OA<sub>{lentille.id}</sub> (position de l'image) =
 						</span>
 						<span>
-							{(
-								lentille.imagePoint?.x - (canvasRef.current?.size ?? 0)
-							).toFixed(5)}
+							{(lentille.images?.x - (canvasRef.current?.size ?? 0)).toFixed(5)}
 						</span>
 					</div>
 					<div>
@@ -90,9 +88,9 @@ export function LentilleSettings({
 							l'image) =
 						</span>
 						<span>
-							{lentille.imagePoint?.y !== undefined
+							{lentille.images?.y !== undefined
 								? (
-										(canvasRef.current?.originY ?? 0) - lentille.imagePoint.y
+										(canvasRef.current?.originY ?? 0) - lentille.images.y
 									).toFixed(5)
 								: undefined}{" "}
 						</span>

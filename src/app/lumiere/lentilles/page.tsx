@@ -9,7 +9,7 @@ import LentilleControls, {
 } from "./LentillesControls";
 import type { Pos } from "@/types/canvas";
 import useFullscreen from "@/hooks/Fullscreen";
-import { Rayon, type Lentille, type Rayons } from "./types";
+import { type Miroir, Rayon, type Lentille, type Rayons } from "./types";
 
 export default function Lentilles() {
 	const fullscreenAble = useRef<HTMLDivElement>(null);
@@ -26,6 +26,7 @@ export default function Lentilles() {
 	const infiniteObjectAngle = useRef(0.3);
 
 	const lentilles = useRef<Lentille[]>([]);
+	const miroirs = useRef<Miroir[]>([]);
 
 	const rayons = useRef<Rayons>({
 		delta: new Rayon("rΔ", "Rayon parallèle à Δ", "#FF00FF"),
@@ -55,7 +56,7 @@ export default function Lentilles() {
 				<h1 style={{ width: "90vw" }} className="align-between">
 					<div />
 					<span>
-						<FontAwesomeIcon icon={faMagnifyingGlass} /> Lentilles
+						<FontAwesomeIcon icon={faMagnifyingGlass} /> Optique
 					</span>
 					<span>{fullscreenButton}</span>
 				</h1>
@@ -64,6 +65,7 @@ export default function Lentilles() {
 					<LentillesCanvas
 						ref={canvas}
 						{...{
+							miroirs,
 							infiniteObject,
 							infiniteObjectAngle,
 							lentilles,
@@ -76,6 +78,7 @@ export default function Lentilles() {
 					<LentilleControls
 						ref={controls}
 						{...{
+							miroirs,
 							infiniteObjectAngle,
 							lentilles,
 							objectPos,
