@@ -41,7 +41,7 @@ const componentTypes = [Générateur, Lampe, Interrupteur, Pile, Moteur];
 function ElecSimulate() {
 	const [cableMouse, setCableMouse] = useState(false);
 	const [selectedSide, setSelectedSide] = useState<ComponentSide | null>(null);
-	const app = useRef<HTMLDivElement>(null);
+	const app = useRef<HTMLDivElement>(null as never as HTMLDivElement);
 	const movingComponent = useRef<Component | null>(null);
 
 	const [fullscreenButton] = useFullscreen(app);

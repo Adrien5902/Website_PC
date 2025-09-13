@@ -12,7 +12,7 @@ import useFullscreen from "@/hooks/Fullscreen";
 import { type Miroir, Rayon, type Lentille, type Rayons } from "./types";
 
 export default function Lentilles() {
-	const fullscreenAble = useRef<HTMLDivElement>(null);
+	const fullscreenAble = useRef<HTMLDivElement>(null as never as HTMLDivElement);
 	const [fullscreenButton] = useFullscreen(fullscreenAble);
 
 	const objectPos = useRef<Pos>({ x: 0, y: 0 }); //X is the pos on delta axis, Y is the object height

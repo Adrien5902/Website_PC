@@ -1,5 +1,6 @@
 import Link from "next/link";
 import "./style.css";
+import { JSX } from 'react';
 
 interface Props {
 	img: string;

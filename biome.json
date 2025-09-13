@@ -13,7 +13,8 @@
 				"useKeyWithClickEvents": "off"
 			},
 			"correctness": {
-				"useExhaustiveDependencies": "info"
+				"useExhaustiveDependencies": "info",
+				"noUnusedImports": "warn"
 			},
 			"style": {
 				"useSelfClosingElements": "warn",

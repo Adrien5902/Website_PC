@@ -4,6 +4,7 @@ import { faCompress, faExpand } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import "./style.css";
+import { JSX } from 'react';
 
 export default function useFullscreen(
 	element: React.RefObject<HTMLElement>,

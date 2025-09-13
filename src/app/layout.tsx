@@ -13,7 +13,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	const experimentsContextProvider =
-		useRef<ExperimentsContextProviderRef>(null);
+		useRef<ExperimentsContextProviderRef>(null as never as ExperimentsContextProviderRef);
 	return (
 		<html lang="fr">
 			<head>
