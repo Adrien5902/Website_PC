@@ -10,9 +10,11 @@
 				"noArrayIndexKey": "off"
 			},
 			"a11y": {
+				"noStaticElementInteractions": "warn",
 				"useKeyWithClickEvents": "off"
 			},
 			"correctness": {
+				"useUniqueElementIds": "off",
 				"useExhaustiveDependencies": "info",
 				"noUnusedImports": "warn"
 			},

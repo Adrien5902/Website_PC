@@ -1,5 +1,6 @@
 import { type Pos, drawImage } from "@/types/canvas";
 import { getElecImagePath, PowerSource } from "./types";
+import type { JSX } from "react";
 
 export default class Pile extends PowerSource {
 	properties?: (() => JSX.Element[]) | undefined;

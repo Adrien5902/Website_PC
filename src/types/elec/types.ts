@@ -1,4 +1,5 @@
 import type { Pos } from "../canvas";
+import type { JSX } from 'react';
 
 export abstract class Component {
 	static nom: string
