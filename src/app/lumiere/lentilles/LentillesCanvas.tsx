@@ -227,34 +227,39 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				}
 			}
 
+			function calcLinearY(A: Pos, B: Pos, x: number) {
+				return ((B.y - A.y) / (B.x - A.x)) * (x - B.x) + B.y;
+			}
+
 			let lastPosA = Apos;
 			let lastPosB = BPos;
 
-			loopOverSystems((system, direction, nextSystem, i) => {
+			loopOverSystems((system, _direction, nextSystem, i) => {
 				let image: Image;
 
 				if (system instanceof Lentille) {
-					system.focalRayonHitPoint = {
+					const isFirstInf = infiniteObject && i === 0;
+					const lastPos = isFirstInf ? lastPosA : lastPosB;
+
+					const focalRayonHitPoint = {
 						x: system.pos,
-						y:
-							((originY - (infiniteObject && i === 0 ? lastPosA : lastPosB).y) /
-								(system.pos -
-									system.focalLength -
-									(infiniteObject && i === 0 ? lastPosA : lastPosB).x)) *
-								(system.pos -
-									(infiniteObject && i === 0 ? lastPosA : lastPosB).x) +
-							(infiniteObject && i === 0 ? lastPosA : lastPosB).y,
+						y: calcLinearY(
+							lastPos,
+							{ x: system.pos - system.focalLength, y: originY },
+							system.pos,
+						),
 					};
 
 					const imagePos = {
 						x:
 							lastPosB.x +
 							((system.pos - lastPosB.x) / (originY - lastPosB.y)) *
-								(system.focalRayonHitPoint.y - lastPosB.y),
-						y: system.focalRayonHitPoint.y,
+								(focalRayonHitPoint.y - lastPosB.y),
+						y: focalRayonHitPoint.y,
 					};
 
 					image = {
+						focalRayonHitPoint,
 						pos: imagePos,
 						virtual:
 							(imagePos.x - system.pos) * system.getOutputDirection() < 0 ||
@@ -324,15 +329,10 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 			}
 
 			function drawRayon(initialPos: Pos, endingInitialPos: Pos) {
-				function calcLinearY(A: Pos, B: Pos, x: number) {
-					return ((B.y - A.y) / (B.x - A.x)) * (x - B.x) + B.y;
-				}
-
 				function midPointArrow(A: Pos, B: Pos, direction: Direction) {
-					const midPointX = (A.x + B.x) / 2;
 					const midPoint = {
-						x: midPointX,
-						y: calcLinearY(A, B, midPointX),
+						x: (A.x + B.x) / 2,
+						y: (A.y + B.y) / 2,
 					};
 
 					drawArrow(
@@ -440,11 +440,11 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 				setColor(ctx, rayons.F.color);
 				if (
 					sortedSystems[0] instanceof Lentille &&
-					sortedSystems[0].focalRayonHitPoint
+					sortedSystems[0].images[0].focalRayonHitPoint
 				)
 					drawRayon(
 						infiniteObject ? Apos : BPos,
-						sortedSystems[0].focalRayonHitPoint,
+						sortedSystems[0].images[0].focalRayonHitPoint,
 					);
 			}
 

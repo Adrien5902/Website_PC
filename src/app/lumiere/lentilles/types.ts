@@ -23,6 +23,7 @@ export type Moving = React.MutableRefObject<{
 export type Direction = 1 | -1
 
 export interface Image {
+    focalRayonHitPoint?: Pos,
     pos: Pos,
     virtual: boolean
 }
@@ -47,7 +48,6 @@ export abstract class System {
 
 export class Lentille extends System {
     focalLength: number;
-    focalRayonHitPoint?: Pos;
     gamma: number;
 
     constructor(id: number, pos: number, focalLength: number) {

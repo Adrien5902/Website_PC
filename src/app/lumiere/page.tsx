@@ -18,7 +18,8 @@ function Lumiere() {
 					href="/lumiere/lentilles"
 					text={
 						<span>
-							<FontAwesomeIcon icon={faCameraRetro} /> Lentilles optiques
+							<FontAwesomeIcon icon={faCameraRetro} /> Optique (lentilles et
+							miroirs) (lentilles et miroirs)
 						</span>
 					}
 					img="/assets/pages/lentilles_convergentes.png"

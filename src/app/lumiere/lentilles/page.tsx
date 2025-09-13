@@ -56,7 +56,7 @@ export default function Lentilles() {
 				<h1 style={{ width: "90vw" }} className="align-between">
 					<div />
 					<span>
-						<FontAwesomeIcon icon={faMagnifyingGlass} /> Lentilles
+						<FontAwesomeIcon icon={faMagnifyingGlass} /> Optique
 					</span>
 					<span>{fullscreenButton}</span>
 				</h1>
