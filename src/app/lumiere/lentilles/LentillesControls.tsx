@@ -8,6 +8,7 @@ import type { Pos } from "@/types/canvas";
 import SectionSelector from "@/components/SectionSelector";
 import { LentilleSettings } from "./LentilleSettings";
 import { MiroirSettings } from "./MiroirSettings";
+import { useExperiments } from "@/components/ExperimentsContextProvider";
 
 export interface Props {
 	miroirs: React.RefObject<Miroir[]>;
@@ -37,6 +38,8 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 		ref,
 	) => {
 		const [_r, setR] = useState(0);
+
+		const experiments = useExperiments();
 
 		useImperativeHandle(ref, () => ({
 			refresh: () => {
@@ -200,7 +203,7 @@ const LentilleControls = forwardRef<LentilleControlsRef, Props>(
 						canvasRef.current?.refresh();
 					}}
 				>
-					<FontAwesomeIcon icon={faPlus} /> Ajouter un miroir
+					<FontAwesomeIcon icon={faPlus} /> Ajouter un miroir plan
 				</button>
 			</div>
 		);
@@ -211,7 +214,10 @@ export default LentilleControls;
 function SpecialRayonInput({
 	rayon,
 	canvasRef,
-}: { canvasRef: Props["canvasRef"]; rayon: Rayon }) {
+}: {
+	canvasRef: Props["canvasRef"];
+	rayon: Rayon;
+}) {
 	return (
 		<div className="rayon-input" style={{ userSelect: "none" }}>
 			<input

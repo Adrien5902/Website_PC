@@ -26,6 +26,7 @@ export interface Image {
     focalRayonHitPoint?: Pos,
     pos: Pos,
     virtual: boolean
+    gamma: number;
 }
 
 export abstract class System {
@@ -48,12 +49,10 @@ export abstract class System {
 
 export class Lentille extends System {
     focalLength: number;
-    gamma: number;
 
     constructor(id: number, pos: number, focalLength: number) {
         super(id, pos)
         this.focalLength = focalLength;
-        this.gamma = 0;
     }
 
     draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.RefObject<Pos>): void {

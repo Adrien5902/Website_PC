@@ -65,36 +65,39 @@ export function LentilleSettings({
 				</div>
 
 				<div className="lentille-values">
-					<span>
-						{lentille.virtualImages ? "Image virtuelle" : "Image réelle"}
-					</span>
-					<div>
-						<span>
-							γ<sub>{lentille.id}</sub> (grandissement) =
-						</span>
-						<span>{lentille.gamma.toFixed(5)}</span>
-					</div>
-					<div>
-						<span>
-							OA<sub>{lentille.id}</sub> (position de l'image) =
-						</span>
-						<span>
-							{(lentille.images?.x - (canvasRef.current?.size ?? 0)).toFixed(5)}
-						</span>
-					</div>
-					<div>
-						<span>
-							A<sub>{lentille.id}</sub>B<sub>{lentille.id}</sub> (taille de
-							l'image) =
-						</span>
-						<span>
-							{lentille.images?.y !== undefined
-								? (
-										(canvasRef.current?.originY ?? 0) - lentille.images.y
-									).toFixed(5)
-								: undefined}{" "}
-						</span>
-					</div>
+					<span style={{ fontWeight: "bold" }}>Images :</span>
+					{lentille.images.map((image, i) => (
+						<div key={i} className="lentille-image">
+							<span>{image.virtual ? "Image virtuelle" : "Image réelle"}</span>
+							<div>
+								<span>
+									γ<sub>{lentille.id}</sub> (grandissement) =
+								</span>
+								<span>{image.gamma.toFixed(5)}</span>
+							</div>
+							<div>
+								<span>
+									OA<sub>{lentille.id}</sub> (position de l'image) =
+								</span>
+								<span>
+									{(image.pos.x - (canvasRef.current?.size ?? 0)).toFixed(5)}
+								</span>
+							</div>
+							<div>
+								<span>
+									A<sub>{lentille.id}</sub>B<sub>{lentille.id}</sub> (taille de
+									l'image) =
+								</span>
+								<span>
+									{image.pos.y !== undefined
+										? ((canvasRef.current?.originY ?? 0) - image.pos.y).toFixed(
+												5,
+											)
+										: undefined}{" "}
+								</span>
+							</div>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>

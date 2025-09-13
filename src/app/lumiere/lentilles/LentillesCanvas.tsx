@@ -234,7 +234,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 			let lastPosA = Apos;
 			let lastPosB = BPos;
 
-			loopOverSystems((system, _direction, nextSystem, i) => {
+			loopOverSystems((system, direction, nextSystem, i) => {
 				let image: Image;
 
 				if (system instanceof Lentille) {
@@ -245,7 +245,7 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 						x: system.pos,
 						y: calcLinearY(
 							lastPos,
-							{ x: system.pos - system.focalLength, y: originY },
+							{ x: system.pos - system.focalLength * direction, y: originY },
 							system.pos,
 						),
 					};
@@ -261,12 +261,9 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 					image = {
 						focalRayonHitPoint,
 						pos: imagePos,
-						virtual:
-							(imagePos.x - system.pos) * system.getOutputDirection() < 0 ||
-							(nextSystem && imagePos.x > nextSystem.pos),
+						virtual: (imagePos.x - system.pos) * direction < 0,
+						gamma: (originY - imagePos.y) / (originY - lastPosB.y),
 					};
-
-					system.gamma = (originY - imagePos.y) / (originY - lastPosB.y);
 				} else if (system instanceof Miroir) {
 					const imagePos = {
 						x: 2 * system.pos - lastPosB.x,
@@ -276,9 +273,10 @@ export const LentillesCanvas = forwardRef<LentilleCanvasRef, Props>(
 						pos: imagePos,
 						virtual:
 							(imagePos.x - system.pos) * system.getOutputDirection() < 0,
+						gamma: 1,
 					};
 				} else {
-					image = { pos: { x: 0, y: 0 }, virtual: true };
+					image = { pos: { x: 0, y: 0 }, virtual: true, gamma: 1 };
 				}
 
 				system.images.push(image);
