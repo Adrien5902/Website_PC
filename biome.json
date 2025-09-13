@@ -22,9 +22,12 @@
 				"noParameterAssign": "warn"
 			}
 		},
-		"ignore": ["node_modules"]
+		"includes": ["src/**/*.ts", "src/**/*.tsx"]
 	},
 	"formatter": {
-		"ignore": ["elements.json", "*.js"]
+		"includes": ["src/**/*.ts", "src/**/*.tsx"]
+	},
+	"files": {
+		"includes": ["src/**/*.ts", "src/**/*.tsx"]
 	}
 }
