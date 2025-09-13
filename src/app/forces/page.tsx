@@ -17,7 +17,7 @@ function Forces() {
 	const [astre, setAstre] = useState<string | null>(null);
 
 	const getInputNumber = (
-		ref: React.RefObject<HTMLInputElement | HTMLSelectElement>,
+		ref: React.RefObject<HTMLInputElement | HTMLSelectElement | null>,
 	) => {
 		const value = ref.current?.value;
 		const num = value?.trim().replaceAll(" ", "");

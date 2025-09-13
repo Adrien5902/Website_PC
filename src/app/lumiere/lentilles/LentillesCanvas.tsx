@@ -30,14 +30,14 @@ import {
 } from "./types";
 
 interface Props {
-	miroirs: React.MutableRefObject<Miroir[]>;
-	lentilles: React.MutableRefObject<Lentille[]>;
-	objectPos: React.MutableRefObject<Pos>;
+	miroirs: React.RefObject<Miroir[]>;
+	lentilles: React.RefObject<Lentille[]>;
+	objectPos: React.RefObject<Pos>;
 	moving: Moving;
 	rayons: Rayons;
-	controlsRef: React.RefObject<LentilleControlsRef>;
+	controlsRef: React.RefObject<LentilleControlsRef | null>;
 	infiniteObject: boolean;
-	infiniteObjectAngle: React.MutableRefObject<number>;
+	infiniteObjectAngle: React.RefObject<number>;
 }
 
 export interface LentilleCanvasRef {

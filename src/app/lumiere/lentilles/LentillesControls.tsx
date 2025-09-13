@@ -10,13 +10,13 @@ import { LentilleSettings } from "./LentilleSettings";
 import { MiroirSettings } from "./MiroirSettings";
 
 export interface Props {
-	miroirs: React.MutableRefObject<Miroir[]>;
-	lentilles: React.MutableRefObject<Lentille[]>;
+	miroirs: React.RefObject<Miroir[]>;
+	lentilles: React.RefObject<Lentille[]>;
 	setInfiniteObject: React.Dispatch<React.SetStateAction<boolean>>;
-	rayons: React.MutableRefObject<Rayons>;
-	objectPos: React.MutableRefObject<Pos>;
-	canvasRef: React.RefObject<LentilleCanvasRef>;
-	infiniteObjectAngle: React.MutableRefObject<number>;
+	rayons: React.RefObject<Rayons>;
+	objectPos: React.RefObject<Pos>;
+	canvasRef: React.RefObject<LentilleCanvasRef | null>;
+	infiniteObjectAngle: React.RefObject<number>;
 }
 
 export interface LentilleControlsRef {

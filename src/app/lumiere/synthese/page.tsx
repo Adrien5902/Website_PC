@@ -27,7 +27,7 @@ interface Moving extends Pos {
 interface SytheseProps {
 	colors: string[];
 	sythese: Sythese;
-	moving: React.MutableRefObject<Moving | null>;
+	moving: React.RefObject<Moving | null>;
 }
 
 function SytheseElement({ colors, sythese, moving }: SytheseProps) {

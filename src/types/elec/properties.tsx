@@ -121,9 +121,9 @@ export function ComponentProperties({
 	components,
 }: {
 	c: ComponentSide | null;
-	conns: React.MutableRefObject<Connection[]>;
-	sizeRef: React.MutableRefObject<number>;
-	components: React.MutableRefObject<Component[]>;
+	conns: React.RefObject<Connection[]>;
+	sizeRef: React.RefObject<number>;
+	components: React.RefObject<Component[]>;
 }) {
 	const [side, setSide] = useState<ComponentSide | null>(c);
 

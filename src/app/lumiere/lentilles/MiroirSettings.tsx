@@ -10,7 +10,7 @@ export function MiroirSettings({
 	removeMiroir,
 }: {
 	miroir: Miroir;
-	canvasRef: React.RefObject<LentilleCanvasRef>;
+	canvasRef: React.RefObject<LentilleCanvasRef | null>;
 	removeMiroir: () => void;
 }) {
 	return (

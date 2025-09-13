@@ -15,7 +15,7 @@ export class Rayon {
     }
 }
 
-export type Moving = React.MutableRefObject<{
+export type Moving = React.RefObject<{
     type: "focalLength" | "object";
     object: Lentille | Miroir | null;
 } | null>;
@@ -43,7 +43,7 @@ export abstract class System {
 
     abstract getSymbol(): string
     abstract getOutputDirection(): Direction
-    abstract draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.MutableRefObject<Pos>): void
+    abstract draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.RefObject<Pos>): void
 }
 
 export class Lentille extends System {
@@ -56,7 +56,7 @@ export class Lentille extends System {
         this.gamma = 0;
     }
 
-    draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.MutableRefObject<Pos>): void {
+    draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.RefObject<Pos>): void {
         setColor(ctx, "#000");
 
         ctx.fillText("L", this.pos + size / 3, originY + size);
@@ -161,7 +161,7 @@ export class Miroir extends System {
         this.wrapping = 0;
     }
 
-    draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.MutableRefObject<Pos>): void {
+    draw(ctx: CanvasRenderingContext2D, size: number, moving: Moving, originY: number, isMouseNear: (pos: Pos) => boolean, objectPos: React.RefObject<Pos>): void {
         setColor(ctx, "#00a");
 
         const topPos: Pos = { x: this.pos, y: 0 };

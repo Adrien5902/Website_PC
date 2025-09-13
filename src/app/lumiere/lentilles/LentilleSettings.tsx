@@ -10,7 +10,7 @@ export function LentilleSettings({
 	removeLentille,
 }: {
 	lentille: Lentille;
-	canvasRef: React.RefObject<LentilleCanvasRef>;
+	canvasRef: React.RefObject<LentilleCanvasRef | null>;
 	removeLentille: () => void;
 }) {
 	return (
